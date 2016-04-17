@@ -1,6 +1,6 @@
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 CIS 120 Game Project Proposal
-PennKey: _______
+PennKey: __yumingq_____
 Name of TA you consulted with: __________
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 
@@ -10,11 +10,21 @@ Name of TA you consulted with: __________
 
 - What game are you planning to implement? If it is a game of your own design,
   or not especially well-known, provide a 2-3 sentence description of the game.
-
+    I want to create a game called Farmpocalypse- somewhat reminiscent of Farmville (requires time
+    to grow plants) but much more fast-paced, and with zombies chasing you. Essentially there
+    will be plots of land where you can choose what plants to grow, and they will have a time
+    of a few seconds to grow and then a few seconds to rot. You have to try to grow and harvest
+    as many as you can while avoiding "zombies" that chase you around (increasing zombies
+    with increased time in-game). 
 
 - What classes and interfaces do you plan to create? How will the different
   components of your game (the model, the GUI, etc.) interact?
-
+    Interface: Plant
+    Class: Different types of plant (i.e. Strawberry, Pumpkin, Corn).
+    Class: Zombie (creation of a zombie to chase farmer- may create different types of zombies
+    if time allows, which would need an interface Zombie and then classes of different zombies).
+    Model: Adds zombies based off of time in-game, 
+    
 
 - What do you think will be the most challenging thing to implement?
 
@@ -23,40 +33,51 @@ Name of TA you consulted with: __________
 =: Core Concept 1 :=
 ====================
 
-Concept 1: ___(fill in the blank)____
+Concept 1: ___File I/O____
 
 - What specific feature of your game will be implemented using this concept?
-
+    I want to keep a high score sheet with username and scores. The user should be able
+    to add their name and score at the end of a game, and see the list of previous
+    high scores.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
-
+    We need to save high scores to a separate file from the files local to a single game
+    because scores persist across all plays, and we need to read it in for each game
+    to display at the end.
 
 ====================
 =: Core Concept 2 :=
 ====================
 
-Concept 2: ___(fill in the blank)____
+Concept 2: ___Inheritance/Subtyping____
 
 - What specific feature of your game will be implemented using this concept?
-
+    I want to use inheritance to model the different crops to grow.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
-
+    All plants are used in similar ways and have certain properties- time to full growth,
+    time to rot, state of growing, full grown, or rotting, cost to buy, profit from harvest, and
+    visual appearance. However, they each have different values for each of these properties,
+    so it makes sense to have an interface "Plant" and then have different classes for each plant.
 
 ====================
 =: Core Concept 3 :=
 ====================
 
-Concept 3: ___(fill in the blank)____
+Concept 3: ___Testable Component____
 
 - What specific feature of your game will be implemented using this concept?
-
+    The functioning of plants will be tested.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
-
+    Plants in-game have a lot of different methods attached to them, and are central to
+    the success of the player. I need to make sure that the state of the plant is updated
+    correctly, that the timers work properly, and that the visual appearance of the plant
+    updates along with the state and timers. Because of these complexities I should test them
+    well.
 
 ====================
 =: Core Concept 4 :=

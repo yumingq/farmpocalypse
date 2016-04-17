@@ -1,6 +1,6 @@
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 CIS 120 Game Project README
-PennKey: _______
+PennKey: _yumingq______
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 
 ===================
@@ -11,7 +11,7 @@ PennKey: _______
   is an approprate use of the concept. You may copy and paste from your proposal
   document if you did not change the features you are implementing.
 
-  1.
+  1. 
 
   2.
 
