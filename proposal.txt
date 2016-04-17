@@ -19,14 +19,26 @@ Name of TA you consulted with: __________
 
 - What classes and interfaces do you plan to create? How will the different
   components of your game (the model, the GUI, etc.) interact?
-    Interface: Plant
+  
+    Interface: Plant (attributes like time to full growth, time to rot, cost to buy, profit
+    from harvest, state of growing, full grown, or rotting, which plot it is in)
     Class: Different types of plant (i.e. Strawberry, Pumpkin, Corn).
     Class: Zombie (creation of a zombie to chase farmer- may create different types of zombies
-    if time allows, which would need an interface Zombie and then classes of different zombies).
-    Model: Adds zombies based off of time in-game, 
+    if time allows, which would need an interface Zombie and then classes of different zombies)
+    location, movement speed/movement (autonomous), visual appearance.
+    Class: Farmer- location, movement based off of keyboard, "plant" command, "harvest" command,
+    visual appearance
+    Class: Plot- empty, occupied, location, visual appearance
+    Model: Adds zombies based off of time in-game, updates plants in each plot if the farmer
+    plants one or harvests one or removes a rotting one, restart the game, keep track of score, 
+    update high score board. 
     
+    I need some way of displaying timers above each plot.
 
 - What do you think will be the most challenging thing to implement?
+    It might be ensuring that the plants work properly and respond to actions as well as changes
+    in state. I would also need the farmer to be in a certain range of the plot for them to plant
+    in that plot to make zombie-chasing more effective.
 
 
 ====================
@@ -83,10 +95,11 @@ Concept 3: ___Testable Component____
 =: Core Concept 4 :=
 ====================
 
-Concept 4: ___(fill in the blank)____
+Concept 4: ___Data Structure- Maps____
 
 - What specific feature of your game will be implemented using this concept?
-    blah blah testing
+    I need to keep track of plots in some manner. Plots are unique, identified by their location,
+    and keep track of the Plant they contain as the value. 
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
