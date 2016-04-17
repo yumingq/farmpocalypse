@@ -10,6 +10,7 @@ Name of TA you consulted with: __________
 
 - What game are you planning to implement? If it is a game of your own design,
   or not especially well-known, provide a 2-3 sentence description of the game.
+  
     I want to create a game called Farmpocalypse- somewhat reminiscent of Farmville (requires time
     to grow plants) but much more fast-paced, and with zombies chasing you. Essentially there
     will be plots of land where you can choose what plants to grow, and they will have a time
@@ -25,7 +26,8 @@ Name of TA you consulted with: __________
     Class: Different types of plant (i.e. Strawberry, Pumpkin, Corn).
     Class: Zombie (creation of a zombie to chase farmer- may create different types of zombies
     if time allows, which would need an interface Zombie and then classes of different zombies)
-    location, movement speed/movement (autonomous), visual appearance.
+    location, movement speed/movement (autonomous, paused when farmer is at plant
+    selection), visual appearance.
     Class: Farmer- location, movement based off of keyboard, "plant" command, "harvest" command,
     visual appearance
     Class: Plot- empty, occupied, location, visual appearance
@@ -36,6 +38,7 @@ Name of TA you consulted with: __________
     I need some way of displaying timers above each plot.
 
 - What do you think will be the most challenging thing to implement?
+
     It might be ensuring that the plants work properly and respond to actions as well as changes
     in state. I would also need the farmer to be in a certain range of the plot for them to plant
     in that plot to make zombie-chasing more effective.
@@ -48,12 +51,14 @@ Name of TA you consulted with: __________
 Concept 1: ___File I/O____
 
 - What specific feature of your game will be implemented using this concept?
+
     I want to keep a high score sheet with username and scores. The user should be able
     to add their name and score at the end of a game, and see the list of previous
     high scores.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
+  
     We need to save high scores to a separate file from the files local to a single game
     because scores persist across all plays, and we need to read it in for each game
     to display at the end.
@@ -65,10 +70,12 @@ Concept 1: ___File I/O____
 Concept 2: ___Inheritance/Subtyping____
 
 - What specific feature of your game will be implemented using this concept?
+
     I want to use inheritance to model the different crops to grow.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
+  
     All plants are used in similar ways and have certain properties- time to full growth,
     time to rot, state of growing, full grown, or rotting, cost to buy, profit from harvest, and
     visual appearance. However, they each have different values for each of these properties,
@@ -81,10 +88,12 @@ Concept 2: ___Inheritance/Subtyping____
 Concept 3: ___Testable Component____
 
 - What specific feature of your game will be implemented using this concept?
+
     The functioning of plants will be tested.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
+  
     Plants in-game have a lot of different methods attached to them, and are central to
     the success of the player. I need to make sure that the state of the plant is updated
     correctly, that the timers work properly, and that the visual appearance of the plant
@@ -98,10 +107,16 @@ Concept 3: ___Testable Component____
 Concept 4: ___Data Structure- Maps____
 
 - What specific feature of your game will be implemented using this concept?
+
     I need to keep track of plots in some manner. Plots are unique, identified by their location,
     and keep track of the Plant they contain as the value. 
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
+  
+    It makes sense for maps to be used because plants have to be associated with the plot they
+    are growing in for the basis of the game to work- farmers should be able to walk around to
+    the different plots and then change the associated plant through their interactions
+    with it.
 
 
