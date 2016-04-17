@@ -1,7 +1,7 @@
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 CIS 120 Game Project Proposal
 PennKey: __yumingq_____
-Name of TA you consulted with: __________
+Name of TA you consulted with: ____Joyce Lee______
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 
 ===============
@@ -23,7 +23,8 @@ Name of TA you consulted with: __________
   
     Interface: Plant (attributes like time to full growth, time to rot, cost to buy, profit
     from harvest, state of growing, full grown, or rotting, which plot it is in)
-    Class: Different types of plant (i.e. Strawberry, Pumpkin, Corn).
+    Class: Different types of plant (i.e. Strawberry, Pumpkin, Corn) that specify the
+    requirements of the Plant interface.
     Class: Zombie (creation of a zombie to chase farmer- may create different types of zombies
     if time allows, which would need an interface Zombie and then classes of different zombies)
     location, movement speed/movement (autonomous, paused when farmer is at plant
@@ -33,7 +34,8 @@ Name of TA you consulted with: __________
     Class: Plot- empty, occupied, location, visual appearance
     Model: Adds zombies based off of time in-game, updates plants in each plot if the farmer
     plants one or harvests one or removes a rotting one, restart the game, keep track of score, 
-    update high score board. 
+    update high score board, show instructions if button is clicked, quit game. 
+    GUI: Instructions button, start/restart button, quit button, screen for showing the game
     
     I need some way of displaying timers above each plot.
 
@@ -99,7 +101,7 @@ Concept 3: ___Testable Component____
     correctly, that the timers work properly, and that the visual appearance of the plant
     updates along with the state and timers. Because of these complexities I should test them
     well.
-
+//test things other than state: are the zombies actually chasing you?
 ====================
 =: Core Concept 4 :=
 ====================
@@ -119,4 +121,5 @@ Concept 4: ___Data Structure- Maps____
     the different plots and then change the associated plant through their interactions
     with it.
 
-
+//locations - if infinite, maps make more sense (anywhere)
+// if set, discrete locations- 2D arrays make more sense.
