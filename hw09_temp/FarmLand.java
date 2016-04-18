@@ -23,15 +23,15 @@ public class FarmLand extends JPanel {
     // the state of the game logic
     private Farmer farmer; // the Black Square, keyboard control
     private Zombie zombie; // the Golden Snitch, bounces
-    private Poison poison; // the Poison Mushroom, doesn't move
+    private Plots plots; // the Poison Mushroom, doesn't move
 
     public boolean playing = false; // whether the game is running
     private JLabel status; // Current status text (i.e. Running...)
 
     // Game constants
-    public static final int COURT_WIDTH = 300;
-    public static final int COURT_HEIGHT = 300;
-    public static final int SQUARE_VELOCITY = 4;
+    public static final int LAND_WIDTH = 500;
+    public static final int LAND_HEIGHT = 500;
+    public static final int FARMER_VELOCITY = 4;
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
 
@@ -64,13 +64,13 @@ public class FarmLand extends JPanel {
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
-                    farmer.v_x = -SQUARE_VELOCITY;
+                    farmer.v_x = -FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-                    farmer.v_x = SQUARE_VELOCITY;
+                    farmer.v_x = FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_DOWN)
-                    farmer.v_y = SQUARE_VELOCITY;
+                    farmer.v_y = FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_UP)
-                    farmer.v_y = -SQUARE_VELOCITY;
+                    farmer.v_y = -FARMER_VELOCITY;
             }
 
             public void keyReleased(KeyEvent e) {
@@ -87,9 +87,9 @@ public class FarmLand extends JPanel {
      */
     public void reset() {
 
-        farmer = new Farmer(COURT_WIDTH, COURT_HEIGHT);
-        poison = new Poison(COURT_WIDTH, COURT_HEIGHT);
-        zombie = new Zombie(COURT_WIDTH, COURT_HEIGHT);
+        farmer = new Farmer(LAND_WIDTH, LAND_HEIGHT);
+        plots = new Plots(LAND_WIDTH, LAND_HEIGHT);
+        zombie = new Zombie(LAND_WIDTH, LAND_HEIGHT);
 
         playing = true;
         status.setText("Running...");
@@ -112,7 +112,7 @@ public class FarmLand extends JPanel {
             // make the snitch bounce off walls...
             zombie.bounce(zombie.hitWall());
             // ...and the mushroom
-            zombie.bounce(zombie.hitObj(poison));
+//            zombie.bounce(zombie.hitObj(poison));
 
             // check for the game end conditions
             if (farmer.intersects(zombie)) {
@@ -134,12 +134,12 @@ public class FarmLand extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         farmer.draw(g);
-        poison.draw(g);
+        plots.draw(g);
         zombie.draw(g);
     }
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(COURT_WIDTH, COURT_HEIGHT);
+        return new Dimension(LAND_WIDTH, LAND_HEIGHT);
     }
 }
