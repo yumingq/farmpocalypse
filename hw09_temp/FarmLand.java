@@ -38,12 +38,18 @@ public class FarmLand extends JPanel {
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
     
-    //TODO: initialize empty plots!
+    
 
     public FarmLand(JLabel status) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
+        //TODO: initialize empty plots!
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                plotArray[i][j] = new SinglePlot(LAND_WIDTH, LAND_HEIGHT, 
+                        LAND_WIDTH / (i + 1), LAND_HEIGHT / (j + 1), null);
+            }
+        }
         // The timer is an object which triggers an action periodically
         // with the given INTERVAL. One registers an ActionListener with
         // this timer, whose actionPerformed() method will be called
