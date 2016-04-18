@@ -1,7 +1,7 @@
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 CIS 120 Game Project Proposal
 PennKey: __yumingq_____
-Name of TA you consulted with: ____Joyce Lee______
+Name of TA you consulted with: ____Joyce______
 =:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=:=
 
 ===============
@@ -21,7 +21,7 @@ Name of TA you consulted with: ____Joyce Lee______
 - What classes and interfaces do you plan to create? How will the different
   components of your game (the model, the GUI, etc.) interact?
   
-    Interface: Plant (attributes like time to full growth, time to rot, cost to buy, profit
+    Abstract Class: Plant (attributes like time to full growth, time to rot, cost to buy, profit
     from harvest, state of growing, full grown, or rotting, which plot it is in)
     Class: Different types of plant (i.e. Strawberry, Pumpkin, Corn) that specify the
     requirements of the Plant interface.
@@ -37,7 +37,7 @@ Name of TA you consulted with: ____Joyce Lee______
     update high score board, show instructions if button is clicked, quit game. 
     GUI: Instructions button, start/restart button, quit button, screen for showing the game
     
-    I need some way of displaying timers above each plot.
+    I also need some way of displaying timers above each plot.
 
 - What do you think will be the most challenging thing to implement?
 
@@ -81,7 +81,10 @@ Concept 2: ___Inheritance/Subtyping____
     All plants are used in similar ways and have certain properties- time to full growth,
     time to rot, state of growing, full grown, or rotting, cost to buy, profit from harvest, and
     visual appearance. However, they each have different values for each of these properties,
-    so it makes sense to have an interface "Plant" and then have different classes for each plant.
+    so it makes sense to have an abstract class "Plant" and then have different classes for each
+    plant. It may also make sense to use something like GameObj for the moving parts of the
+    game, the farmer and zombie(s), as they are very different objects but have some 
+    fundamental similarities when it comes to movement and positioning.
 
 ====================
 =: Core Concept 3 :=
@@ -98,15 +101,14 @@ Concept 3: ___Testable Component____
   
     Plants in-game have a lot of different methods attached to them, and are central to
     the success of the player. I need to make sure that the state of the plant is updated
-    correctly, that the timers work properly, and that the visual appearance of the plant
-    updates along with the state and timers. Because of these complexities I should test them
-    well.
-//test things other than state: are the zombies actually chasing you?
+    correctly, that the timers work properly, and whether or not the zombies are actually
+    chasing the farmer, etc. Because of these complexities I should create some modular tests.
+    
 ====================
 =: Core Concept 4 :=
 ====================
 
-Concept 4: ___Data Structure- Maps____
+Concept 4: ___Data Structure- 2D Arrays(if enough time- maps)____
 
 - What specific feature of your game will be implemented using this concept?
 
@@ -116,10 +118,11 @@ Concept 4: ___Data Structure- Maps____
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
   
-    It makes sense for maps to be used because plants have to be associated with the plot they
-    are growing in for the basis of the game to work- farmers should be able to walk around to
-    the different plots and then change the associated plant through their interactions
-    with it.
+    It makes sense for a 2D array to be used because plants have to be associated with the plot 
+    they are growing in for the basis of the game to work- farmers should be able to walk around 
+    to the different plots and then change the associated plant through their interactions
+    with it. Arrays inherently have a label for positioning so they can keep track of the fixed
+    plots. A more complex implementation that I would consider trying out if I have enough time
+    is the ability to plant anywhere on the screen, in which case maps might make more sense to
+    create an almost infinite number of potential plots.
 
-//locations - if infinite, maps make more sense (anywhere)
-// if set, discrete locations- 2D arrays make more sense.
