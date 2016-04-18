@@ -71,6 +71,11 @@ public class FarmLand extends JPanel {
                     farmer.v_y = FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_UP)
                     farmer.v_y = -FARMER_VELOCITY;
+                else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (farmer.intersects(plots)) {
+                        
+                    }
+                }
             }
 
             public void keyReleased(KeyEvent e) {
