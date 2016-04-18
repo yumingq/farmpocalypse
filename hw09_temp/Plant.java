@@ -26,7 +26,6 @@ public class Plant extends GameObj {
     public static final int INIT_VEL_Y = 0;
     public String state;
     public int fullGrowthTime;
-    public int bufferTime;
     public int rottingTime;
     public int costToBuy;
     public int harvestProfit;
@@ -37,8 +36,8 @@ public class Plant extends GameObj {
      * Constructor
      */
     public Plant(int court_width, int court_height, int pos_x, int pos_y, String state, 
-            int fullGrowthTime,
-            int bufferTime, int rottingTime, int costToBuy, int harvestProfit, String img_file){
+            int fullGrowthTime, int rottingTime, int costToBuy, 
+            int harvestProfit, String img_file){
         super(INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, court_width,
                 court_height);
         init_x = pos_x;
@@ -54,7 +53,6 @@ public class Plant extends GameObj {
         
         this.state = state;
         this.fullGrowthTime = fullGrowthTime;
-        this.bufferTime = bufferTime;
         this.rottingTime = rottingTime;
         this.costToBuy = costToBuy;
         this.harvestProfit = harvestProfit;
