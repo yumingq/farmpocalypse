@@ -19,7 +19,7 @@ public class SinglePlot extends GameObj {
     public int init_y;
     public static final int INIT_VEL_X = 0;
     public static final int INIT_VEL_Y = 0;
-    public static Plant plant;
+    public Plant plant;
 
     private static BufferedImage rot_img;
     
@@ -40,10 +40,10 @@ public class SinglePlot extends GameObj {
 
     @Override
     public void draw(Graphics g) {
-        if (isEmpty(plant)) {
+        if (isEmpty()) {
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(init_x, init_y, width, height);
-        } else if (isRotting(plant)) {
+        } else if (isRotting()) {
             g.drawImage(rot_img, pos_x, pos_y, width, height, null);
         } else {
             BufferedImage img;
@@ -57,16 +57,24 @@ public class SinglePlot extends GameObj {
     }
 
     
-    public boolean isEmpty(Plant current) {
-        if (current == null) {
+    public boolean isEmpty() {
+        if (plant == null) {
             return true;
         } else {
             return false;
         }
     }
     
-    public boolean isRotting(Plant current) {
-        if (current.state.equals("rotting")) {
+    public boolean isRotting() {
+        if (plant.state.equals("rotting")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isFullGrown() {
+        if (plant.state.equals("grown")) {
             return true;
         } else {
             return false;

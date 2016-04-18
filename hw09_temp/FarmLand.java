@@ -23,17 +23,22 @@ public class FarmLand extends JPanel {
     // the state of the game logic
     private Farmer farmer; // the Black Square, keyboard control
     private Zombie zombie; // the Golden Snitch, bounces
-    public static SinglePlot[][] plotArray = new SinglePlot[5][5];
+    private static SinglePlot[][] plotArray = new SinglePlot[5][5];
 
     public boolean playing = false; // whether the game is running
+    public boolean pause = false; 
+    private int score = 2; 
     private JLabel status; // Current status text (i.e. Running...)
 
     // Game constants
     public static final int LAND_WIDTH = 500;
     public static final int LAND_HEIGHT = 500;
     public static final int FARMER_VELOCITY = 4;
+    public static final int ZOMBIE_VELOCITY = 3;
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
+    
+    //TODO: initialize empty plots!
 
     public FarmLand(JLabel status) {
         // creates border around the court area, JComponent method
@@ -72,9 +77,32 @@ public class FarmLand extends JPanel {
                 else if (e.getKeyCode() == KeyEvent.VK_UP)
                     farmer.v_y = -FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    if (farmer.intersects(plots)) {
-//                        
-//                    }
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            if (farmer.intersects(plotArray[i][j])) {
+                                if (plotArray[i][j].isEmpty()) {
+                                    //pause the game
+                                    pause = true;
+                                    status.setText("Paused");
+                                    zombie.v_x = 0;
+                                    zombie.v_y = 0;
+                                    //show a menu with its own keylisteners?
+                                    //if time- create menu option
+                                    
+                                    //How do I wait for user input?
+                                    
+                                    //after selection, unpause game
+                                    status.setText("Running...");
+                                    pause = false;
+                                } else if (plotArray[i][j].isRotting()) {
+                                    plotArray[i][j].plant = null;
+                                } else if (plotArray[i][j].isFullGrown()){
+                                    score += plotArray[i][j].plant.harvestProfit;
+                                    plotArray[i][j].plant = null;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
@@ -117,7 +145,7 @@ public class FarmLand extends JPanel {
             // make the snitch bounce off walls...
             zombie.bounce(zombie.hitWall());
             // ...and the mushroom
-//            zombie.bounce(zombie.hitObj(poison));
+            //            zombie.bounce(zombie.hitObj(poison));
 
             // check for the game end conditions
             if (farmer.intersects(zombie)) {
@@ -125,10 +153,10 @@ public class FarmLand extends JPanel {
                 status.setText("You lose!");
 
             } 
-//            else if (farmer.intersects(snitch)) {
-//                playing = false;
-//                status.setText("You win!");
-//            }
+            //            else if (farmer.intersects(snitch)) {
+            //                playing = false;
+            //                status.setText("You win!");
+            //            }
 
             // update the display
             repaint();
