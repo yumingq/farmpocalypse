@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
  *  move; their position should always be within their bounds.
  */
 public class Plant extends GameObj {
-    public static String img_file;
+    public String img_file;
     public static final int SIZE = 20;
     public int init_x;
     public int init_y;
