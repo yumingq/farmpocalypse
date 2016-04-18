@@ -23,7 +23,7 @@ public class FarmLand extends JPanel {
     // the state of the game logic
     private Farmer farmer; // the Black Square, keyboard control
     private Zombie zombie; // the Golden Snitch, bounces
-    private Plots plots; // the Poison Mushroom, doesn't move
+    public static SinglePlot[][] plotArray = new SinglePlot[5][5];
 
     public boolean playing = false; // whether the game is running
     private JLabel status; // Current status text (i.e. Running...)
@@ -72,9 +72,9 @@ public class FarmLand extends JPanel {
                 else if (e.getKeyCode() == KeyEvent.VK_UP)
                     farmer.v_y = -FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (farmer.intersects(plots)) {
-                        
-                    }
+//                    if (farmer.intersects(plots)) {
+//                        
+//                    }
                 }
             }
 
@@ -93,7 +93,7 @@ public class FarmLand extends JPanel {
     public void reset() {
 
         farmer = new Farmer(LAND_WIDTH, LAND_HEIGHT);
-        plots = new Plots(LAND_WIDTH, LAND_HEIGHT);
+        plotArray = new SinglePlot[5][5];
         zombie = new Zombie(LAND_WIDTH, LAND_HEIGHT);
 
         playing = true;
@@ -139,7 +139,11 @@ public class FarmLand extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         farmer.draw(g);
-        plots.draw(g);
+        for (int i = 0; i < 5; i++){
+            for(int j = 0; j < 5; j++) {
+                plotArray[i][j].draw(g);
+            }
+        }
         zombie.draw(g);
     }
 
