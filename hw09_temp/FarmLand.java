@@ -218,6 +218,7 @@ public class FarmLand extends JPanel {
             repaint();
         }
     }
+    //testing
 
     @Override
     public void paintComponent(Graphics g) {
