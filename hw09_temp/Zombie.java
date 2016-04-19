@@ -17,12 +17,12 @@ import javax.imageio.ImageIO;
  * 
  */
 public class Zombie extends GameObj {
-    public static final String img_file = "poison.png";
-    public static final int SIZE = 20;
+    public static final String img_file = "Newspaper_Zombie.png";
+    public static final int SIZE = 55;
     public static final int INIT_POS_X = 170;
     public static final int INIT_POS_Y = 170;
-    public static final int INIT_VEL_X = 2;
-    public static final int INIT_VEL_Y = 3;
+    public static final int INIT_VEL_X = 1;
+    public static final int INIT_VEL_Y = 1;
     public static final boolean chase = false;
     
     private static BufferedImage img;
