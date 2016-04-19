@@ -114,6 +114,7 @@ public class FarmLand extends JPanel {
                                     plotArray[i][j].plant = new Strawberry(
                                             plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
                                             LAND_WIDTH, LAND_HEIGHT);
+                                    score -= Strawberry.COST;
                                 }
                             }
                         }
@@ -126,6 +127,7 @@ public class FarmLand extends JPanel {
                                     plotArray[i][j].plant = new Pumpkin(
                                             plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
                                             LAND_WIDTH, LAND_HEIGHT);
+                                    score -= Pumpkin.COST;
                                 }
                             }
                         }
@@ -139,6 +141,7 @@ public class FarmLand extends JPanel {
                                     plotArray[i][j].plant = new Wheat(
                                             plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
                                             LAND_WIDTH, LAND_HEIGHT);
+                                    score -= Wheat.COST;
                                 }
                             }
                         }
@@ -218,7 +221,6 @@ public class FarmLand extends JPanel {
             repaint();
         }
     }
-    //testing
 
     @Override
     public void paintComponent(Graphics g) {

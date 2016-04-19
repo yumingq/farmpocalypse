@@ -45,11 +45,12 @@ public class SinglePlot extends GameObj {
 //            System.out.println("plot is not empty");
             BufferedImage img;
             try {
-                img = ImageIO.read(new File(plant.img_file));
+                img = ImageIO.read(new File(plant.getImg()));
                 g.drawImage(img, pos_x, pos_y, width, height, null);
             } catch (IOException e) {
                 System.out.println("Internal Error:" + e.getMessage());
             }
+        //TODO: CHECK ROT FIRST, then plant
         } else if (isRotting()) {
 //            System.out.println("plot is rotting");
             g.drawImage(rot_img, pos_x, pos_y, width, height, null);

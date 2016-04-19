@@ -56,7 +56,7 @@ public class Plant extends GameObj {
         this.rottingTime = rottingTime;
         this.costToBuy = costToBuy;
         this.harvestProfit = harvestProfit;
-
+        this.img_file = img_file;
     }
     
     public int decToGrowth(int timeLeftToFullGrowth) {
@@ -73,6 +73,10 @@ public class Plant extends GameObj {
             state = "rotten";
         }
         return rottingTime;
+    }
+    
+    public String getImg() {
+        return img_file;
     }
 
     /**
