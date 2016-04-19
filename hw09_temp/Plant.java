@@ -58,6 +58,22 @@ public class Plant extends GameObj {
         this.harvestProfit = harvestProfit;
 
     }
+    
+    public int decToGrowth(int timeLeftToFullGrowth) {
+        fullGrowthTime --;
+        if (fullGrowthTime <= 0) {
+            state = "grown";
+        }
+        return fullGrowthTime;
+    }
+    
+    public int decToRot(int timeLeftToRot) {
+        rottingTime --;
+        if (rottingTime <= 0) {
+            state = "rotten";
+        }
+        return rottingTime;
+    }
 
     /**
      * Default draw method that provides how the object should be drawn 

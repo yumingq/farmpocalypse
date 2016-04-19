@@ -81,26 +81,64 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (plotArray[i][j].isEmpty()) {
-                                    //pause the game
-                                    pause = true;
-                                    status.setText("Paused");
-                                    zombie.v_x = 0;
-                                    zombie.v_y = 0;
-                                    //show a menu with its own keylisteners?
-                                    //if time- create menu option, otherwise just do 1,2,3
-                                    
-                                    
-                                    //How do I wait for user input?
-
-                                    //after selection, unpause game
-                                    status.setText("Running...");
-                                    pause = false;
-                                } else if (plotArray[i][j].isRotting()) {
+//                                if (plotArray[i][j].isEmpty()) {
+//                                    //pause the game
+//                                    pause = true;
+//                                    status.setText("Paused");
+//                                    zombie.v_x = 0;
+//                                    zombie.v_y = 0;
+//                                    //how do I pause the plant growth?
+//                                    //show a menu with its own keylisteners?
+//                                    //if time- create menu option, otherwise just do 1,2,3
+//
+//                                    //How do I listen for user input?
+//
+//                                    //after selection, unpause game
+//                                    status.setText("Running...");
+//                                    pause = false;
+//                                } else 
+                                    if (plotArray[i][j].isRotting()) {
                                     plotArray[i][j].plant = null;
                                 } else if (plotArray[i][j].isFullGrown()){
                                     score += plotArray[i][j].plant.harvestProfit;
                                     plotArray[i][j].plant = null;
+                                }
+                            }
+                        }
+                    }
+                } else if (e.getKeyCode() == KeyEvent.VK_1) {
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            if (farmer.intersects(plotArray[i][j])) {
+                                if (plotArray[i][j].isEmpty()) {
+                                    plotArray[i][j].plant = new Strawberry(
+                                            plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
+                                            LAND_WIDTH, LAND_HEIGHT);
+                                }
+                            }
+                        }
+                    }
+                } else if (e.getKeyCode() == KeyEvent.VK_2) {
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            if (farmer.intersects(plotArray[i][j])) {
+                                if (plotArray[i][j].isEmpty()) {
+                                    plotArray[i][j].plant = new Pumpkin(
+                                            plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
+                                            LAND_WIDTH, LAND_HEIGHT);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_3) {
+                    for (int i = 0; i < 5; i++) {
+                        for (int j = 0; j < 5; j++) {
+                            if (farmer.intersects(plotArray[i][j])) {
+                                if (plotArray[i][j].isEmpty()) {
+                                    plotArray[i][j].plant = new Wheat(
+                                            plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
+                                            LAND_WIDTH, LAND_HEIGHT);
                                 }
                             }
                         }
@@ -136,14 +174,13 @@ public class FarmLand extends JPanel {
     public void instantiatePlotArray() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                plotArray[i][j] = new SinglePlot(LAND_WIDTH, LAND_HEIGHT, 
-                        LAND_WIDTH / (i + 1), LAND_HEIGHT / (j + 1), null);
-//                System.out.println("initialized plot: " + plotArray[i][j]);
+                plotArray[i][j] = new SinglePlot(LAND_WIDTH, LAND_HEIGHT,  (LAND_WIDTH / (5)) * i, 
+                        (LAND_HEIGHT / (5)) * j, null);
             }
         }
     }
-    
-    
+
+
     /**
      * This method is called every time the timer defined in the constructor
      * triggers.
@@ -166,10 +203,16 @@ public class FarmLand extends JPanel {
                 status.setText("You lose!");
 
             } 
-            //            else if (farmer.intersects(snitch)) {
-            //                playing = false;
-            //                status.setText("You win!");
-            //            }
+            //go through all plots,  decrement plant timers
+            if (pause == false) {
+                for (int i = 0; i < 5; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        if (plotArray[i][j].plant != null) {
+                            //TODO: add decrement statements
+                        }
+                    }
+                }
+            }
 
             // update the display
             repaint();
@@ -182,9 +225,6 @@ public class FarmLand extends JPanel {
         farmer.draw(g);
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++) {
-//                System.out.println("drawing plot: " + plotArray[i][j]);
-//                System.out.println("drawing i:" + Integer.toString(i));
-//                System.out.println("drawing j:" + Integer.toString(j));
                 plotArray[i][j].draw(g);
             }
         }

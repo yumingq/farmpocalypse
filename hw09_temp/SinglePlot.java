@@ -60,6 +60,13 @@ public class SinglePlot extends GameObj {
         }
     }
 
+    public int getXPos() {
+        return init_x;
+    }
+    
+    public int getYPos() {
+        return init_y;
+    }
     
     public boolean isEmpty() {
         if (plant == null) {
