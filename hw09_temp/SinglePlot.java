@@ -22,7 +22,8 @@ public class SinglePlot extends GameObj {
     public Plant plant;
 
     private static BufferedImage rot_img;
-    
+    private BufferedImage img;
+
     public SinglePlot(int courtWidth, int courtHeight, int pos_x, int pos_y, Plant plant) {
         super(INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, courtWidth,
                 courtHeight);
@@ -40,22 +41,24 @@ public class SinglePlot extends GameObj {
 
     @Override
     public void draw(Graphics g) {
-//        System.out.println("attempt to draw");
+        //        System.out.println("attempt to draw");
         if (!(plant == null)) {
-//            System.out.println("plot is not empty");
-            BufferedImage img;
+            //            System.out.println("plot is not empty");
+
             try {
-                img = ImageIO.read(new File(plant.getImg()));
+                if(img == null) {
+                    img = ImageIO.read(new File(plant.getImg()));
+                }
                 g.drawImage(img, pos_x, pos_y, width, height, null);
             } catch (IOException e) {
                 System.out.println("Internal Error:" + e.getMessage());
             }
-        //TODO: CHECK ROT FIRST, then plant
+            //TODO: CHECK ROT FIRST, then plant (switch)
         } else if (isRotting()) {
-//            System.out.println("plot is rotting");
+            //            System.out.println("plot is rotting");
             g.drawImage(rot_img, pos_x, pos_y, width, height, null);
         } else {
-//            System.out.println("plot is empty");
+            //            System.out.println("plot is empty");
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(init_x, init_y, width, height);
         }
@@ -64,11 +67,11 @@ public class SinglePlot extends GameObj {
     public int getXPos() {
         return init_x;
     }
-    
+
     public int getYPos() {
         return init_y;
     }
-    
+
     public boolean isEmpty() {
         if (plant == null) {
             return true;
@@ -76,24 +79,24 @@ public class SinglePlot extends GameObj {
             return false;
         }
     }
-    
+
     public boolean isRotting() {
         if (plant == null) {
             return false;
         }
-        
+
         if (plant.state.equals("rotting")) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     public boolean isFullGrown() {
         if (plant == null) {
             return false;
         }
-        
+
         if (plant.state.equals("grown")) {
             return true;
         } else {
