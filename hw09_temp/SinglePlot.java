@@ -40,12 +40,9 @@ public class SinglePlot extends GameObj {
 
     @Override
     public void draw(Graphics g) {
-        if (isEmpty()) {
-            g.setColor(Color.LIGHT_GRAY);
-            g.fillRect(init_x, init_y, width, height);
-        } else if (isRotting()) {
-            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
-        } else {
+//        System.out.println("attempt to draw");
+        if (!(plant == null)) {
+//            System.out.println("plot is not empty");
             BufferedImage img;
             try {
                 img = ImageIO.read(new File(plant.img_file));
@@ -53,6 +50,13 @@ public class SinglePlot extends GameObj {
             } catch (IOException e) {
                 System.out.println("Internal Error:" + e.getMessage());
             }
+        } else if (isRotting()) {
+//            System.out.println("plot is rotting");
+            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
+        } else {
+//            System.out.println("plot is empty");
+            g.setColor(Color.LIGHT_GRAY);
+            g.fillRect(init_x, init_y, width, height);
         }
     }
 
@@ -66,6 +70,10 @@ public class SinglePlot extends GameObj {
     }
     
     public boolean isRotting() {
+        if (plant == null) {
+            return false;
+        }
+        
         if (plant.state.equals("rotting")) {
             return true;
         } else {
@@ -74,6 +82,10 @@ public class SinglePlot extends GameObj {
     }
     
     public boolean isFullGrown() {
+        if (plant == null) {
+            return false;
+        }
+        
         if (plant.state.equals("grown")) {
             return true;
         } else {

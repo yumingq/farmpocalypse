@@ -23,7 +23,7 @@ public class FarmLand extends JPanel {
     // the state of the game logic
     private Farmer farmer; // the Black Square, keyboard control
     private Zombie zombie; // the Golden Snitch, bounces
-    private static SinglePlot[][] plotArray = new SinglePlot[5][5];
+    private SinglePlot[][] plotArray;
 
     public boolean playing = false; // whether the game is running
     public boolean pause = false; 
@@ -37,19 +37,14 @@ public class FarmLand extends JPanel {
     public static final int ZOMBIE_VELOCITY = 3;
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
-    
-    
+
+
 
     public FarmLand(JLabel status) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        //TODO: initialize empty plots!
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                plotArray[i][j] = new SinglePlot(LAND_WIDTH, LAND_HEIGHT, 
-                        LAND_WIDTH / (i + 1), LAND_HEIGHT / (j + 1), null);
-            }
-        }
+        plotArray = new SinglePlot[5][5];
+        instantiatePlotArray();
         // The timer is an object which triggers an action periodically
         // with the given INTERVAL. One registers an ActionListener with
         // this timer, whose actionPerformed() method will be called
@@ -93,10 +88,11 @@ public class FarmLand extends JPanel {
                                     zombie.v_x = 0;
                                     zombie.v_y = 0;
                                     //show a menu with its own keylisteners?
-                                    //if time- create menu option
+                                    //if time- create menu option, otherwise just do 1,2,3
+                                    
                                     
                                     //How do I wait for user input?
-                                    
+
                                     //after selection, unpause game
                                     status.setText("Running...");
                                     pause = false;
@@ -127,7 +123,7 @@ public class FarmLand extends JPanel {
     public void reset() {
 
         farmer = new Farmer(LAND_WIDTH, LAND_HEIGHT);
-        plotArray = new SinglePlot[5][5];
+        instantiatePlotArray();
         zombie = new Zombie(LAND_WIDTH, LAND_HEIGHT);
 
         playing = true;
@@ -137,6 +133,17 @@ public class FarmLand extends JPanel {
         requestFocusInWindow();
     }
 
+    public void instantiatePlotArray() {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                plotArray[i][j] = new SinglePlot(LAND_WIDTH, LAND_HEIGHT, 
+                        LAND_WIDTH / (i + 1), LAND_HEIGHT / (j + 1), null);
+//                System.out.println("initialized plot: " + plotArray[i][j]);
+            }
+        }
+    }
+    
+    
     /**
      * This method is called every time the timer defined in the constructor
      * triggers.
@@ -175,6 +182,9 @@ public class FarmLand extends JPanel {
         farmer.draw(g);
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++) {
+//                System.out.println("drawing plot: " + plotArray[i][j]);
+//                System.out.println("drawing i:" + Integer.toString(i));
+//                System.out.println("drawing j:" + Integer.toString(j));
                 plotArray[i][j].draw(g);
             }
         }

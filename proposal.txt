@@ -73,7 +73,7 @@ Concept 2: ___Inheritance/Subtyping____
 
 - What specific feature of your game will be implemented using this concept?
 
-    I want to use inheritance to model the different crops to grow.
+    I want to use inheritance (abstract classes) to model the different crops to grow.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
@@ -94,7 +94,7 @@ Concept 3: ___Testable Component____
 
 - What specific feature of your game will be implemented using this concept?
 
-    The functioning of plants will be tested.
+    The functioning of plants and zombies will be tested.
 
 - Why does it make sense to implement this feature with this concept? Justify
   why this is a non-trivial application of the concept in question.
