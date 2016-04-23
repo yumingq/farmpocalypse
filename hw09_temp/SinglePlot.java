@@ -118,8 +118,8 @@ public class SinglePlot extends GameObj {
     
     Plant getPlant() {
         //TODO: how to encapsulate/make a copy without aliasing?
-        Plant plantCopy = new Plant(0, 0, 0, 0, null, 0, 0, 0, 0, null, null);
-        plantCopy = plant;
+//        Plant plantCopy = new Plant(0, 0, 0, 0, null, 0, 0, 0, 0, null, null);
+        Plant plantCopy = plant;
         return plantCopy;
     }
     
