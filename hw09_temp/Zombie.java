@@ -19,8 +19,8 @@ import javax.imageio.ImageIO;
 public class Zombie extends GameObj {
     public static final String img_file = "Newspaper_Zombie.png";
     public static final int SIZE = 55;
-    public static final int INIT_POS_X = 470;
-    public static final int INIT_POS_Y = 470;
+    public static int initPosX = (int) (Math.random() * 490);
+    public static int initPosY = (int) (Math.random() * 490);
     public static final int INIT_VEL_X = 1;
     public static final int INIT_VEL_Y = 1;
     public static final boolean chase = false;
@@ -28,7 +28,7 @@ public class Zombie extends GameObj {
     private static BufferedImage img;
 
     public Zombie(int courtWidth, int courtHeight) {
-        super(INIT_VEL_X, INIT_VEL_Y, INIT_POS_X, INIT_POS_Y, SIZE, SIZE, courtWidth,
+        super(INIT_VEL_X, INIT_VEL_Y, initPosX, initPosY, SIZE, SIZE, courtWidth,
                 courtHeight);
         try {
             if (img == null) {
@@ -40,12 +40,7 @@ public class Zombie extends GameObj {
     }
     
     //TODO: how to chase the farmer?
-    public void chase(Graphics g) {
-        
-    }
     
-    public void wander(Graphics g) {
-    }
     
     //begins as poison mushroom
     //TODO: update later to a zombie image

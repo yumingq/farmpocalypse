@@ -6,6 +6,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -42,7 +43,7 @@ public class FarmLand extends JPanel {
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
     public static final int ONE_SECOND = 1000;
-    public static final int NEW_ZOMBIE_TIMER = 25000;
+    public static final int NEW_ZOMBIE_TIMER = 35000;
 
 
 
@@ -50,7 +51,7 @@ public class FarmLand extends JPanel {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         plotArray = new SinglePlot[5][5];
-        zombies = new TreeSet<Zombie>();
+        zombies = new ArrayList<Zombie>();
         
         instantiatePlotArray();
         // The timer is an object which triggers an action periodically
@@ -103,22 +104,6 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                //                                if (plotArray[i][j].isEmpty()) {
-                                //                                    //pause the game
-                                //                                    pause = true;
-                                //                                    status.setText("Paused");
-                                //                                    zombie.v_x = 0;
-                                //                                    zombie.v_y = 0;
-                                //                                    //how do I pause the plant growth?
-                                //                                    //show a menu with its own keylisteners?
-                                //                                    //if time- create menu option, otherwise just do 1,2,3
-                                //
-                                //                                    //How do I listen for user input?
-                                //
-                                //                                    //after selection, unpause game
-                                //                                    status.setText("Running...");
-                                //                                    pause = false;
-                                //                                } else 
                                 if (plotArray[i][j].isRotting()) {
                                     plotArray[i][j].deletePlant();
                                 } else if (plotArray[i][j].isFullGrown()){
@@ -191,8 +176,8 @@ public class FarmLand extends JPanel {
 
         farmer = new Farmer(LAND_WIDTH, LAND_HEIGHT);
         instantiatePlotArray();
-        Zombie zombie1 = new Zombie(LAND_WIDTH, LAND_HEIGHT);
-        zombies.add(zombie1);
+        zombies.clear();
+        zombies.add(new Zombie(LAND_WIDTH, LAND_HEIGHT));
 
         playing = true;
         status.setText("Running...");
