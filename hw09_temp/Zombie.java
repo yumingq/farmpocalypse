@@ -39,8 +39,6 @@ public class Zombie extends GameObj {
         }
     }
     
-    //TODO: how to chase the farmer?
-    
     
     //begins as poison mushroom
     //TODO: update later to a zombie image
