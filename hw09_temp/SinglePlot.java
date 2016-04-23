@@ -19,7 +19,7 @@ public class SinglePlot extends GameObj {
     public int init_y;
     public static final int INIT_VEL_X = 0;
     public static final int INIT_VEL_Y = 0;
-    public Plant plant;
+    private Plant plant;
 
     private static BufferedImage rot_img;
     private BufferedImage img;
@@ -85,7 +85,7 @@ public class SinglePlot extends GameObj {
             return false;
         }
 
-        if (plant.state.equals("rotting")) {
+        if (plant.getState().equals("rotting")) {
             return true;
         } else {
             return false;
@@ -97,12 +97,46 @@ public class SinglePlot extends GameObj {
             return false;
         }
 
-        if (plant.state.equals("grown")) {
+        if (plant.getState().equals("grown")) {
             return true;
         } else {
             return false;
         }
     }
+    
+    public boolean isGrowing() {
+        if (plant == null) {
+            return false;
+        }
 
+        if (plant.getState().equals("growing")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    Plant getPlant() {
+        //TODO: how to encapsulate/make a copy without aliasing?
+        Plant plantCopy = new Plant(0, 0, 0, 0, null, 0, 0, 0, 0, null, null);
+        plantCopy = plant;
+        return plantCopy;
+    }
+    
+    void deletePlant() {
+        plant = null;
+    }
+    
+    void setPumpkin(int x,  int y, int width, int height) {
+        plant = new Pumpkin(x, y, width, height);
+    }
+    
+    void setStrawberry(int x,  int y, int width, int height) {
+        plant = new Strawberry(x, y, width, height);
+    }
+    
+    void setWheat(int x,  int y, int width, int height) {
+        plant = new Wheat(x, y, width, height);
+    }
 
 }

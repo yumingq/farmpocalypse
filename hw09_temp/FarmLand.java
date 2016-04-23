@@ -107,10 +107,10 @@ public class FarmLand extends JPanel {
 //                                    pause = false;
 //                                } else 
                                     if (plotArray[i][j].isRotting()) {
-                                    plotArray[i][j].plant = null;
+                                    plotArray[i][j].deletePlant();
                                 } else if (plotArray[i][j].isFullGrown()){
-                                    score += plotArray[i][j].plant.harvestProfit;
-                                    plotArray[i][j].plant = null;
+                                    score += plotArray[i][j].getPlant().harvestProfit;
+                                    plotArray[i][j].deletePlant();
                                 }
                             }
                         }
@@ -120,9 +120,8 @@ public class FarmLand extends JPanel {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
                                 if (plotArray[i][j].isEmpty()) {
-                                    plotArray[i][j].plant = new Strawberry(
-                                            plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
-                                            LAND_WIDTH, LAND_HEIGHT);
+                                    plotArray[i][j].setStrawberry(plotArray[i][j].getXPos(), 
+                                            plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
                                     score -= Strawberry.COST;
                                 }
                             }
@@ -133,9 +132,8 @@ public class FarmLand extends JPanel {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
                                 if (plotArray[i][j].isEmpty()) {
-                                    plotArray[i][j].plant = new Pumpkin(
-                                            plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
-                                            LAND_WIDTH, LAND_HEIGHT);
+                                    plotArray[i][j].setPumpkin(plotArray[i][j].getXPos(), 
+                                            plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
                                     score -= Pumpkin.COST;
                                 }
                             }
@@ -147,9 +145,8 @@ public class FarmLand extends JPanel {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
                                 if (plotArray[i][j].isEmpty()) {
-                                    plotArray[i][j].plant = new Wheat(
-                                            plotArray[i][j].getXPos(), plotArray[i][j].getYPos(),
-                                            LAND_WIDTH, LAND_HEIGHT);
+                                    plotArray[i][j].setWheat(plotArray[i][j].getXPos(), 
+                                            plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
                                     score -= Wheat.COST;
                                 }
                             }
@@ -233,8 +230,11 @@ public class FarmLand extends JPanel {
             if (pause == false) {
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 5; j++) {
-                        if (plotArray[i][j].plant != null) {
+                        if (plotArray[i][j].getPlant() != null) {
                             //TODO: add decrement statements
+                            if (plotArray[i][j].isGrowing()) {
+                                plotArray[i][j].getPlant().decToGrowth();
+                            }
                         }
                     }
                 }
