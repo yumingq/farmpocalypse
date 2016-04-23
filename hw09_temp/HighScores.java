@@ -7,12 +7,15 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 
 
@@ -20,13 +23,14 @@ public class HighScores {
     private BufferedReader reader;
     private Set<String> containerOfLines;
     private int score;
-    private Collection<String> scores;
-    private Map<String, Collection<String>> usersAndScores;
+    //    private Collection<String> scores;
+    private Map<String, String> usersAndScores;
 
     public HighScores(int score) {
         this.score = score;
         //create a sorted map of scores
-        scores = new ArrayList<String>();
+        //        scores = new ArrayList<String>();
+        usersAndScores = new HashMap<String, String>();
     }
 
 
@@ -48,16 +52,16 @@ public class HighScores {
 
     public void checkDocument(Reader in, InputStream input, Writer out) throws IOException, 
     FormatException {
-        
+
         if (in == null) {
             throw new IllegalArgumentException();
         }
-        
+
         Scanner sc = new Scanner(input); 
         ScoreScanner ss = new ScoreScanner(in);
         reader = new BufferedReader(in);
         containerOfLines = new TreeSet<>();
-        
+
         try {
             String current = ((BufferedReader) reader).readLine();
             //while there's still stuff to read
@@ -78,25 +82,25 @@ public class HighScores {
                         }
                     }
                 }
-                
+
                 //if they're not formatted correctly, throw format exceptions
                 if (onlyOneComma != 1) {
                     throw new FormatException("wrong # of commas");
                 } else if (commaAtCorrectPos == false) {
                     throw new FormatException("wrong position for comma");
                 }
-                
+
                 containerOfLines.add(current);
                 current = ((BufferedReader) reader).readLine();
             }
         } finally {
             reader.close();
         }
-        
-        
-        
+
+
+
         //
-        
+
         for (String current : containerOfLines) {
             int commaPos = current.indexOf(",");
             //isolate the left part of the comma
@@ -107,32 +111,48 @@ public class HighScores {
             String currScore = current.substring((commaPos + 1), current.length()); 
             currScore = currScore.trim();
             if (!usersAndScores.containsKey(playerName)) {
-                Collection<String> scoreList = new ArrayList<String>();
-                scoreList.add(currScore);
-                usersAndScores.put(playerName, scoreList);
+                usersAndScores.put(playerName, currScore);
             } else {
-                Collection<String> scoreList = usersAndScores.get(playerName);
-                scoreList.add(currScore);
-                usersAndScores.put(playerName, scoreList);
+                if (currScore.compareTo(usersAndScores.get(playerName)) > 0) {
+                    usersAndScores.put(playerName, currScore);
+                }
             }
         }
-        
-        scores = usersAndScores.values();
-        
-      //get userInput for their name!
+
+        //add in the new one (ask for the name, use the score input)
+        //get userInput for their name!
         String userInput = getNextString(sc);
-        
-        int index = 0;
-        for (String currScore : scores) {
-            int comp = currScore.compareTo(Integer.toString(score));
-            if (comp == 0) {
-                
-            } else if (comp == 1) {
-                
-            } else {
-                
-            }
-            index++;
+        usersAndScores.put(userInput, Integer.toString(score));
+
+        Map<String, String> sortedUsersScores = sortByValue(usersAndScores);
+        ArrayList<String> scoreList = new ArrayList<String>();
+        ArrayList<String> playerList = new ArrayList<String>();
+        for (Map.Entry<String, String> entry : sortedUsersScores.entrySet())
+        {
+            scoreList.add(entry.getValue());
+            playerList.add(entry.getKey());
         }
+
+        int listIndex = scoreList.size() - 1;
+        for (int i = 0; i <= 10; i++) {
+            if (listIndex >= 0) {
+                out.write(playerList.get(listIndex) + ": " + scoreList.get(listIndex));
+            }
+        }
+
+
+
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> 
+    sortByValue( Map<K, V> map )
+    {
+        Map<K, V> result = new LinkedHashMap<>();
+        Stream<Map.Entry<K, V>> st = map.entrySet().stream();
+
+        st.sorted( Map.Entry.comparingByValue() )
+        .forEachOrdered( e -> result.put(e.getKey(), e.getValue()) );
+
+        return result;
     }
 }
