@@ -245,7 +245,7 @@ public class FarmLand extends JPanel {
                 if (farmer.intersects(indiv)) {
                     playing = false;
                     status.setText("You lose!");
-
+//                    HighScoreRunner.addHighScore("highscores.txt", "highscores.txt", score);
                 } 
             }
 

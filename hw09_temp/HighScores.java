@@ -5,12 +5,8 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -23,13 +19,10 @@ public class HighScores {
     private BufferedReader reader;
     private Set<String> containerOfLines;
     private int score;
-    //    private Collection<String> scores;
     private Map<String, String> usersAndScores;
 
     public HighScores(int score) {
         this.score = score;
-        //create a sorted map of scores
-        //        scores = new ArrayList<String>();
         usersAndScores = new HashMap<String, String>();
     }
 
@@ -52,13 +45,12 @@ public class HighScores {
 
     public void checkDocument(Reader in, InputStream input, Writer out) throws IOException, 
     FormatException {
-
+        //check that the reader isn't null
         if (in == null) {
             throw new IllegalArgumentException();
         }
-
+        
         Scanner sc = new Scanner(input); 
-        ScoreScanner ss = new ScoreScanner(in);
         reader = new BufferedReader(in);
         containerOfLines = new TreeSet<>();
 
@@ -98,9 +90,6 @@ public class HighScores {
         }
 
 
-
-        //
-
         for (String current : containerOfLines) {
             int commaPos = current.indexOf(",");
             //isolate the left part of the comma
@@ -122,9 +111,12 @@ public class HighScores {
         //add in the new one (ask for the name, use the score input)
         //get userInput for their name!
         String userInput = getNextString(sc);
+        //put in the current username and score
         usersAndScores.put(userInput, Integer.toString(score));
 
+        //sort the map by values (ascending)
         Map<String, String> sortedUsersScores = sortByValue(usersAndScores);
+        //add the scores and names to lists with indices
         ArrayList<String> scoreList = new ArrayList<String>();
         ArrayList<String> playerList = new ArrayList<String>();
         for (Map.Entry<String, String> entry : sortedUsersScores.entrySet())
@@ -133,10 +125,12 @@ public class HighScores {
             playerList.add(entry.getKey());
         }
 
+        //take the ending indices
         int listIndex = scoreList.size() - 1;
+        //iterate through max of ten of them for high scores
         for (int i = 0; i <= 10; i++) {
             if (listIndex >= 0) {
-                out.write(playerList.get(listIndex) + ": " + scoreList.get(listIndex));
+                out.write(playerList.get(listIndex) + ", " + scoreList.get(listIndex));
             }
         }
 
@@ -144,6 +138,7 @@ public class HighScores {
 
     }
 
+    //sorts a map by value
     public static <K, V extends Comparable<? super V>> Map<K, V> 
     sortByValue( Map<K, V> map )
     {
