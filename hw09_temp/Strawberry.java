@@ -54,7 +54,9 @@ public class Strawberry extends Plant {
     
     @Override
     public void draw(Graphics g) {
+        System.out.println("drawing strawberry");
         if(state.equals("grown")) {
+            System.out.println("draw grown strawberry");
             g.drawImage(img, pos_x, pos_y, width, height, null);
         } else if (state.equals("rotten")) {
             g.drawImage(rot_img, pos_x, pos_y, width, height, null);

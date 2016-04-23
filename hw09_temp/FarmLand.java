@@ -59,7 +59,7 @@ public class FarmLand extends JPanel {
             }
         });
         timer.start(); // MAKE SURE TO START THE TIMER!
-        
+
         Timer secondTimer = new Timer(ONE_SECOND, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tock();
@@ -90,23 +90,23 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-//                                if (plotArray[i][j].isEmpty()) {
-//                                    //pause the game
-//                                    pause = true;
-//                                    status.setText("Paused");
-//                                    zombie.v_x = 0;
-//                                    zombie.v_y = 0;
-//                                    //how do I pause the plant growth?
-//                                    //show a menu with its own keylisteners?
-//                                    //if time- create menu option, otherwise just do 1,2,3
-//
-//                                    //How do I listen for user input?
-//
-//                                    //after selection, unpause game
-//                                    status.setText("Running...");
-//                                    pause = false;
-//                                } else 
-                                    if (plotArray[i][j].isRotting()) {
+                                //                                if (plotArray[i][j].isEmpty()) {
+                                //                                    //pause the game
+                                //                                    pause = true;
+                                //                                    status.setText("Paused");
+                                //                                    zombie.v_x = 0;
+                                //                                    zombie.v_y = 0;
+                                //                                    //how do I pause the plant growth?
+                                //                                    //show a menu with its own keylisteners?
+                                //                                    //if time- create menu option, otherwise just do 1,2,3
+                                //
+                                //                                    //How do I listen for user input?
+                                //
+                                //                                    //after selection, unpause game
+                                //                                    status.setText("Running...");
+                                //                                    pause = false;
+                                //                                } else 
+                                if (plotArray[i][j].isRotting()) {
                                     plotArray[i][j].deletePlant();
                                 } else if (plotArray[i][j].isFullGrown()){
                                     score += plotArray[i][j].getPlant().harvestProfit;
@@ -119,10 +119,12 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (plotArray[i][j].isEmpty()) {
-                                    plotArray[i][j].setStrawberry(plotArray[i][j].getXPos(), 
-                                            plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
-                                    score -= Strawberry.COST;
+                                if (score >= Strawberry.COST) {
+                                    if (plotArray[i][j].isEmpty()) {
+                                        plotArray[i][j].setStrawberry(plotArray[i][j].getXPos(), 
+                                                plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
+                                        score -= Strawberry.COST;
+                                    }
                                 }
                             }
                         }
@@ -131,10 +133,12 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (plotArray[i][j].isEmpty()) {
-                                    plotArray[i][j].setPumpkin(plotArray[i][j].getXPos(), 
-                                            plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
-                                    score -= Pumpkin.COST;
+                                if (score >= Pumpkin.COST) {
+                                    if (plotArray[i][j].isEmpty()) {
+                                        plotArray[i][j].setPumpkin(plotArray[i][j].getXPos(), 
+                                                plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
+                                        score -= Pumpkin.COST;
+                                    }
                                 }
                             }
                         }
@@ -144,10 +148,12 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (plotArray[i][j].isEmpty()) {
-                                    plotArray[i][j].setWheat(plotArray[i][j].getXPos(), 
-                                            plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
-                                    score -= Wheat.COST;
+                                if (score >= Wheat.COST) {
+                                    if (plotArray[i][j].isEmpty()) {
+                                        plotArray[i][j].setWheat(plotArray[i][j].getXPos(), 
+                                                plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
+                                        score -= Wheat.COST;
+                                    }
                                 }
                             }
                         }
@@ -176,8 +182,8 @@ public class FarmLand extends JPanel {
 
         playing = true;
         status.setText("Running...");
-        
-        scoreLabel.setText("Score: 0");
+
+        scoreLabel.setText("Score: " + Integer.toString(score));
 
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
@@ -190,6 +196,14 @@ public class FarmLand extends JPanel {
                         (LAND_HEIGHT / (5)) * j, null);
             }
         }
+    }
+    
+    public void chase() {
+        int x = farmer.pos_x;
+        int y = farmer.pos_y;
+        
+        
+        
     }
 
 
@@ -215,18 +229,18 @@ public class FarmLand extends JPanel {
                 status.setText("You lose!");
 
             } 
-            
-            
+
+
             scoreLabel.setText("Score: " + Integer.toString(score));
 
             // update the display
             repaint();
         }
     }
-    
+
     void tock() {
         if (playing) {
-          //go through all plots,  decrement plant timers
+            //go through all plots,  decrement plant timers
             if (pause == false) {
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 5; j++) {

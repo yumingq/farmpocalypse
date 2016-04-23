@@ -41,6 +41,7 @@ public class Zombie extends GameObj {
     
     //TODO: how to chase the farmer?
     public void chase(Graphics g) {
+        
     }
     
     public void wander(Graphics g) {

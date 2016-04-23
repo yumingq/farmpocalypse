@@ -23,6 +23,7 @@ public class Farmer extends GameObj {
                 courtWidth, courtHeight);
     }
 
+
     //TODO: change from a blue circle to a person
     @Override
     public void draw(Graphics g) {
