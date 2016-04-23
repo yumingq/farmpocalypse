@@ -25,6 +25,9 @@ public class Zombie extends GameObj {
     public static final int INIT_VEL_Y = 1;
     public static final boolean chase = false;
     
+//    public int currVelX;
+//    public int currVelY;
+    
     private static BufferedImage img;
 
     public Zombie(int courtWidth, int courtHeight) {
@@ -37,7 +40,18 @@ public class Zombie extends GameObj {
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
+        
+//        currVelX = INIT_VEL_X;
+//        currVelY = INIT_VEL_Y;
     }
+    
+//    double changeVelX() {
+//        return (Math.random() * INIT_VEL_X);
+//    }
+//    
+//    double changeVelY() {
+//        return (Math.random() * INIT_VEL_Y);
+//    }
     
     
     //begins as poison mushroom

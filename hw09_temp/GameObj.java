@@ -29,8 +29,8 @@ public class GameObj {
 	public int height;
 	
 	/** Velocity: number of pixels to move every time move() is called */
-	public int v_x;
-	public int v_y;
+	public double v_x;
+	public double v_y;
 
 	/** Upper bounds of the area in which the object can be positioned.  
 	 *    Maximum permissible x, y positions for the upper-left 
@@ -114,10 +114,10 @@ public class GameObj {
 	 * @return whether an intersection will occur.
 	 */
 	public boolean willIntersect(GameObj obj){
-		int next_x = pos_x + v_x;
-		int next_y = pos_y + v_y;
-		int next_obj_x = obj.pos_x + obj.v_x;
-		int next_obj_y = obj.pos_y + obj.v_y;
+		int next_x = (int) (pos_x + v_x);
+		int next_y = (int) (pos_y + v_y);
+		int next_obj_x = (int) (obj.pos_x + obj.v_x);
+		int next_obj_y = (int) (obj.pos_y + obj.v_y);
 		return (next_x + width >= next_obj_x
 				&& next_y + height >= next_obj_y
 				&& next_obj_x + obj.width >= next_x 

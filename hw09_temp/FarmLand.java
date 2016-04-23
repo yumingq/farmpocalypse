@@ -39,20 +39,20 @@ public class FarmLand extends JPanel {
     public static final int LAND_WIDTH = 500;
     public static final int LAND_HEIGHT = 450;
     public static final int FARMER_VELOCITY = 6;
-    public static final int ZOMBIE_VELOCITY = 1;
+
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
     public static final int ONE_SECOND = 1000;
     public static final int NEW_ZOMBIE_TIMER = 35000; //time for new zombie creation
 
-
+    public static final int ZOMBIE_VELOCITY = 1;
 
     public FarmLand(JLabel status, JLabel scoreLabel) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         plotArray = new SinglePlot[5][5];
         zombies = new ArrayList<Zombie>();
-        
+
         instantiatePlotArray();
         // The timer is an object which triggers an action periodically
         // with the given INTERVAL. One registers an ActionListener with
@@ -73,7 +73,7 @@ public class FarmLand extends JPanel {
             }
         });
         secondTimer.start();
-        
+
         Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boom();
@@ -196,26 +196,30 @@ public class FarmLand extends JPanel {
             }
         }
     }
-    
+
     public void chase() {
         int x = farmer.pos_x;
         int y = farmer.pos_y;
-        
+
         for (Zombie indiv : zombies) {
-        if (indiv.pos_x > x) {
-            indiv.v_x = -ZOMBIE_VELOCITY;
-        } else {
-            indiv.v_x = ZOMBIE_VELOCITY;
+            if (indiv.pos_x > x) {
+                indiv.v_x = -ZOMBIE_VELOCITY;
+                //            indiv.v_x = -indiv.changeVelX();
+            } else {
+                indiv.v_x = ZOMBIE_VELOCITY;
+                //            indiv.v_x = indiv.changeVelX();
+            }
+            if (indiv.pos_y > y) {
+                indiv.v_y = -ZOMBIE_VELOCITY;
+                //            indiv.v_y = -indiv.changeVelY();
+            } else {
+                //            indiv.v_y = indiv.changeVelY();
+                indiv.v_y = ZOMBIE_VELOCITY;
+            }
+            indiv.move();
+            indiv.bounce(indiv.hitWall());
         }
-        if (indiv.pos_y > y) {
-            indiv.v_y = -ZOMBIE_VELOCITY;
-        } else {
-            indiv.v_y = ZOMBIE_VELOCITY;
-        }
-        indiv.move();
-        indiv.bounce(indiv.hitWall());
-        }
-        
+
     }
 
 
@@ -228,21 +232,21 @@ public class FarmLand extends JPanel {
             // advance the square and snitch in their
             // current direction.
             chase();
-//            zombie.move();
+            //            zombie.move();
             farmer.move();
 
             // make the snitch bounce off walls...
-//            zombie.bounce(zombie.hitWall());
+            //            zombie.bounce(zombie.hitWall());
             // ...and the mushroom
             //            zombie.bounce(zombie.hitObj(poison));
 
             // check for the game end conditions
             for(Zombie indiv : zombies) {
-            if (farmer.intersects(indiv)) {
-                playing = false;
-                status.setText("You lose!");
+                if (farmer.intersects(indiv)) {
+                    playing = false;
+                    status.setText("You lose!");
 
-            } 
+                } 
             }
 
             scoreLabel.setText("Score: " + Integer.toString(score));
@@ -260,7 +264,7 @@ public class FarmLand extends JPanel {
             repaint();
         }
     }
-    
+
     void tock() {
         if (playing) {
             //go through all plots,  decrement plant timers
@@ -270,13 +274,9 @@ public class FarmLand extends JPanel {
                         if (plotArray[i][j].getPlant() != null) {
                             if (plotArray[i][j].isGrowing()) {
                                 plotArray[i][j].getPlant().decToGrowth();
-//                                System.out.println("growing - 1");
                             } else if (plotArray[i][j].isFullGrown()) {
                                 plotArray[i][j].getPlant().decToRot();
-//                                System.out.println("rotting - 1");
-                            } else if (plotArray[i][j].isRotting()) {
-//                                System.out.println("totally rotten");
-                            }
+                            } 
                         }
                     }
                 }
@@ -294,7 +294,7 @@ public class FarmLand extends JPanel {
             }
         }
         for(Zombie indiv: zombies) {
-        indiv.draw(g);
+            indiv.draw(g);
         }
     }
 
