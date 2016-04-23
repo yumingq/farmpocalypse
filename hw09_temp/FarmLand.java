@@ -204,9 +204,13 @@ public class FarmLand extends JPanel {
         
         if (zombie.pos_x > x) {
             zombie.v_x = -ZOMBIE_VELOCITY;
+        } else {
+            zombie.v_x = ZOMBIE_VELOCITY;
         }
         if (zombie.pos_y > y) {
             zombie.v_y = -ZOMBIE_VELOCITY;
+        } else {
+            zombie.v_y = ZOMBIE_VELOCITY;
         }
         
     }
