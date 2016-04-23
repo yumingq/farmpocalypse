@@ -38,7 +38,7 @@ public class FarmLand extends JPanel {
     public static final int ZOMBIE_VELOCITY = 3;
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
-    public static final int ONE_SECOND = 100;
+    public static final int ONE_SECOND = 1000;
 
 
 
@@ -60,7 +60,7 @@ public class FarmLand extends JPanel {
         });
         timer.start(); // MAKE SURE TO START THE TIMER!
         
-        Timer secondTimer = new Timer(INTERVAL, new ActionListener() {
+        Timer secondTimer = new Timer(ONE_SECOND, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tock();
             }
@@ -234,8 +234,12 @@ public class FarmLand extends JPanel {
                             //TODO: add decrement statements
                             if (plotArray[i][j].isGrowing()) {
                                 plotArray[i][j].getPlant().decToGrowth();
+                                System.out.println("growing - 1");
                             } else if (plotArray[i][j].isFullGrown()) {
                                 plotArray[i][j].getPlant().decToRot();
+                                System.out.println("rotting - 1");
+                            } else if (plotArray[i][j].isRotting()) {
+                                System.out.println("totally rotten");
                             }
                         }
                     }
