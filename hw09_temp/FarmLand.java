@@ -234,6 +234,8 @@ public class FarmLand extends JPanel {
                             //TODO: add decrement statements
                             if (plotArray[i][j].isGrowing()) {
                                 plotArray[i][j].getPlant().decToGrowth();
+                            } else if (plotArray[i][j].isFullGrown()) {
+                                plotArray[i][j].getPlant().decToRot();
                             }
                         }
                     }
