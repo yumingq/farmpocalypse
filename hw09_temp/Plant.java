@@ -114,14 +114,14 @@ public class Plant extends GameObj {
      *  context in which the object should be drawn (a canvas, a frame, 
      *  etc.)
      */
-    public void draw(Graphics g) {
-        if(state.equals("grown")) {
-            g.drawImage(img, pos_x, pos_y, width, height, null);
-        } else if (state.equals("rotten")) {
-            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
-        } else {
-            g.drawImage(green_img, pos_x, pos_y, width, height, null);
-        }
-    }
+//    public void draw(Graphics g) {
+////        if(state.equals("grown")) {
+////            g.drawImage(img, pos_x, pos_y, width, height, null);
+////        } else if (state.equals("rotten")) {
+////            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
+////        } else {
+////            g.drawImage(green_img, pos_x, pos_y, width, height, null);
+////        }
+//    }
 
 }

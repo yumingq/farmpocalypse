@@ -43,20 +43,21 @@ public class SinglePlot extends GameObj {
     public void draw(Graphics g) {
         //        System.out.println("attempt to draw");
         if (!(plant == null)) {
+            plant.draw(g);
             //            System.out.println("plot is not empty");
 
-            try {
-                if(img == null) {
-                    img = ImageIO.read(new File(plant.getImg()));
-                }
-                g.drawImage(img, pos_x, pos_y, width, height, null);
-            } catch (IOException e) {
-                System.out.println("Internal Error:" + e.getMessage());
-            }
-            //TODO: CHECK ROT FIRST, then plant (switch)
-        } else if (isRotting()) {
-            //            System.out.println("plot is rotting");
-            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
+//            try {
+//                if(img == null) {
+//                    img = ImageIO.read(new File(plant.getImg()));
+//                }
+//                g.drawImage(img, pos_x, pos_y, width, height, null);
+//            } catch (IOException e) {
+//                System.out.println("Internal Error:" + e.getMessage());
+//            }
+//            //TODO: CHECK ROT FIRST, then plant (switch)
+//        } else if (isRotting()) {
+//            //            System.out.println("plot is rotting");
+//            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
         } else {
             //            System.out.println("plot is empty");
             g.setColor(Color.LIGHT_GRAY);
