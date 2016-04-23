@@ -29,18 +29,20 @@ public class FarmLand extends JPanel {
     public boolean pause = false; 
     private int score = 2; 
     private JLabel status; // Current status text (i.e. Running...)
+    private JLabel scoreLabel;
 
     // Game constants
     public static final int LAND_WIDTH = 500;
-    public static final int LAND_HEIGHT = 500;
+    public static final int LAND_HEIGHT = 450;
     public static final int FARMER_VELOCITY = 4;
     public static final int ZOMBIE_VELOCITY = 3;
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
+    public static final int ONE_SECOND = 100;
 
 
 
-    public FarmLand(JLabel status) {
+    public FarmLand(JLabel status, JLabel scoreLabel) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         plotArray = new SinglePlot[5][5];
@@ -57,6 +59,13 @@ public class FarmLand extends JPanel {
             }
         });
         timer.start(); // MAKE SURE TO START THE TIMER!
+        
+        Timer secondTimer = new Timer(INTERVAL, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tock();
+            }
+        });
+        secondTimer.start();
 
         // Enable keyboard focus on the court area.
         // When this component has the keyboard focus, key
@@ -156,6 +165,7 @@ public class FarmLand extends JPanel {
         });
 
         this.status = status;
+        this.scoreLabel = scoreLabel;
     }
 
     /**
@@ -169,6 +179,8 @@ public class FarmLand extends JPanel {
 
         playing = true;
         status.setText("Running...");
+        
+        scoreLabel.setText("Score: 0");
 
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
@@ -206,7 +218,18 @@ public class FarmLand extends JPanel {
                 status.setText("You lose!");
 
             } 
-            //go through all plots,  decrement plant timers
+            
+            
+            scoreLabel.setText("Score: " + Integer.toString(score));
+
+            // update the display
+            repaint();
+        }
+    }
+    
+    void tock() {
+        if (playing) {
+          //go through all plots,  decrement plant timers
             if (pause == false) {
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 5; j++) {
@@ -216,9 +239,6 @@ public class FarmLand extends JPanel {
                     }
                 }
             }
-
-            // update the display
-            repaint();
         }
     }
 

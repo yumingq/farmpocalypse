@@ -27,14 +27,20 @@ public class Game implements Runnable {
 		frame.add(status_panel, BorderLayout.SOUTH);
 		final JLabel status = new JLabel("Running...");
 		status_panel.add(status);
+		
+		// Score panel
+		final JPanel score_panel = new JPanel();
+		frame.add(score_panel, BorderLayout.NORTH);
+		final JLabel score = new JLabel("0");
+		score_panel.add(score);
 
 		// Main playing area
-		final FarmLand farm = new FarmLand(status);
+		final FarmLand farm = new FarmLand(status, score);
 		frame.add(farm, BorderLayout.CENTER);
 
 		// Reset button
 		final JPanel control_panel = new JPanel();
-		frame.add(control_panel, BorderLayout.NORTH);
+		frame.add(control_panel, BorderLayout.EAST);
 
 		// Note here that when we add an action listener to the reset
 		// button, we define it as an anonymous inner class that is

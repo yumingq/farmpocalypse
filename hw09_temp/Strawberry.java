@@ -1,5 +1,6 @@
 public class Strawberry extends Plant {
     public static final String IMG_FILE = "strawberry.jpg";
+    public static final String GROWING_IMG = "";
     public int init_x;
     public int init_y;
     public String state;
