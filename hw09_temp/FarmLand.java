@@ -6,6 +6,9 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Collection;
+import java.util.TreeSet;
+
 import javax.swing.*;
 
 
@@ -22,7 +25,7 @@ public class FarmLand extends JPanel {
 
     // the state of the game logic
     private Farmer farmer; // the Black Square, keyboard control
-    private Zombie zombie; // the Golden Snitch, bounces
+    private Collection<Zombie> zombies; // the Golden Snitch, bounces
     private SinglePlot[][] plotArray;
 
     public boolean playing = false; // whether the game is running
@@ -34,11 +37,12 @@ public class FarmLand extends JPanel {
     // Game constants
     public static final int LAND_WIDTH = 500;
     public static final int LAND_HEIGHT = 450;
-    public static final int FARMER_VELOCITY = 4;
-    public static final int ZOMBIE_VELOCITY = 3;
+    public static final int FARMER_VELOCITY = 6;
+    public static final int ZOMBIE_VELOCITY = 1;
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
     public static final int ONE_SECOND = 1000;
+    public static final int NEW_ZOMBIE_TIMER = 25000;
 
 
 
@@ -46,6 +50,8 @@ public class FarmLand extends JPanel {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         plotArray = new SinglePlot[5][5];
+        zombies = new TreeSet<Zombie>();
+        
         instantiatePlotArray();
         // The timer is an object which triggers an action periodically
         // with the given INTERVAL. One registers an ActionListener with
@@ -66,6 +72,13 @@ public class FarmLand extends JPanel {
             }
         });
         secondTimer.start();
+        
+        Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boom();
+            }
+        });
+        zombieTimer.start();
 
         // Enable keyboard focus on the court area.
         // When this component has the keyboard focus, key
@@ -178,7 +191,8 @@ public class FarmLand extends JPanel {
 
         farmer = new Farmer(LAND_WIDTH, LAND_HEIGHT);
         instantiatePlotArray();
-        zombie = new Zombie(LAND_WIDTH, LAND_HEIGHT);
+        Zombie zombie1 = new Zombie(LAND_WIDTH, LAND_HEIGHT);
+        zombies.add(zombie1);
 
         playing = true;
         status.setText("Running...");
@@ -202,15 +216,19 @@ public class FarmLand extends JPanel {
         int x = farmer.pos_x;
         int y = farmer.pos_y;
         
-        if (zombie.pos_x > x) {
-            zombie.v_x = -ZOMBIE_VELOCITY;
+        for (Zombie indiv : zombies) {
+        if (indiv.pos_x > x) {
+            indiv.v_x = -ZOMBIE_VELOCITY;
         } else {
-            zombie.v_x = ZOMBIE_VELOCITY;
+            indiv.v_x = ZOMBIE_VELOCITY;
         }
-        if (zombie.pos_y > y) {
-            zombie.v_y = -ZOMBIE_VELOCITY;
+        if (indiv.pos_y > y) {
+            indiv.v_y = -ZOMBIE_VELOCITY;
         } else {
-            zombie.v_y = ZOMBIE_VELOCITY;
+            indiv.v_y = ZOMBIE_VELOCITY;
+        }
+        indiv.move();
+        indiv.bounce(indiv.hitWall());
         }
         
     }
@@ -225,21 +243,22 @@ public class FarmLand extends JPanel {
             // advance the square and snitch in their
             // current direction.
             chase();
-            zombie.move();
+//            zombie.move();
             farmer.move();
 
             // make the snitch bounce off walls...
-            zombie.bounce(zombie.hitWall());
+//            zombie.bounce(zombie.hitWall());
             // ...and the mushroom
             //            zombie.bounce(zombie.hitObj(poison));
 
             // check for the game end conditions
-            if (farmer.intersects(zombie)) {
+            for(Zombie indiv : zombies) {
+            if (farmer.intersects(indiv)) {
                 playing = false;
                 status.setText("You lose!");
 
             } 
-
+            }
 
             scoreLabel.setText("Score: " + Integer.toString(score));
 
@@ -248,6 +267,15 @@ public class FarmLand extends JPanel {
         }
     }
 
+    void boom() {
+        if (playing) {
+            zombies.add(new Zombie(LAND_WIDTH, LAND_HEIGHT));
+
+            // update the display
+            repaint();
+        }
+    }
+    
     void tock() {
         if (playing) {
             //go through all plots,  decrement plant timers
@@ -255,15 +283,14 @@ public class FarmLand extends JPanel {
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 5; j++) {
                         if (plotArray[i][j].getPlant() != null) {
-                            //TODO: add decrement statements
                             if (plotArray[i][j].isGrowing()) {
                                 plotArray[i][j].getPlant().decToGrowth();
-                                System.out.println("growing - 1");
+//                                System.out.println("growing - 1");
                             } else if (plotArray[i][j].isFullGrown()) {
                                 plotArray[i][j].getPlant().decToRot();
-                                System.out.println("rotting - 1");
+//                                System.out.println("rotting - 1");
                             } else if (plotArray[i][j].isRotting()) {
-                                System.out.println("totally rotten");
+//                                System.out.println("totally rotten");
                             }
                         }
                     }
@@ -281,7 +308,9 @@ public class FarmLand extends JPanel {
                 plotArray[i][j].draw(g);
             }
         }
-        zombie.draw(g);
+        for(Zombie indiv: zombies) {
+        indiv.draw(g);
+        }
     }
 
     @Override

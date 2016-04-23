@@ -53,6 +53,30 @@ public class Pumpkin extends Plant {
     }
     
     @Override
+    public int decToGrowth() {
+        fullGrowthTime --;
+        if (fullGrowthTime <= 0) {
+            state = "grown";
+        }
+        return fullGrowthTime;
+    }
+    
+    @Override
+    public int decToRot() {
+        rottingTime --;
+        if (rottingTime <= 0) {
+            state = "rotten";
+        }
+        return rottingTime;
+    }
+    
+    @Override
+    public String getState() {
+        String state2 = state;
+        return state2;
+    }
+    
+    @Override
     public void draw(Graphics g) {
         if(state.equals("grown")) {
             g.drawImage(img, pos_x, pos_y, width, height, null);

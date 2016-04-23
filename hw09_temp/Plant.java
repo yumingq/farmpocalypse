@@ -79,18 +79,18 @@ public class Plant extends GameObj {
     }
 
     public int decToGrowth() {
-        fullGrowthTime --;
-        if (fullGrowthTime <= 0) {
-            state = "grown";
-        }
+//        fullGrowthTime --;
+//        if (fullGrowthTime <= 0) {
+//            state = "grown";
+//        }
         return fullGrowthTime;
     }
 
     public int decToRot() {
-        rottingTime --;
-        if (rottingTime <= 0) {
-            state = "rotten";
-        }
+//        rottingTime --;
+//        if (rottingTime <= 0) {
+//            state = "rotten";
+//        }
         return rottingTime;
     }
 

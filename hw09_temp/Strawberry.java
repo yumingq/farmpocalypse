@@ -11,7 +11,7 @@ public class Strawberry extends Plant {
     public static final String ROT_IMG_FILE = "dead_plant.jpg";
     public int init_x;
     public int init_y;
-    public String state;
+    public String state = "growing";
     public static final int GROWTH_TIME = 6;
     public static final int ROTTING_TIME = 8;
     public static final int COST = 10;
@@ -53,10 +53,32 @@ public class Strawberry extends Plant {
     }
     
     @Override
+    public int decToGrowth() {
+        fullGrowthTime --;
+        if (fullGrowthTime <= 0) {
+            state = "grown";
+        }
+        return fullGrowthTime;
+    }
+    
+    @Override
+    public int decToRot() {
+        rottingTime --;
+        if (rottingTime <= 0) {
+            state = "rotten";
+        }
+        return rottingTime;
+    }
+    
+    @Override
+    public String getState() {
+        String state2 = state;
+        return state2;
+    }
+    
+    @Override
     public void draw(Graphics g) {
-        System.out.println("drawing strawberry");
         if(state.equals("grown")) {
-            System.out.println("draw grown strawberry");
             g.drawImage(img, pos_x, pos_y, width, height, null);
         } else if (state.equals("rotten")) {
             g.drawImage(rot_img, pos_x, pos_y, width, height, null);
