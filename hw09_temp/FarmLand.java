@@ -43,7 +43,7 @@ public class FarmLand extends JPanel {
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35;
     public static final int ONE_SECOND = 1000;
-    public static final int NEW_ZOMBIE_TIMER = 35000;
+    public static final int NEW_ZOMBIE_TIMER = 35000; //time for new zombie creation
 
 
 
