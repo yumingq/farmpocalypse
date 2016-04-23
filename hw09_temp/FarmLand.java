@@ -202,7 +202,12 @@ public class FarmLand extends JPanel {
         int x = farmer.pos_x;
         int y = farmer.pos_y;
         
-        
+        if (zombie.pos_x > x) {
+            zombie.v_x = -ZOMBIE_VELOCITY;
+        }
+        if (zombie.pos_y > y) {
+            zombie.v_y = -ZOMBIE_VELOCITY;
+        }
         
     }
 
@@ -215,6 +220,7 @@ public class FarmLand extends JPanel {
         if (playing) {
             // advance the square and snitch in their
             // current direction.
+            chase();
             zombie.move();
             farmer.move();
 
