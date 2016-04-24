@@ -21,20 +21,7 @@ import org.junit.Test;
 
 public class HSTest {
 
-    /** spellCheckFiles Runs the spell checker on some test input.  See
-     * the description of the inputs below.
-     *
-     * @param fdict The filename of the dictionary
-     * @param dictSize If the int dictSize is -1, it is ignored.
-     *    Otherwise we check the size of the dictionary after creating it,
-     *    to make sure it was parsed correctly and the tests will work.
-     * @param fcorr The filename of the corrections to use, or null
-        if the swap corrector should be used.
-     * @param fdoc The filename of the document to check
-     * @param fout The filename where the output should be written
-     * @param finput The filename where the user input should be read from
-     */
-    public static void checkFiles(String fdoc, String fout, String finput, int score) 
+    public static void checkFiles(String fdoc, String fout, String finput, int score, String user) 
                     throws IOException, HighScores.FormatException
     {
         FileInputStream input = new FileInputStream(finput);
@@ -43,7 +30,7 @@ public class HSTest {
 
         HighScores hs = new HighScores(score);
 
-        hs.processDocument(in, input, out);
+        hs.processDocument(in, input, out, user);
         in.close();
         input.close();
         out.flush();
@@ -53,7 +40,7 @@ public class HSTest {
 
 
     @Test(timeout=500) public void testHighScoreGood() throws IOException, HighScores.FormatException {
-        checkFiles("highscorebase.txt", "highscores.txt", "highscoretesting.txt", 110);
+        checkFiles("highscorebase.txt", "highscores.txt", "highscoretesting.txt", 110, "blah");
         compareDocs("highscores.txt", "hsExpectedOut.txt");
     }
 

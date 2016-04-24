@@ -77,16 +77,29 @@ public class Game implements Runnable {
                 String userName = JOptionPane.showInputDialog(frame, 
                         "What is your username?"); 
                 try {
-                    HSTest.checkFiles("highscoresbase.txt", "highscores.txt", userName, 
-                            farm.getScore()); 
-                } catch (Exception ex) {
-                    System.out.println("Exception with adding high score");
+                    Reader in = new BufferedReader(new FileReader("highscoresbase.txt"));
+                    Writer out = new BufferedWriter(new FileWriter("highscores.txt"));
+                    HighScores newScore = new HighScores(farm.getScore());
+                    newScore.processDocument(in, out, userName); 
+                } catch (IOException ex) {
+                    System.out.println("Exception with reading/adding high score");
+                } catch (HighScores.FormatException formatEx) {
+                    System.out.println("Exception with format of high score");
                 }
 
                 try {
                     Reader in = new FileReader("highscores.txt");
                     BufferedReader reader = new BufferedReader(in);
-                    JOptionPane.showMessageDialog(frame, reader);
+                    
+                    String text = "High Scores!" + System.getProperty("line.separator")
+                    + System.getProperty("line.separator");
+                    
+                    while(reader.ready()) {
+                        text = text + reader.readLine();
+                        text = text + System.getProperty("line.separator");
+                    }
+                    
+                    JOptionPane.showMessageDialog(frame, text); //how to express the reader
                     in.close();
                     reader.close();
                 } catch (Exception ex2) {

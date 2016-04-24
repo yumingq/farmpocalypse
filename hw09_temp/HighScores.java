@@ -147,7 +147,7 @@ public class HighScores {
         return sortedList;
     }
 
-    public void processDocument(Reader in, InputStream input, Writer out) throws IOException, 
+    public void processDocument(Reader in, Writer out, String user) throws IOException, 
     FormatException {
         //check that the reader isn't null
         if (in == null) {
@@ -156,16 +156,16 @@ public class HighScores {
 
         Set<String> lineContainer = formatChecker(in);
 
-        Scanner sc = new Scanner(input); 
+//        Scanner sc = new Scanner(input); 
 
         Collection<Scores> userScores;
         userScores = nameScoreIsolate(lineContainer);
 
         //add in the new one (ask for the name, use the score input)
         //get userInput for their name!
-        String userInput = getNextString(sc);
+//        String userInput = getNextString(sc);
         //put in the current username and score
-        userScores.add(new Scores(userInput, Integer.toString(score)));
+        userScores.add(new Scores(user, Integer.toString(score)));
 
         //sort the map by values (ascending)
         Collection<Scores> sortedUsersScores = sortByScore(userScores);
