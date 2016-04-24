@@ -79,15 +79,29 @@ public class Game implements Runnable {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        farm.pause();
-		        JOptionPane.showMessageDialog(frame, "Instructions:" + "\n"
-		                + "You are a farmer in the apocalypse." + "\n"
-		                + "Move with arrow keys" + "\n"
-		                + "Plant strawberries with the 1 key" + "\n"
-		                + "Plant pumpkins with the 2 key" + "\n"
-		                + "Plant wheat with the 3 key" + "\n"
-		                + "Harvest with enter when next to" + "\n"
-		                + "a harvestable (full grown) plot" + "\n"
-		                + "Don't let the plants rot!");
+		        JOptionPane.showMessageDialog(frame, "Instructions:" + "\n" + "\n"
+		                + "You are a farmer in the apocalypse. Your calling is growing crops" 
+		                + "\n" + "and you're not about to let any zombies stop you." + "\n"
+		                + "It takes a few seconds for crops to grow, and if you wait too" + "\n"
+		                + "long to harvest, they will rot. You must stand at a plot to plant or"
+		                + "\n" + "harvest there. It also costs a few points to grow crops, so at"
+		                + "\n" + "first you can probably only afford to grow wheat." + "\n" + "\n"
+		                + "Move with arrow keys." + "\n"
+		                + "Plant strawberries with the 1 key." + "\n"
+		                + "Plant pumpkins with the 2 key." + "\n"
+		                + "Plant wheat with the 3 key." + "\n"
+		                + "Strawberries take 6 seconds to grow, rots in 8 seconds after it is"
+		                + "\n" + "full grown, costs 10 points and profits 20 points."
+		                + "\n" + "Pumpkins take 10 seconds to grow, rots in 6 seconds after it is"
+		                + "\n" + "full grown, costs 30 points to grow, and profits 90 points."
+		                + "\n" + "Wheat takes 3 seconds to grow, rots in 12 seconds after it is"
+		                + "\n" + "full grown, costs 2 points, and profits 4 points."
+		                + "\n" + "\n"
+		                + "Harvest with enter key when next to a harvestable (full grown) plot"
+		                + "\n" + "If a plant is rotten, hit enter to clear the plot."
+		                + "\n" + "Don't let the plants rot!"
+		                + "\n" + "Don't get eaten by zombies. If you're doing well,"
+		                + "\n" + "new zombies will appear.");
 		        farm.unpause();
 //		        farm.setFocusable(true);
 //		        setModalityType(Dialog.DEFAULT_MODALITY_TYPE);

@@ -272,6 +272,10 @@ public class FarmLand extends JPanel {
     void unpause() {
         playing = true;
     }
+    
+    int getScore() {
+        return score;
+    }
 
     void tock() {
         if (playing) {
