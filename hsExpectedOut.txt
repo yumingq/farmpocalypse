@@ -1,3 +1,4 @@
+TestUserName, 110
 Player1, 100
 Player2, 50
 Player3, 25
