@@ -50,8 +50,8 @@ public class HSTest {
 
 
 
-    @Test(timeout=500) public void testCheckFoxGood() throws IOException, HighScores.FormatException {
-        checkFiles("highscores.txt", "highscores.txt", "highscoretesting.txt", 110);
+    @Test(timeout=500) public void testHighScoreGood() throws IOException, HighScores.FormatException {
+        checkFiles("highscorebase.txt", "highscores.txt", "highscoretesting.txt", 110);
         compareDocs("highscores.txt", "hsExpectedOut.txt");
     }
 

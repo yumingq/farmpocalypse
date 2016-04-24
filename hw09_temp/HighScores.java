@@ -43,16 +43,14 @@ public class HighScores {
         }
     }
 
-    public void processDocument(Reader in, InputStream input, Writer out) throws IOException, 
-    FormatException {
+    public Set<String> formatChecker(Reader in) throws IOException, FormatException {
         //check that the reader isn't null
         if (in == null) {
             throw new IllegalArgumentException();
         }
-        
-        Scanner sc = new Scanner(input); 
+
         reader = new BufferedReader(in);
-        containerOfLines = new TreeSet<>();
+        containerOfLines = new TreeSet<String>();
 
         try {
             String current = ((BufferedReader) reader).readLine();
@@ -88,9 +86,11 @@ public class HighScores {
         } finally {
             reader.close();
         }
+        return (TreeSet<String>) containerOfLines;
+    }
 
-
-        for (String current : containerOfLines) {
+    public Map<String, String> nameScoreIsolate(Set<String> lines) {
+        for (String current : lines) {
             int commaPos = current.indexOf(",");
             //isolate the left part of the comma
             String playerName = current.substring(0, (commaPos)); 
@@ -107,6 +107,77 @@ public class HighScores {
                 }
             }
         }
+
+        return usersAndScores;
+    }
+
+    public void processDocument(Reader in, InputStream input, Writer out) throws IOException, 
+    FormatException {
+        //check that the reader isn't null
+        if (in == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Set<String> lineContainer = formatChecker(in);
+
+        Scanner sc = new Scanner(input); 
+        //        reader = new BufferedReader(in);
+        //        containerOfLines = new TreeSet<>();
+        //
+        //        try {
+        //            String current = ((BufferedReader) reader).readLine();
+        //            //while there's still stuff to read
+        //            while(current != null) {
+        //                //variables to track the correct format
+        //                current = current.trim();
+        //                boolean commaAtCorrectPos = true;
+        //                int onlyOneComma = 0;
+        //
+        //                //read each line and see if it is formatted correctly
+        //                for(int i = 0; i < current.length(); i++) {
+        //                    //how many commas are there in this line?
+        //                    if (current.charAt(i) == ',') {
+        //                        onlyOneComma++;
+        //                        //are the commas in plausible positions?
+        //                        if (i == 0 || i == current.length() - 1) {
+        //                            commaAtCorrectPos = false;
+        //                        }
+        //                    }
+        //                }
+        //
+        //                //if they're not formatted correctly, throw format exceptions
+        //                if (onlyOneComma != 1) {
+        //                    throw new FormatException("wrong # of commas");
+        //                } else if (commaAtCorrectPos == false) {
+        //                    throw new FormatException("wrong position for comma");
+        //                }
+        //
+        //                containerOfLines.add(current);
+        //                current = ((BufferedReader) reader).readLine();
+        //            }
+        //        } finally {
+        //            reader.close();
+        //        }
+
+
+        //        for (String current : lineContainer) {
+        //            int commaPos = current.indexOf(",");
+        //            //isolate the left part of the comma
+        //            String playerName = current.substring(0, (commaPos)); 
+        //            //trim off any white space
+        //            playerName = playerName.trim();
+        //            //isolate right part of comma
+        //            String currScore = current.substring((commaPos + 1), current.length()); 
+        //            currScore = currScore.trim();
+        //            if (!usersAndScores.containsKey(playerName)) {
+        //                usersAndScores.put(playerName, currScore);
+        //            } else {
+        //                if (currScore.compareTo(usersAndScores.get(playerName)) > 0) {
+        //                    usersAndScores.put(playerName, currScore);
+        //                }
+        //            }
+        //        }
+        usersAndScores = nameScoreIsolate(lineContainer);
 
         //add in the new one (ask for the name, use the score input)
         //get userInput for their name!
@@ -132,6 +203,7 @@ public class HighScores {
             if (listIndex >= 0) {
                 out.write(playerList.get(listIndex) + ", " + scoreList.get(listIndex));
             }
+            listIndex--;
         }
 
 
