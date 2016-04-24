@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,21 +57,21 @@ public class HSTest {
         compareDocs("highscores.txt", "hsExpectedOut.txt");
     }
 
-    @Test(timeout=500) public void testSortingMap() {
-        Map<String, String> testMap = new HashMap<String, String>();
-        testMap.put("Player1", "100");
-        testMap.put("Player3", "25");
-        testMap.put("Player2", "50");
-        testMap.put("Boop", "325");
-        testMap.put("Player4", "500");
-        Map<String, String> correctMap = new HashMap<String, String>();
-        correctMap.put("Player4", "500");
-        correctMap.put("Boop", "325");
-        correctMap.put("Player1", "100");
-        correctMap.put("Player2", "50");
-        correctMap.put("Player3", "25");
-        HighScores.sortByValue(testMap);
-        assertEquals(testMap, correctMap);
+    @Test(timeout=500) public void testSortingScores() {
+        Collection<Scores> testScores = new ArrayList<Scores>();
+        testScores.add(new Scores("Player1", "100"));
+        testScores.add(new Scores("Player3", "25"));
+        testScores.add(new Scores("Player2", "50"));
+        testScores.add(new Scores("Boop", "325"));
+        testScores.add(new Scores("Player4", "500"));
+        Collection<Scores> correctScores = new ArrayList<Scores>();
+        correctScores.add(new Scores("Player4", "500"));
+        correctScores.add(new Scores("Boop", "325"));
+        correctScores.add(new Scores("Player1", "100"));
+        correctScores.add(new Scores("Player2", "50"));
+        correctScores.add(new Scores("Player3", "25"));
+        HighScores.sortByScore(testScores);
+        assertEquals(testScores, correctScores);
     }
 
 

@@ -5,15 +5,18 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
@@ -30,6 +33,24 @@ public class HighScores {
         usersAndScores = new HashMap<String, String>();
     }
 
+//    private class Scores {
+//        private String name;
+//        private String score;
+//
+//        public Scores(String name, String score) {
+//            this.name = name;
+//            this.score = score;
+//        }
+//
+//        public String getScore() {
+//            return score;
+//        }
+//
+//        public String getName() {
+//            return name;
+//        }
+//
+//    }
 
     /**
      * Returns the next string input from the Scanner.
@@ -93,7 +114,9 @@ public class HighScores {
         return (TreeSet<String>) containerOfLines;
     }
 
-    public Map<String, String> nameScoreIsolate(Set<String> lines) {
+    public Collection<Scores> nameScoreIsolate(Set<String> lines) {
+        Collection<Scores> scoreList = new ArrayList<Scores>();
+
         for (String current : lines) {
             int commaPos = current.indexOf(",");
             //isolate the left part of the comma
@@ -103,16 +126,25 @@ public class HighScores {
             //isolate right part of comma
             String currScore = current.substring((commaPos + 1), current.length()); 
             currScore = currScore.trim();
-            if (!usersAndScores.containsKey(playerName)) {
-                usersAndScores.put(playerName, currScore);
-            } else {
-                if (currScore.compareTo(usersAndScores.get(playerName)) > 0) {
-                    usersAndScores.put(playerName, currScore);
-                }
-            }
+
+            scoreList.add(new Scores(playerName, currScore));
         }
 
-        return usersAndScores;
+        return scoreList;
+    }
+
+    public static Collection<Scores> sortByScore(Collection<Scores> unsortedScores) {
+        List<Scores> sortedList = (ArrayList<Scores>) unsortedScores;
+        
+        Collections.sort(sortedList, new Comparator<Scores>() {
+            @Override
+            public int compare(Scores o1, Scores o2) {
+                return o1.getScore().compareTo(o2.getScore());
+            }
+
+        });
+        
+        return sortedList;
     }
 
     public void processDocument(Reader in, InputStream input, Writer out) throws IOException, 
@@ -126,83 +158,27 @@ public class HighScores {
 
         Scanner sc = new Scanner(input); 
 
-        usersAndScores = nameScoreIsolate(lineContainer);
+        Collection<Scores> userScores;
+        userScores = nameScoreIsolate(lineContainer);
 
         //add in the new one (ask for the name, use the score input)
         //get userInput for their name!
         String userInput = getNextString(sc);
         //put in the current username and score
-        usersAndScores.put(userInput, Integer.toString(score));
+        userScores.add(new Scores(userInput, Integer.toString(score)));
 
         //sort the map by values (ascending)
-        Map<String, String> sortedUsersScores = sortByValue(usersAndScores);
-        //add the scores and names to lists with indices
-        ArrayList<String> scoreList = new ArrayList<String>();
-        ArrayList<String> playerList = new ArrayList<String>();
-        for (Map.Entry<String, String> entry : sortedUsersScores.entrySet())
-        {
-            scoreList.add(entry.getValue());
-            playerList.add(entry.getKey());
-        }
+        Collection<Scores> sortedUsersScores = sortByScore(userScores);
 
-        //take the ending indices
-        //        int listIndex = scoreList.size() - 1;
-        int listIndex = 0;
-        //iterate through max of ten of them for high scores
-        for (int i = 0; i <= 10; i++) {
-            if (listIndex < scoreList.size()) {
-                out.write(playerList.get(listIndex) + ", " + scoreList.get(listIndex));
-                out.write(System.getProperty("line.separator"));
-            }
-            listIndex++;
+        for(Scores indiv: sortedUsersScores) {
+            out.write(indiv.getName() + ", " + indiv.getScore());
+            out.write(System.getProperty("line.separator"));
         }
-
 
 
     }
-    
-    //sorts a map by value
-    public static <K, V extends Comparable<? super V>> Map<K, V> 
-    sortByValue( Map<K, V> map )
-    {
-        //debugging------------------------------------------------------------------
-        System.out.println("Input: ");
-        for (Map.Entry<K, V> entry : map.entrySet()) { 
-            System.out.println(entry.getKey() + " " + entry.getValue()); 
-        }
-        System.out.println("----------------");
-        //debugging------------------------------------------------------------------
-        
-        //convert map to list of map entries
-        List<Map.Entry<K, V>> list =
-                new LinkedList<Map.Entry<K, V>>( map.entrySet() );
-        //sort the map with a new comparator
-        Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-        {
-            //compare using values
-            public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
-            {
-                return (o1.getValue()).compareTo( o2.getValue() );
-            }
-        } );
 
-        //create a new map
-        Map<K, V> result = new LinkedHashMap<K, V>();
-        //put the ordered list of map entries into the map
-        for (Map.Entry<K, V> entry : list)
-        {
-            result.put( entry.getKey(), entry.getValue() );
-        }
-        
-        //debugging------------------------------------------------------------------
-        System.out.println("Output: ");
-        for (Map.Entry<K, V> entry : result.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }
-        System.out.println("----------------");
-        //debugging------------------------------------------------------------------
-        
-        return result;
-    }
 
 }
+
+
