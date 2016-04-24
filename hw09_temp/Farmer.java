@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
  */
 public class Farmer extends GameObj {
     public static final String img_file = "Farmer.png";
-    public static final int SIZE = 20;
+    public static final int SIZE = 40;
     public static final int INIT_POS_X = 130;
     public static final int INIT_POS_Y = 130;
     public static final int INIT_VEL_X = 0;
@@ -37,8 +37,8 @@ public class Farmer extends GameObj {
                 int image_height = img.getHeight();
                 transparent = new boolean[image_width][image_height];
                 
-                for (int i = 0; i < image_width; i++) {
-                    for (int j = 0; i < image_height; j++) {
+                for (int i = 0; i < image_width - 1; i++) {
+                    for (int j = 0; j < image_height - 1; j++) {
                         transparent[i][j] = isTransparent(i, j);
                     }
                 }
@@ -47,7 +47,15 @@ public class Farmer extends GameObj {
             System.out.println("Internal Error:" + e.getMessage());
         }
     }
-
+    
+    //implementing complex intersection?
+    @Override
+    public boolean intersects(GameObj obj){
+        return (pos_x + width >= obj.pos_x
+                && pos_y + height >= obj.pos_y
+                && obj.pos_x + obj.width >= pos_x 
+                && obj.pos_y + obj.height >= pos_y);
+    }
 
     @Override
     public void draw(Graphics g) {

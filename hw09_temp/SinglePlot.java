@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 public class SinglePlot extends GameObj {
 
     public static final String rot_img_file = "dead_plant.jpg";
-    public static final int SIZE = 30;
+    public static final int SIZE = 40;
     public int init_x;
     public int init_y;
     public static final int INIT_VEL_X = 0;
@@ -41,26 +41,10 @@ public class SinglePlot extends GameObj {
 
     @Override
     public void draw(Graphics g) {
-        //        System.out.println("attempt to draw");
         if (!(plant == null)) {
             plant.draw(g);
-            //            System.out.println("plot is not empty");
-
-//            try {
-//                if(img == null) {
-//                    img = ImageIO.read(new File(plant.getImg()));
-//                }
-//                g.drawImage(img, pos_x, pos_y, width, height, null);
-//            } catch (IOException e) {
-//                System.out.println("Internal Error:" + e.getMessage());
-//            }
-//            //TODO: CHECK ROT FIRST, then plant (switch)
-//        } else if (isRotting()) {
-//            //            System.out.println("plot is rotting");
-//            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
         } else {
-            //            System.out.println("plot is empty");
-            g.setColor(Color.LIGHT_GRAY);
+            g.setColor(new Color(171, 81, 21));
             g.fillRect(init_x, init_y, width, height);
         }
     }

@@ -6,10 +6,14 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -46,6 +50,7 @@ public class FarmLand extends JPanel {
     public static final int NEW_ZOMBIE_TIMER = 35000; //time for new zombie creation
 
     public static final int ZOMBIE_VELOCITY = 1;
+    private static BufferedImage img;
 
     public FarmLand(JLabel status, JLabel scoreLabel) {
         // creates border around the court area, JComponent method
@@ -54,6 +59,14 @@ public class FarmLand extends JPanel {
         zombies = new ArrayList<Zombie>();
 
         instantiatePlotArray();
+
+        try {
+            if (img == null) {
+                img = ImageIO.read(new File("grass.jpg"));
+            } 
+        } catch (IOException e) {
+            System.out.println("Internal Error:" + e.getMessage());
+        }
         // The timer is an object which triggers an action periodically
         // with the given INTERVAL. One registers an ActionListener with
         // this timer, whose actionPerformed() method will be called
@@ -245,7 +258,6 @@ public class FarmLand extends JPanel {
                 if (farmer.intersects(indiv)) {
                     playing = false;
                     status.setText("You lose!");
-//                    HighScoreRunner.addHighScore("highscores.txt", "highscores.txt", score);
                 } 
             }
 
@@ -264,15 +276,15 @@ public class FarmLand extends JPanel {
             repaint();
         }
     }
-    
+
     void pause() {
         playing = false;
     }
-    
+
     void unpause() {
         playing = true;
     }
-    
+
     int getScore() {
         return score;
     }
@@ -299,6 +311,9 @@ public class FarmLand extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        g.drawImage(img, LAND_WIDTH, LAND_HEIGHT, null);
+        
         farmer.draw(g);
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++) {

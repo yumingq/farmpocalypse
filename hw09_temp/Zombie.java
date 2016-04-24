@@ -38,8 +38,9 @@ public class Zombie extends GameObj {
                 int image_height = img.getHeight();
                 transparent = new boolean[image_width][image_height];
                 
+                
                 for (int i = 0; i < image_width; i++) {
-                    for (int j = 0; i < image_height; j++) {
+                    for (int j = 0; j < image_height; j++) {
                         transparent[i][j] = isTransparent(i, j);
                     }
                 }
@@ -50,7 +51,7 @@ public class Zombie extends GameObj {
 
     }
     
-    public boolean isTransparent( int x, int y ) {
+    public boolean isTransparent(int x, int y) {
         int pixel = img.getRGB(x,y);
         if( (pixel>>24) == 0x00 ) {
             return true;

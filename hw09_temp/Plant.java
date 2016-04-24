@@ -21,7 +21,7 @@ public class Plant extends GameObj {
     public String img_file;
     public String growing_img;
     public static final String rot_img_file = "dead_plant.jpg";
-    public static final int SIZE = 20;
+    public static final int SIZE = 40;
     public int init_x;
     public int init_y;
     public static final int INIT_VEL_X = 0;

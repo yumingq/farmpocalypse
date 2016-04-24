@@ -23,6 +23,9 @@ import javax.swing.text.StyleContext;
 /**
  * Game Main class that specifies the frame and widgets of the GUI
  */
+//Questions: refocus after instructions pane
+//ioexception with entering high scores
+//complex intersection- arrayindexoutofbounds?
 public class Game implements Runnable {
     public void run() {
         // NOTE : recall that the 'final' keyword notes inmutability
@@ -48,6 +51,11 @@ public class Game implements Runnable {
         // Main playing area
         final FarmLand farm = new FarmLand(status, score);
         frame.add(farm, BorderLayout.CENTER);
+
+        //        JLabel bg = new JLabel();
+        //        bg.setIcon(new ImageIcon("grass.jpg").getImage());
+        //        bg.setLayout( new BorderLayout() );
+        //        frame.setContentPane( bg );
 
         // Reset button
         final JPanel control_panel = new JPanel();
@@ -91,15 +99,15 @@ public class Game implements Runnable {
                 try {
                     Reader in = new FileReader("highscores.txt");
                     BufferedReader reader = new BufferedReader(in);
-                    
+
                     String text = "High Scores!" + System.getProperty("line.separator")
                     + System.getProperty("line.separator");
-                    
+
                     while(reader.ready()) {
                         text = text + reader.readLine();
                         text = text + System.getProperty("line.separator");
                     }
-                    
+
                     JOptionPane.showMessageDialog(frame, text); //how to express the reader
                     in.close();
                     reader.close();
@@ -144,20 +152,6 @@ public class Game implements Runnable {
                         + "\n" + "Don't get eaten by zombies. If you're doing well,"
                         + "\n" + "new zombies will appear.");
                 farm.unpause();
-                //		        farm.setFocusable(true);
-                //		        setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
-                //		        StyleContext sc = new StyleContext();
-                //		        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
-                //		        JTextPane instructPanel = new JTextPane(doc);
-
-                //		        try {
-                //		            String text = "Instructions put here";
-                //		            doc.insertString(0, text, null);
-                //		        } catch (Exception ex) {
-                //		            System.out.println("Exception when reading Instructions");
-                //		        }
-                //		        
-                //		        frame.getContentPane().add(new JScrollPane(instructPanel));
             }
         });
 
