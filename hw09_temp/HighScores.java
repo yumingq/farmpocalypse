@@ -165,11 +165,13 @@ public class HighScores {
     public static <K, V extends Comparable<? super V>> Map<K, V> 
     sortByValue( Map<K, V> map )
     {
-        System.out.println("Input: ");//debugging
-        for (Map.Entry<K, V> entry : map.entrySet()) { //debugging
-            System.out.println(entry.getKey() + " " + entry.getValue()); //debugging
-        }//debugging
-        System.out.println("----------------");//debugging
+        //debugging------------------------------------------------------------------
+        System.out.println("Input: ");
+        for (Map.Entry<K, V> entry : map.entrySet()) { 
+            System.out.println(entry.getKey() + " " + entry.getValue()); 
+        }
+        System.out.println("----------------");
+        //debugging------------------------------------------------------------------
         
         //convert map to list of map entries
         List<Map.Entry<K, V>> list =
@@ -192,42 +194,15 @@ public class HighScores {
             result.put( entry.getKey(), entry.getValue() );
         }
         
-        System.out.println("Output: ");//debugging
-        for (Map.Entry<K, V> entry : result.entrySet()) {//debugging
-            System.out.println(entry.getKey() + " " + entry.getValue());//debugging
-        }//debugging
-        System.out.println("----------------");//debugging
+        //debugging------------------------------------------------------------------
+        System.out.println("Output: ");
+        for (Map.Entry<K, V> entry : result.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+        System.out.println("----------------");
+        //debugging------------------------------------------------------------------
+        
         return result;
     }
 
-//    //sorts a map by value
-//    public static <K, V extends Comparable<? super V>> Map<K, V> 
-//    sortByValue( Map<K, V> map )
-//    {
-//        for (Map.Entry<K, V> entry : map.entrySet()) { //debugging
-//            System.out.println(entry.getKey() + " " + entry.getValue()); //debugging
-//        }//debugging
-//        System.out.println("----------------");//debugging
-//        
-//        List<Map.Entry<K, V>> list =
-//                new LinkedList<Map.Entry<K, V>>( map.entrySet() );
-//        Collections.sort( list, new Comparator<Map.Entry<K, V>>()
-//        {
-//            public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
-//            {
-//                return (o1.getValue()).compareTo( o2.getValue() );
-//            }
-//        } );
-//
-//        Map<K, V> result = new LinkedHashMap<K, V>();
-//        for (Map.Entry<K, V> entry : list)
-//        {
-//            result.put( entry.getKey(), entry.getValue() );
-//        }
-//        
-//        for (Map.Entry<K, V> entry : result.entrySet()) {//debugging
-//            System.out.println(entry.getKey() + " " + entry.getValue());//debugging
-//        }//debugging
-//        return result;
-//    }
 }
