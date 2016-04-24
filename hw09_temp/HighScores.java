@@ -133,17 +133,21 @@ public class HighScores {
         return scoreList;
     }
 
+    public void updateDoc(Reader in, Writer out) throws IOException,FormatException {
+        if (in == null) {
+            throw new IllegalArgumentException();
+        }
+        Set<String> lineContainer = formatChecker(in);
+        for(String indiv: lineContainer) {
+            out.write(indiv);
+            out.write(System.getProperty("line.separator"));
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     public static Collection<Scores> sortByScore(Collection<Scores> unsortedScores) {
         List<Scores> sortedList = (ArrayList<Scores>) unsortedScores;
         Collections.sort((List<Scores>) sortedList);
-//        Collections.sort(sortedList, new Comparator<Scores>() {
-//            @Override
-//            public int compare(Scores o1, Scores o2) {
-//                return o1.getScore().compareTo(o2.getScore());
-//            }
-//
-//        });
         
         return sortedList;
     }
@@ -171,9 +175,15 @@ public class HighScores {
         //sort the map by values (ascending)
         Collection<Scores> sortedUsersScores = sortByScore(userScores);
 
+        int maxScores = 10;
         for(Scores indiv: sortedUsersScores) {
+            if (maxScores > 0) {
+//            System.out.println(indiv.getName());
+//            System.out.println(indiv.getScore());
             out.write(indiv.getName() + ", " + indiv.getScore());
             out.write(System.getProperty("line.separator"));
+            } 
+            maxScores--;
         }
 
 

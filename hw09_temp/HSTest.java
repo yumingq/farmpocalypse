@@ -38,8 +38,8 @@ public class HSTest {
 
 
     @Test(timeout=500) public void testHighScoreGood() throws IOException, HighScores.FormatException {
-        checkFiles("highscorebase.txt", "highscores.txt", 110, "TestUserName");
-        compareDocs("highscores.txt", "hsExpectedOut.txt");
+        checkFiles("highscoretesting.txt", "highscorebase2.txt", 110, "TestUserName");
+        compareDocs("highscorebase2.txt", "hsExpectedOut.txt");
     }
 
     @Test(timeout=500) public void testSortingScores() {

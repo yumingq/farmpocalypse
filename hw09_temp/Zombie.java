@@ -63,6 +63,7 @@ public class Zombie extends GameObj {
     //implementing complex intersection?
     @Override
     public boolean intersects(GameObj obj){
+        
         return (pos_x + width >= obj.pos_x
                 && pos_y + height >= obj.pos_y
                 && obj.pos_x + obj.width >= pos_x 

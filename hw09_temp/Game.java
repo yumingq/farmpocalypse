@@ -24,8 +24,7 @@ import javax.swing.text.StyleContext;
  * Game Main class that specifies the frame and widgets of the GUI
  */
 //Questions: refocus after instructions pane
-//ioexception with entering high scores
-//complex intersection- arrayindexoutofbounds?
+//complex intersection- got an array of transparent or not pixels
 public class Game implements Runnable {
     public void run() {
         // NOTE : recall that the 'final' keyword notes inmutability
@@ -85,19 +84,29 @@ public class Game implements Runnable {
                 String userName = JOptionPane.showInputDialog(frame, 
                         "What is your username?"); 
                 try {
-                    Reader in = new BufferedReader(new FileReader("highscoresbase.txt"));
+                    Reader in = new BufferedReader(new FileReader("highscorebase.txt"));
                     Writer out = new BufferedWriter(new FileWriter("highscores.txt"));
                     HighScores newScore = new HighScores(farm.getScore());
                     newScore.processDocument(in, out, userName); 
+                    in.close();
+                    out.close();
+                    
+                    //updates the base document to track the new scores
+                    Reader in2 = new BufferedReader(new FileReader("highscores.txt"));
+                    Writer out2 = new BufferedWriter(new FileWriter("highscorebase.txt"));
+                    newScore.updateDoc(in2, out2);
+                    in2.close();
+                    out2.close();
                 } catch (IOException ex) {
                     System.out.println("Exception with reading/adding high score "
                             + ex.getMessage());
                 } catch (HighScores.FormatException formatEx) {
                     System.out.println("Exception with format of high score");
                 }
-
+                
                 try {
                     Reader in = new FileReader("highscores.txt");
+//                    Reader in = new FileReader("hsExpectedOut.txt");
                     BufferedReader reader = new BufferedReader(in);
 
                     String text = "High Scores!" + System.getProperty("line.separator")

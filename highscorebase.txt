@@ -1,3 +1,10 @@
+Ben, 2
+Benny, 2
+Jenniffer, 2
+Kelly, 2
+Laka, 2
+Lalal, 2
+Lilian, 2
 Player1, 100
 Player2, 50
 Player3, 25
