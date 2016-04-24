@@ -52,7 +52,7 @@ public class HSTest {
 
     @Test(timeout=500) public void testCheckFoxGood() throws IOException, HighScores.FormatException {
         checkFiles("highscores.txt", "highscores.txt", "highscoretesting.txt", 110);
-        compareDocs("foxout.txt", "theFox_expected_output.txt");
+        compareDocs("highscores.txt", "hsExpectedOut.txt");
     }
 
 
