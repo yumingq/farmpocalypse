@@ -54,6 +54,20 @@ public class Game implements Runnable {
 			}
 		});
 		control_panel.add(reset);
+		
+		final JFrame scoreFrame = new JFrame();
+		JButton addScore = new JButton();
+		addScore.setText("Add a high score!");
+		scoreFrame.add(addScore);
+		scoreFrame.pack();
+		scoreFrame.setVisible(true);
+		
+		addScore.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String addName = JOptionPane.showInputDialog(scoreFrame, 
+		                "What is your username?"); }
+		});
 
 		// Put the frame on the screen
 		frame.pack();

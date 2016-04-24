@@ -198,8 +198,8 @@ public class FarmLand extends JPanel {
     }
 
     public void chase() {
-        int x = farmer.pos_x;
-        int y = farmer.pos_y;
+        double x = farmer.pos_x;
+        double y = farmer.pos_y;
 
         for (Zombie indiv : zombies) {
             if (indiv.pos_x > x) {

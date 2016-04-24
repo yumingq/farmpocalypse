@@ -43,7 +43,7 @@ public class HighScores {
         }
     }
 
-    public void checkDocument(Reader in, InputStream input, Writer out) throws IOException, 
+    public void processDocument(Reader in, InputStream input, Writer out) throws IOException, 
     FormatException {
         //check that the reader isn't null
         if (in == null) {
