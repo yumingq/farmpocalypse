@@ -12,8 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * A basic zombie gameobject, starting in the upper left
- * corner of the game court.
+ * A basic zombie gameobject
  * 
  */
 public class Zombie extends GameObj {
@@ -26,9 +25,7 @@ public class Zombie extends GameObj {
     public static final boolean chase = false;
     
     private static BufferedImage img;
-    private int image_width = img.getWidth();
-    private int image_height = img.getHeight();
-    private boolean[][] transparent = new boolean[image_width][image_height];
+    boolean[][] transparent;
 
     public Zombie(int courtWidth, int courtHeight) {
         super(INIT_VEL_X, INIT_VEL_Y, initPosX, initPosY, SIZE, SIZE, courtWidth,
@@ -36,6 +33,11 @@ public class Zombie extends GameObj {
         try {
             if (img == null) {
                 img = ImageIO.read(new File(img_file));
+                
+                int image_width = img.getWidth();
+                int image_height = img.getHeight();
+                transparent = new boolean[image_width][image_height];
+                
                 for (int i = 0; i < image_width; i++) {
                     for (int j = 0; i < image_height; j++) {
                         transparent[i][j] = isTransparent(i, j);
@@ -57,6 +59,7 @@ public class Zombie extends GameObj {
         }
       }
     
+    //implementing complex intersection?
     @Override
     public boolean intersects(GameObj obj){
         return (pos_x + width >= obj.pos_x
