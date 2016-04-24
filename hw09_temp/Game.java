@@ -65,8 +65,10 @@ public class Game implements Runnable {
 		addScore.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		         JOptionPane.showInputDialog(frame, 
-		                "What is your username?"); }
+		         String userName = JOptionPane.showInputDialog(frame, 
+		                "What is your username?"); 
+		         
+		         }
 		});
 		
 		JButton instructions = new JButton();
@@ -76,18 +78,31 @@ public class Game implements Runnable {
 		instructions.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        StyleContext sc = new StyleContext();
-		        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
-		        JTextPane instructPanel = new JTextPane(doc);
+		        farm.pause();
+		        JOptionPane.showMessageDialog(frame, "Instructions:" + "\n"
+		                + "You are a farmer in the apocalypse." + "\n"
+		                + "Move with arrow keys" + "\n"
+		                + "Plant strawberries with the 1 key" + "\n"
+		                + "Plant pumpkins with the 2 key" + "\n"
+		                + "Plant wheat with the 3 key" + "\n"
+		                + "Harvest with enter when next to" + "\n"
+		                + "a harvestable (full grown) plot" + "\n"
+		                + "Don't let the plants rot!");
+		        farm.unpause();
+//		        farm.setFocusable(true);
+//		        setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
+//		        StyleContext sc = new StyleContext();
+//		        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+//		        JTextPane instructPanel = new JTextPane(doc);
 		        
-		        try {
-		            String text = "Instructions put here";
-		            doc.insertString(0, text, null);
-		        } catch (Exception ex) {
-		            System.out.println("Exception when reading Instructions");
-		        }
-		        
-		        frame.getContentPane().add(new JScrollPane(instructPanel));
+//		        try {
+//		            String text = "Instructions put here";
+//		            doc.insertString(0, text, null);
+//		        } catch (Exception ex) {
+//		            System.out.println("Exception when reading Instructions");
+//		        }
+//		        
+//		        frame.getContentPane().add(new JScrollPane(instructPanel));
 		    }
 		});
 

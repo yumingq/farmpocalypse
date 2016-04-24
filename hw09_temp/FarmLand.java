@@ -264,6 +264,14 @@ public class FarmLand extends JPanel {
             repaint();
         }
     }
+    
+    void pause() {
+        playing = false;
+    }
+    
+    void unpause() {
+        playing = true;
+    }
 
     void tock() {
         if (playing) {
