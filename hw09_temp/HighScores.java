@@ -121,62 +121,7 @@ public class HighScores {
         Set<String> lineContainer = formatChecker(in);
 
         Scanner sc = new Scanner(input); 
-        //        reader = new BufferedReader(in);
-        //        containerOfLines = new TreeSet<>();
-        //
-        //        try {
-        //            String current = ((BufferedReader) reader).readLine();
-        //            //while there's still stuff to read
-        //            while(current != null) {
-        //                //variables to track the correct format
-        //                current = current.trim();
-        //                boolean commaAtCorrectPos = true;
-        //                int onlyOneComma = 0;
-        //
-        //                //read each line and see if it is formatted correctly
-        //                for(int i = 0; i < current.length(); i++) {
-        //                    //how many commas are there in this line?
-        //                    if (current.charAt(i) == ',') {
-        //                        onlyOneComma++;
-        //                        //are the commas in plausible positions?
-        //                        if (i == 0 || i == current.length() - 1) {
-        //                            commaAtCorrectPos = false;
-        //                        }
-        //                    }
-        //                }
-        //
-        //                //if they're not formatted correctly, throw format exceptions
-        //                if (onlyOneComma != 1) {
-        //                    throw new FormatException("wrong # of commas");
-        //                } else if (commaAtCorrectPos == false) {
-        //                    throw new FormatException("wrong position for comma");
-        //                }
-        //
-        //                containerOfLines.add(current);
-        //                current = ((BufferedReader) reader).readLine();
-        //            }
-        //        } finally {
-        //            reader.close();
-        //        }
 
-
-        //        for (String current : lineContainer) {
-        //            int commaPos = current.indexOf(",");
-        //            //isolate the left part of the comma
-        //            String playerName = current.substring(0, (commaPos)); 
-        //            //trim off any white space
-        //            playerName = playerName.trim();
-        //            //isolate right part of comma
-        //            String currScore = current.substring((commaPos + 1), current.length()); 
-        //            currScore = currScore.trim();
-        //            if (!usersAndScores.containsKey(playerName)) {
-        //                usersAndScores.put(playerName, currScore);
-        //            } else {
-        //                if (currScore.compareTo(usersAndScores.get(playerName)) > 0) {
-        //                    usersAndScores.put(playerName, currScore);
-        //                }
-        //            }
-        //        }
         usersAndScores = nameScoreIsolate(lineContainer);
 
         //add in the new one (ask for the name, use the score input)
@@ -197,13 +142,14 @@ public class HighScores {
         }
 
         //take the ending indices
-        int listIndex = scoreList.size() - 1;
+//        int listIndex = scoreList.size() - 1;
+        int listIndex = 0;
         //iterate through max of ten of them for high scores
         for (int i = 0; i <= 10; i++) {
-            if (listIndex >= 0) {
+            if (listIndex < scoreList.size()) {
                 out.write(playerList.get(listIndex) + ", " + scoreList.get(listIndex));
             }
-            listIndex--;
+            listIndex++;
         }
 
 
@@ -219,7 +165,9 @@ public class HighScores {
 
         st.sorted( Map.Entry.comparingByValue() )
         .forEachOrdered( e -> result.put(e.getKey(), e.getValue()) );
-
+        for (Map.Entry<K, V> entry : result.entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
         return result;
     }
 }
