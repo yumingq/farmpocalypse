@@ -1,1 +1,4 @@
-Player1, 100TestUserName, 110Player3, 25Player2, 50
+Player1, 100
+TestUserName, 110
+Player3, 25
+Player2, 50

@@ -11,8 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-
-
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -55,18 +55,22 @@ public class HSTest {
         compareDocs("highscores.txt", "hsExpectedOut.txt");
     }
 
-
-//    @Test(timeout=500) public void testCheckMeanInput() throws IOException, HighScores.FormatException {
-//        checkFiles();
-//        compareDocs("foxout.txt", "theFox_expected_output.txt");
-//    }
-//
-//
-//    @Test(timeout=500) public void testCheckGettysburgSwap() throws IOException, HighScores.FormatException {
-//        // Use the SwapCorrector instead!
-//        checkFiles();
-//        compareDocs("Gettysburg-out.txt", "Gettysburg_expected_output.txt");
-//    }
+    @Test(timeout=500) public void testSortingMap() {
+        Map<String, String> testMap = new HashMap<String, String>();
+        testMap.put("Player1", "100");
+        testMap.put("Player3", "25");
+        testMap.put("Player2", "50");
+        testMap.put("Boop", "325");
+        testMap.put("Player4", "500");
+        Map<String, String> correctMap = new HashMap<String, String>();
+        correctMap.put("Player4", "500");
+        correctMap.put("Boop", "325");
+        correctMap.put("Player1", "100");
+        correctMap.put("Player2", "50");
+        correctMap.put("Player3", "25");
+        HighScores.sortByValue(testMap);
+        assertEquals(testMap, correctMap);
+    }
 
 
 

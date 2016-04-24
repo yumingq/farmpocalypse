@@ -5,8 +5,12 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -142,12 +146,13 @@ public class HighScores {
         }
 
         //take the ending indices
-//        int listIndex = scoreList.size() - 1;
+        //        int listIndex = scoreList.size() - 1;
         int listIndex = 0;
         //iterate through max of ten of them for high scores
         for (int i = 0; i <= 10; i++) {
             if (listIndex < scoreList.size()) {
                 out.write(playerList.get(listIndex) + ", " + scoreList.get(listIndex));
+                out.write(System.getProperty("line.separator"));
             }
             listIndex++;
         }
@@ -155,19 +160,74 @@ public class HighScores {
 
 
     }
-
+    
     //sorts a map by value
     public static <K, V extends Comparable<? super V>> Map<K, V> 
     sortByValue( Map<K, V> map )
     {
-        Map<K, V> result = new LinkedHashMap<>();
-        Stream<Map.Entry<K, V>> st = map.entrySet().stream();
+        System.out.println("Input: ");//debugging
+        for (Map.Entry<K, V> entry : map.entrySet()) { //debugging
+            System.out.println(entry.getKey() + " " + entry.getValue()); //debugging
+        }//debugging
+        System.out.println("----------------");//debugging
+        
+        //convert map to list of map entries
+        List<Map.Entry<K, V>> list =
+                new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+        //sort the map with a new comparator
+        Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+        {
+            //compare using values
+            public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+            {
+                return (o1.getValue()).compareTo( o2.getValue() );
+            }
+        } );
 
-        st.sorted( Map.Entry.comparingByValue() )
-        .forEachOrdered( e -> result.put(e.getKey(), e.getValue()) );
-        for (Map.Entry<K, V> entry : result.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+        //create a new map
+        Map<K, V> result = new LinkedHashMap<K, V>();
+        //put the ordered list of map entries into the map
+        for (Map.Entry<K, V> entry : list)
+        {
+            result.put( entry.getKey(), entry.getValue() );
         }
+        
+        System.out.println("Output: ");//debugging
+        for (Map.Entry<K, V> entry : result.entrySet()) {//debugging
+            System.out.println(entry.getKey() + " " + entry.getValue());//debugging
+        }//debugging
+        System.out.println("----------------");//debugging
         return result;
     }
+
+//    //sorts a map by value
+//    public static <K, V extends Comparable<? super V>> Map<K, V> 
+//    sortByValue( Map<K, V> map )
+//    {
+//        for (Map.Entry<K, V> entry : map.entrySet()) { //debugging
+//            System.out.println(entry.getKey() + " " + entry.getValue()); //debugging
+//        }//debugging
+//        System.out.println("----------------");//debugging
+//        
+//        List<Map.Entry<K, V>> list =
+//                new LinkedList<Map.Entry<K, V>>( map.entrySet() );
+//        Collections.sort( list, new Comparator<Map.Entry<K, V>>()
+//        {
+//            public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 )
+//            {
+//                return (o1.getValue()).compareTo( o2.getValue() );
+//            }
+//        } );
+//
+//        Map<K, V> result = new LinkedHashMap<K, V>();
+//        for (Map.Entry<K, V> entry : list)
+//        {
+//            result.put( entry.getKey(), entry.getValue() );
+//        }
+//        
+//        for (Map.Entry<K, V> entry : result.entrySet()) {//debugging
+//            System.out.println(entry.getKey() + " " + entry.getValue());//debugging
+//        }//debugging
+//        return result;
+//    }
 }
