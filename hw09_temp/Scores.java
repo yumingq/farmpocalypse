@@ -1,4 +1,4 @@
-public class Scores {
+public class Scores implements Comparable {
         private String name;
         private String score;
 
@@ -31,6 +31,20 @@ public class Scores {
                 return false;
             }
             return true;
+        }
+
+        @Override
+        public int compareTo(Object arg0) {
+            Scores that = (Scores) arg0;
+            int thatScore = Integer.parseInt(that.score);
+            int thisScore = Integer.parseInt(score);
+            if (thatScore > thisScore) {
+                return 1;
+            } else if (thatScore < thisScore) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
         
     }

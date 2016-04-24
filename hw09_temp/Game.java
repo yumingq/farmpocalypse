@@ -82,7 +82,8 @@ public class Game implements Runnable {
                     HighScores newScore = new HighScores(farm.getScore());
                     newScore.processDocument(in, out, userName); 
                 } catch (IOException ex) {
-                    System.out.println("Exception with reading/adding high score");
+                    System.out.println("Exception with reading/adding high score "
+                            + ex.getMessage());
                 } catch (HighScores.FormatException formatEx) {
                     System.out.println("Exception with format of high score");
                 }

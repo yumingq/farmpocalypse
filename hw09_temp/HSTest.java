@@ -21,18 +21,16 @@ import org.junit.Test;
 
 public class HSTest {
 
-    public static void checkFiles(String fdoc, String fout, String finput, int score, String user) 
+    public static void checkFiles(String fdoc, String fout, int score, String user) 
                     throws IOException, HighScores.FormatException
     {
-        FileInputStream input = new FileInputStream(finput);
         Reader in = new BufferedReader(new FileReader(fdoc));
         Writer out = new BufferedWriter(new FileWriter(fout));
 
         HighScores hs = new HighScores(score);
 
-        hs.processDocument(in, input, out, user);
+        hs.processDocument(in, out, user);
         in.close();
-        input.close();
         out.flush();
         out.close();
     }
@@ -40,7 +38,7 @@ public class HSTest {
 
 
     @Test(timeout=500) public void testHighScoreGood() throws IOException, HighScores.FormatException {
-        checkFiles("highscorebase.txt", "highscores.txt", "highscoretesting.txt", 110, "blah");
+        checkFiles("highscorebase.txt", "highscores.txt", 110, "TestUserName");
         compareDocs("highscores.txt", "hsExpectedOut.txt");
     }
 

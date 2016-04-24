@@ -133,16 +133,17 @@ public class HighScores {
         return scoreList;
     }
 
+    @SuppressWarnings("unchecked")
     public static Collection<Scores> sortByScore(Collection<Scores> unsortedScores) {
         List<Scores> sortedList = (ArrayList<Scores>) unsortedScores;
-        
-        Collections.sort(sortedList, new Comparator<Scores>() {
-            @Override
-            public int compare(Scores o1, Scores o2) {
-                return o1.getScore().compareTo(o2.getScore());
-            }
-
-        });
+        Collections.sort((List<Scores>) sortedList);
+//        Collections.sort(sortedList, new Comparator<Scores>() {
+//            @Override
+//            public int compare(Scores o1, Scores o2) {
+//                return o1.getScore().compareTo(o2.getScore());
+//            }
+//
+//        });
         
         return sortedList;
     }

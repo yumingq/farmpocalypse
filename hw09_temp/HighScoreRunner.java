@@ -13,7 +13,7 @@ public class HighScoreRunner {
             Reader in = new BufferedReader(new FileReader(fileToRead));
             Writer out = new BufferedWriter(new FileWriter(fileToWrite));
             HighScores hs = new HighScores(score);
-            hs.processDocument(in, System.in, out);
+            hs.processDocument(in, out, "TestUserName");
             in.close();
             out.flush();
             out.close();
