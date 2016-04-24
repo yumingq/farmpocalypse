@@ -8,6 +8,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.StyleContext;
 
 /**
  * Game Main class that specifies the frame and widgets of the GUI
@@ -41,6 +43,7 @@ public class Game implements Runnable {
 		// Reset button
 		final JPanel control_panel = new JPanel();
 		frame.add(control_panel, BorderLayout.EAST);
+		control_panel.setLayout(new BoxLayout(control_panel, BoxLayout.PAGE_AXIS));
 
 		// Note here that when we add an action listener to the reset
 		// button, we define it as an anonymous inner class that is
@@ -55,18 +58,37 @@ public class Game implements Runnable {
 		});
 		control_panel.add(reset);
 		
-		final JFrame scoreFrame = new JFrame();
 		JButton addScore = new JButton();
 		addScore.setText("Add a high score!");
-		scoreFrame.add(addScore);
-		scoreFrame.pack();
-		scoreFrame.setVisible(true);
+		control_panel.add(addScore);
 		
 		addScore.addActionListener(new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        String addName = JOptionPane.showInputDialog(scoreFrame, 
+		         JOptionPane.showInputDialog(frame, 
 		                "What is your username?"); }
+		});
+		
+		JButton instructions = new JButton();
+		instructions.setText("Instructions");
+		control_panel.add(instructions);
+		
+		instructions.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        StyleContext sc = new StyleContext();
+		        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+		        JTextPane instructPanel = new JTextPane(doc);
+		        
+		        try {
+		            String text = "Instructions put here";
+		            doc.insertString(0, text, null);
+		        } catch (Exception ex) {
+		            System.out.println("Exception when reading Instructions");
+		        }
+		        
+		        frame.getContentPane().add(new JScrollPane(instructPanel));
+		    }
 		});
 
 		// Put the frame on the screen
