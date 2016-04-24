@@ -25,10 +25,10 @@ public class Zombie extends GameObj {
     public static final int INIT_VEL_Y = 1;
     public static final boolean chase = false;
     
-//    public int currVelX;
-//    public int currVelY;
-    
     private static BufferedImage img;
+    private int image_width = img.getWidth();
+    private int image_height = img.getHeight();
+    private boolean[][] transparent = new boolean[image_width][image_height];
 
     public Zombie(int courtWidth, int courtHeight) {
         super(INIT_VEL_X, INIT_VEL_Y, initPosX, initPosY, SIZE, SIZE, courtWidth,
@@ -36,26 +36,35 @@ public class Zombie extends GameObj {
         try {
             if (img == null) {
                 img = ImageIO.read(new File(img_file));
+                for (int i = 0; i < image_width; i++) {
+                    for (int j = 0; i < image_height; j++) {
+                        transparent[i][j] = isTransparent(i, j);
+                    }
+                }
             }
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
-        
-//        currVelX = INIT_VEL_X;
-//        currVelY = INIT_VEL_Y;
+
     }
     
-//    double changeVelX() {
-//        return (Math.random() * INIT_VEL_X);
-//    }
-//    
-//    double changeVelY() {
-//        return (Math.random() * INIT_VEL_Y);
-//    }
+    public boolean isTransparent( int x, int y ) {
+        int pixel = img.getRGB(x,y);
+        if( (pixel>>24) == 0x00 ) {
+            return true;
+        } else {
+            return false;
+        }
+      }
     
+    @Override
+    public boolean intersects(GameObj obj){
+        return (pos_x + width >= obj.pos_x
+                && pos_y + height >= obj.pos_y
+                && obj.pos_x + obj.width >= pos_x 
+                && obj.pos_y + obj.height >= pos_y);
+    }
     
-    //begins as poison mushroom
-    //TODO: update later to a zombie image
     @Override
     public void draw(Graphics g) {
         g.drawImage(img, pos_x, pos_y, width, height, null);
