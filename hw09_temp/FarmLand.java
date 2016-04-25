@@ -37,6 +37,7 @@ public class FarmLand extends JPanel {
     private int score = 2; 
     private JLabel status; // Current status text (i.e. Running...)
     private JLabel scoreLabel;
+    private boolean lost;
 
     // Game constants
     public static final int LAND_WIDTH = 500;
@@ -194,6 +195,7 @@ public class FarmLand extends JPanel {
         playing = true;
         status.setText("Running...");
         score = 2;
+        lost = false;
 
         scoreLabel.setText("Score: " + Integer.toString(score));
 
@@ -258,6 +260,7 @@ public class FarmLand extends JPanel {
                 if (farmer.intersects(indiv)) {
                     playing = false;
                     status.setText("You lose!");
+                    lost = true;
                 } 
             }
 
@@ -289,6 +292,10 @@ public class FarmLand extends JPanel {
         return score;
     }
 
+    boolean lostOrNot() {
+        return lost;
+    }
+    
     void tock() {
         if (playing) {
             //go through all plots,  decrement plant timers

@@ -172,6 +172,10 @@ public class Game implements Runnable {
 
         // Start game
         farm.reset();
+        
+        if (farm.lostOrNot()) {
+            JOptionPane.showMessageDialog(frame, "You lost!");
+        }
     }
 
     /*
