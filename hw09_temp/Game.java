@@ -45,10 +45,12 @@ public class Game implements Runnable {
         final JPanel score_panel = new JPanel();
         frame.add(score_panel, BorderLayout.NORTH);
         final JLabel score = new JLabel("0");
+        final JLabel coins = new JLabel("8");
         score_panel.add(score);
+        score_panel.add(coins);
 
         // Main playing area
-        final FarmLand farm = new FarmLand(status, score);
+        final FarmLand farm = new FarmLand(status, score, coins);
         frame.add(farm, BorderLayout.CENTER);
 
         //        JLabel bg = new JLabel();
@@ -56,10 +58,31 @@ public class Game implements Runnable {
         //        bg.setLayout( new BorderLayout() );
         //        frame.setContentPane( bg );
 
-        // Reset button
+        // Control Panel
         final JPanel control_panel = new JPanel();
         frame.add(control_panel, BorderLayout.EAST);
+        final JLabel shortInstruct = new JLabel("<html> Press 1 to plant Strawberries"
+                + "<br> 6 sec to grow,"
+                + "<br> rots in 8 sec"
+                + "<br> costs 10 coins "
+                + "<br> profits 20 coins"
+                + "<br>"
+                + "<br> Press 2 to plant Pumpkins"
+                + "<br> 10 sec to grow,"
+                + "<br> rots in 6 sec"
+                + "<br> costs 30 coins"
+                + "<br> profits 90 coins"
+                + "<br>"
+                + "<br> Press 3 to plant Wheat"
+                + "<br> 3 sec to grow"
+                + "<br> rots in 12 sec"
+                + "<br> costs 2 coins"
+                + "<br> profits 4 coins"
+                + "</html>");
         control_panel.setLayout(new BoxLayout(control_panel, BoxLayout.PAGE_AXIS));
+        
+        
+        
 
         // Note here that when we add an action listener to the reset
         // button, we define it as an anonymous inner class that is
@@ -149,11 +172,11 @@ public class Game implements Runnable {
                         + "Plant pumpkins with the 2 key." + "\n"
                         + "Plant wheat with the 3 key." + "\n"
                         + "Strawberries take 6 seconds to grow, rots in 8 seconds after it is"
-                        + "\n" + "full grown, costs 10 points and profits 20 points."
+                        + "\n" + "full grown, costs 10 coins and profits 20 coins."
                         + "\n" + "Pumpkins take 10 seconds to grow, rots in 6 seconds after it is"
-                        + "\n" + "full grown, costs 30 points to grow, and profits 90 points."
+                        + "\n" + "full grown, costs 30 coins to grow, and profits 90 coins."
                         + "\n" + "Wheat takes 3 seconds to grow, rots in 12 seconds after it is"
-                        + "\n" + "full grown, costs 2 points, and profits 4 points."
+                        + "\n" + "full grown, costs 2 coins, and profits 4 coins."
                         + "\n" + "\n"
                         + "Harvest with enter key when next to a harvestable (full grown) plot"
                         + "\n" + "If a plant is rotten, hit enter to clear the plot."
@@ -164,6 +187,8 @@ public class Game implements Runnable {
                 farm.requestFocusInWindow();
             }
         });
+        
+        control_panel.add(shortInstruct);
 
         // Put the frame on the screen
         frame.pack();
@@ -173,9 +198,7 @@ public class Game implements Runnable {
         // Start game
         farm.reset();
         
-        if (farm.lostOrNot()) {
-            JOptionPane.showMessageDialog(frame, "You lost!");
-        }
+        
     }
 
     /*

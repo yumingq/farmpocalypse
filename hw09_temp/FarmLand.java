@@ -34,9 +34,11 @@ public class FarmLand extends JPanel {
     private SinglePlot[][] plotArray;
 
     public boolean playing = false; // whether the game is running
-    private int score = 2; 
+    private int score = 0; 
+    private int coins = 8;
     private JLabel status; // Current status text (i.e. Running...)
     private JLabel scoreLabel;
+    private JLabel coinLabel;
     private boolean lost;
 
     // Game constants
@@ -51,8 +53,9 @@ public class FarmLand extends JPanel {
 
     public static final int ZOMBIE_VELOCITY = 1;
     private static BufferedImage img;
-
-    public FarmLand(JLabel status, JLabel scoreLabel) {
+    private static BufferedImage gameOverImg;
+    
+    public FarmLand(JLabel status, JLabel scoreLabel, JLabel coinLabel) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         plotArray = new SinglePlot[5][5];
@@ -64,6 +67,9 @@ public class FarmLand extends JPanel {
             if (img == null) {
                 img = ImageIO.read(new File("grass.jpg"));
             } 
+            if (gameOverImg == null) {
+                gameOverImg = ImageIO.read(new File("gameOver.jpg"));
+            }
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
@@ -121,6 +127,7 @@ public class FarmLand extends JPanel {
                                     plotArray[i][j].deletePlant();
                                 } else if (plotArray[i][j].isFullGrown()){
                                     score += plotArray[i][j].getPlant().harvestProfit;
+                                    coins += plotArray[i][j].getPlant().harvestProfit;
                                     plotArray[i][j].deletePlant();
                                 }
                             }
@@ -130,11 +137,11 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (score >= Strawberry.COST) {
+                                if (coins >= Strawberry.COST) {
                                     if (plotArray[i][j].isEmpty()) {
                                         plotArray[i][j].setStrawberry(plotArray[i][j].getXPos(), 
                                                 plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
-                                        score -= Strawberry.COST;
+                                        coins -= Strawberry.COST;
                                     }
                                 }
                             }
@@ -144,11 +151,11 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (score >= Pumpkin.COST) {
+                                if (coins >= Pumpkin.COST) {
                                     if (plotArray[i][j].isEmpty()) {
                                         plotArray[i][j].setPumpkin(plotArray[i][j].getXPos(), 
                                                 plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
-                                        score -= Pumpkin.COST;
+                                        coins -= Pumpkin.COST;
                                     }
                                 }
                             }
@@ -159,11 +166,11 @@ public class FarmLand extends JPanel {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
-                                if (score >= Wheat.COST) {
+                                if (coins >= Wheat.COST) {
                                     if (plotArray[i][j].isEmpty()) {
                                         plotArray[i][j].setWheat(plotArray[i][j].getXPos(), 
                                                 plotArray[i][j].getYPos(), LAND_WIDTH, LAND_HEIGHT);
-                                        score -= Wheat.COST;
+                                        coins -= Wheat.COST;
                                     }
                                 }
                             }
@@ -180,6 +187,7 @@ public class FarmLand extends JPanel {
 
         this.status = status;
         this.scoreLabel = scoreLabel;
+        this.coinLabel = coinLabel;
     }
 
     /**
@@ -194,10 +202,12 @@ public class FarmLand extends JPanel {
 
         playing = true;
         status.setText("Running...");
-        score = 2;
+        score = 0;
+        coins = 8;
         lost = false;
 
         scoreLabel.setText("Score: " + Integer.toString(score));
+        coinLabel.setText("Coins: " + Integer.toString(coins));
 
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
@@ -265,6 +275,7 @@ public class FarmLand extends JPanel {
             }
 
             scoreLabel.setText("Score: " + Integer.toString(score));
+            coinLabel.setText("Coins: " + Integer.toString(coins));
 
             // update the display
             repaint();
@@ -328,6 +339,10 @@ public class FarmLand extends JPanel {
         farmer.draw(g);
         for(Zombie indiv: zombies) {
             indiv.draw(g);
+        }
+        if (lostOrNot()) {
+            //draw game over image
+            g.drawImage(gameOverImg, 0, 0, LAND_WIDTH, LAND_HEIGHT, null);
         }
     }
 
