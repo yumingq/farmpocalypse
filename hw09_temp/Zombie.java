@@ -44,13 +44,14 @@ public class Zombie extends GameObj {
                 transparent = new boolean[image_width][image_height];
                 leftPointList = new int[image_height];
                 rightPointList = new int[image_height];
-                
+
                 for (int i = 0; i < image_width; i++) {
                     for (int j = 0; j < image_height; j++) {
                         transparent[i][j] = isTransparent(i, j);
                     }
                 }
                 boolean[][] edges = findEdges();
+                Collection<Point> collPts = setCollisionPts(edges);
             }
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
@@ -61,9 +62,9 @@ public class Zombie extends GameObj {
     public boolean isTransparent(int x, int y) {
         int pixel = img.getRGB(x,y);
         if( (pixel>>24) == 0x00 ) {
-//            System.out.println("found transparent pixel");
+            //            System.out.println("found transparent pixel");
             return true;
-            
+
         } else {
             return false;
         }
@@ -72,8 +73,8 @@ public class Zombie extends GameObj {
     public boolean[][] findEdges() {
         boolean[][] edges = new boolean[img.getHeight()][img.getWidth()];
         int counter = 0;
-        
-        
+
+
         for (int i = 0; i < img.getHeight(); i++) {
             int rightEdge = Integer.MIN_VALUE;
             int leftEdge = Integer.MAX_VALUE;
@@ -90,48 +91,57 @@ public class Zombie extends GameObj {
                 edges[i][leftEdge] = true;
                 leftPointList[i] = leftEdge;
                 System.out.println("left edge: " + Integer.toString(i) + ": " + 
-                Integer.toString(leftEdge));
+                        Integer.toString(leftEdge));
             }
             if (rightEdge != Integer.MIN_VALUE) {
                 edges[i][rightEdge] = true;
                 rightPointList[i] = rightEdge;
                 System.out.println("right edge: " + Integer.toString(i) + ": " + 
-                Integer.toString(rightEdge));
+                        Integer.toString(rightEdge));
             }
         }
         System.out.println("This picture has " + Integer.toString(counter) + " rows");
-//        System.out.println(Integer.toString(img.getWidth()));
+        //        System.out.println(Integer.toString(img.getWidth()));
         return edges;
     }
-    
-    public Point[] setCollisionPts(boolean[][] edges) {
-        Point[] rightCollisionPts = new Point[10];
-        Point[] leftCollisionPts = new Point[10];
-        
+
+    public Collection<Point> setCollisionPts(boolean[][] edges) {
+
         int leftMin = Integer.MAX_VALUE;
         int rightMax = Integer.MIN_VALUE;
-        int rows = img.getHeight();
-        int[] rowIntervals = img.getHeight() / 8;
+        int numPts = 10;
+        int[] rowIntervals = new int[numPts];
+        Collection<Point> totalCollisions = new ArrayList<Point>();
+
+        for (int i = 0; i < numPts; i++) {
+            rowIntervals[i] = (img.getHeight() / (numPts / 2)) * i;
+        }
+        rowIntervals[numPts - 1] = img.getHeight() - 1; 
+
+        int leftTracker = 0;
+        int rightTracker = 0;
         for (int i = 0; i < img.getHeight(); i++) {
             if (leftPointList[i] < leftMin) {
-                leftCollisionPts[i] = new Point(i, leftPointList[i]);
                 leftMin = leftPointList[i];
+                leftTracker = i;
             }
             if (rightPointList[i] > rightMax) {
-                rightCollisionPts[i] = new Point(i, rightPointList[i]);
                 rightMax = rightPointList[i];
+                rightTracker = i;
+            }
+            for (int j = 0; j < numPts; j++) {
+                if (rowIntervals[j] == i) {
+                    totalCollisions.add(new Point(i, leftPointList[i]));
+                    totalCollisions.add(new Point(i, rightPointList[i]));
+                }
             }
         }
-        
-        Point[] totalCollisions = new Point[20];
-        for(int i = 0; i < 20; i++) {
-            if (i < 10) {
-                totalCollisions[i] = leftCollisionPts[i];
-            } else {
-                totalCollisions[i] = rightCollisionPts[i - 10];
-            }
-        }
-        
+        Point minLeftCollision = new Point(leftTracker, leftPointList[leftTracker]);
+        Point maxRightCollision = new Point(rightTracker, rightPointList[rightTracker]);
+
+        totalCollisions.add(minLeftCollision);
+        totalCollisions.add(maxRightCollision);
+
         return totalCollisions;
     }
 
