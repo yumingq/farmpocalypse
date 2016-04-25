@@ -23,72 +23,62 @@ import javax.swing.text.StyleContext;
 /**
  * Game Main class that specifies the frame and widgets of the GUI
  */
-//Questions: refocus after instructions pane
-//complex intersection- got an array of transparent or not pixels
+//Questions: complex intersection confusion, zombie timer
 public class Game implements Runnable {
     public void run() {
-        // NOTE : recall that the 'final' keyword notes inmutability
-        // even for local variables.
-
-        // Top-level frame in which game components live
-        // Be sure to change "TOP LEVEL FRAME" to the name of your game
-        final JFrame frame = new JFrame("TOP LEVEL FRAME");
-        frame.setLocation(300, 300);
+        final JFrame frame = new JFrame("FarmPocalypse");
+        frame.setLocation(200, 200);
 
         // Status panel
         final JPanel status_panel = new JPanel();
         frame.add(status_panel, BorderLayout.SOUTH);
         final JLabel status = new JLabel("Running...");
         status_panel.add(status);
+        final JLabel timer = new JLabel("0");
+        status_panel.add(timer);
 
-        // Score panel
+        // Score & coin panel
         final JPanel score_panel = new JPanel();
         frame.add(score_panel, BorderLayout.NORTH);
         final JLabel score = new JLabel("0");
         final JLabel coins = new JLabel("8");
         score_panel.add(score);
         score_panel.add(coins);
+        
+        
 
         // Main playing area
-        final FarmLand farm = new FarmLand(status, score, coins);
+        final FarmLand farm = new FarmLand(status, score, coins, timer);
         frame.add(farm, BorderLayout.CENTER);
-
-        //        JLabel bg = new JLabel();
-        //        bg.setIcon(new ImageIcon("grass.jpg").getImage());
-        //        bg.setLayout( new BorderLayout() );
-        //        frame.setContentPane( bg );
 
         // Control Panel
         final JPanel control_panel = new JPanel();
         frame.add(control_panel, BorderLayout.EAST);
+        
+        //short instructions on the side for reading while playing if necessary
         final JLabel shortInstruct = new JLabel("<html> Press 1 to plant Strawberries"
-                + "<br> 6 sec to grow,"
+                + "<br> grows in 6 sec"
                 + "<br> rots in 8 sec"
                 + "<br> costs 10 coins "
                 + "<br> profits 20 coins"
                 + "<br>"
                 + "<br> Press 2 to plant Pumpkins"
-                + "<br> 10 sec to grow,"
+                + "<br> grows in 10 sec"
                 + "<br> rots in 6 sec"
                 + "<br> costs 30 coins"
                 + "<br> profits 90 coins"
                 + "<br>"
                 + "<br> Press 3 to plant Wheat"
-                + "<br> 3 sec to grow"
+                + "<br> grows in 10 sec"
                 + "<br> rots in 12 sec"
                 + "<br> costs 2 coins"
                 + "<br> profits 4 coins"
                 + "</html>");
+        //set a vertical layout for control panel
         control_panel.setLayout(new BoxLayout(control_panel, BoxLayout.PAGE_AXIS));
         
-        
-        
-
-        // Note here that when we add an action listener to the reset
-        // button, we define it as an anonymous inner class that is
-        // an instance of ActionListener with its actionPerformed()
-        // method overridden. When the button is pressed,
-        // actionPerformed() will be called.
+ 
+        // reset button
         final JButton reset = new JButton("Reset");
         reset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -96,17 +86,18 @@ public class Game implements Runnable {
             }
         });
         control_panel.add(reset);
-
-        JButton addScore = new JButton();
+        
+        //add high score button
+        final JButton addScore = new JButton();
         addScore.setText("Add a high score!");
         control_panel.add(addScore);
-
         addScore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userName = JOptionPane.showInputDialog(frame, 
                         "What is your username?"); 
                 try {
+                    //try reading out the username they input
                     Reader in = new BufferedReader(new FileReader("highscorebase.txt"));
                     Writer out = new BufferedWriter(new FileWriter("highscores.txt"));
                     HighScores newScore = new HighScores(farm.getScore());
@@ -128,10 +119,10 @@ public class Game implements Runnable {
                 }
                 
                 try {
+                    //displaying high score messages
                     Reader in = new FileReader("highscores.txt");
-//                    Reader in = new FileReader("hsExpectedOut.txt");
                     BufferedReader reader = new BufferedReader(in);
-
+                    
                     String text = "High Scores!" + System.getProperty("line.separator")
                     + System.getProperty("line.separator");
 
@@ -140,7 +131,7 @@ public class Game implements Runnable {
                         text = text + System.getProperty("line.separator");
                     }
 
-                    JOptionPane.showMessageDialog(frame, text); //how to express the reader
+                    JOptionPane.showMessageDialog(frame, text); 
                     in.close();
                     reader.close();
                 } catch (Exception ex2) {
@@ -149,13 +140,13 @@ public class Game implements Runnable {
             }
         });
 
-
-
-
-        JButton instructions = new JButton();
+        
+        //create button to display instructions
+        final JButton instructions = new JButton();
         instructions.setText("Instructions");
         control_panel.add(instructions);
 
+        //add instructions
         instructions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -188,6 +179,7 @@ public class Game implements Runnable {
             }
         });
         
+        //add the short instructions (from earlier) to the bottom of control panel
         control_panel.add(shortInstruct);
 
         // Put the frame on the screen

@@ -109,10 +109,16 @@ public class Farmer extends GameObj {
     public Collection<Point> setCollisionPts(boolean[][] edges) {
         Collection<Point> totalCollisions = new ArrayList<Point>();
 
- 
-            for (int j = 0; j < leftPointList.length; j++) {
-                    totalCollisions.add(new Point(j, leftPointList[j]));
-                    totalCollisions.add(new Point(j, rightPointList[j]));
+
+        for (int j = 0; j < leftPointList.length; j++) {
+            totalCollisions.add(new Point(j, leftPointList[j]));
+            totalCollisions.add(new Point(j, rightPointList[j]));
+
+            if (j == 0 || j == leftPointList.length - 1) {
+                for (int x = leftPointList[j]; x < rightPointList[j]; x++) {
+                    totalCollisions.add(new Point(j, x));
+                }
+            }
         }
 
         return totalCollisions;
@@ -139,18 +145,14 @@ public class Farmer extends GameObj {
                 //if they are within the box, check collision points
                 for (Point indiv : collisionPoints) {
                     for(Point objIndiv : obj.collisionPts) {
-                        if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX() * 2
-                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY() * 2
-                                ) {
-                            System.out.println("Farmer Intersection at x = " + indiv.getX());
-//                            System.out.println();
-                            System.out.println("and y = " + indiv.getY());
-//                            System.out.println();
-                            System.out.println("with zombie at x = " + objIndiv.getX());
-//                            System.out.println();
-                            System.out.println("and y = " + objIndiv.getY());
-//                            System.out.println("Position x: " + (pos_x + indiv.getY()));
-//                            System.out.println("Position y: " + (pos_y + indiv.getX()));
+                        if (pos_x + indiv.getY() == obj.pos_x + objIndiv.getY()
+                        && pos_y + indiv.getX() == obj.pos_y + objIndiv.getX()) {
+                            System.out.println("Farmer Intersection at x = " + indiv.getX() 
+                            + " and y = " + indiv.getY());
+                            System.out.println("with zombie at x = " + (objIndiv.getX()) 
+                                    + " and y = " + (objIndiv.getY()));
+                            //                            System.out.println("Position x: " + (pos_x + indiv.getY()));
+                            //                            System.out.println("Position y: " + (pos_y + indiv.getX()));
                             return true;
                         }
                     }

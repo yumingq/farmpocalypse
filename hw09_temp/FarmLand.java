@@ -18,51 +18,55 @@ import javax.swing.*;
 
 
 /**
- * GameCourt
+ * FarmLand (GameCourt)
  * 
  * This class holds the primary game logic for how different objects interact
- * with one another. Take time to understand how the timer interacts with the
- * different methods and how it repaints the GUI on every tick().
+ * with one another. 
  * 
  */
 @SuppressWarnings("serial")
 public class FarmLand extends JPanel {
 
     // the state of the game logic
-    private Farmer farmer; // the Black Square, keyboard control
-    private Collection<Zombie> zombies; // the Golden Snitch, bounces
-    private SinglePlot[][] plotArray;
+    private Farmer farmer; 
+    private Collection<Zombie> zombies; //potentially more than one zombie
+    private SinglePlot[][] plotArray; //the farming plots
 
     public boolean playing = false; // whether the game is running
     private int score = 0; 
     private int coins = 8;
     private JLabel status; // Current status text (i.e. Running...)
-    private JLabel scoreLabel;
+    private JLabel scoreLabel; 
     private JLabel coinLabel;
-    private boolean lost;
+    private JLabel timeLabel;
+    private int time = 0;
+    private boolean lost; //has the player lost?
 
     // Game constants
     public static final int LAND_WIDTH = 500;
-    public static final int LAND_HEIGHT = 450;
-    public static final int FARMER_VELOCITY = 6;
+    public static final int LAND_HEIGHT = 500;
+    public static final int FARMER_VELOCITY = 8;
 
     // Update interval for timer, in milliseconds
-    public static final int INTERVAL = 35;
-    public static final int ONE_SECOND = 1000;
-    public static final int NEW_ZOMBIE_TIMER = 35000; //time for new zombie creation
+    public static final int INTERVAL = 35; //update game screen time
+    public static final int ONE_SECOND = 1000; //one second timer for plant decrement
+    public static final int NEW_ZOMBIE_TIMER = 25000; //time for new zombie creation
+    public static final int ZOMBIE_VELOCITY = 1; //base zombie velocity
+    private static BufferedImage img; //background image
+    private static BufferedImage gameOverImg; //game over screen
 
-    public static final int ZOMBIE_VELOCITY = 1;
-    private static BufferedImage img;
-    private static BufferedImage gameOverImg;
-    
-    public FarmLand(JLabel status, JLabel scoreLabel, JLabel coinLabel) {
+    public FarmLand(JLabel status, JLabel scoreLabel, JLabel coinLabel, JLabel timeLabel) {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //create the farm plots
         plotArray = new SinglePlot[5][5];
+        //create the list of zombies
         zombies = new ArrayList<Zombie>();
-
+        
+        //instantiate the plots
         instantiatePlotArray();
-
+        
+        //try to read in the background and game over image
         try {
             if (img == null) {
                 img = ImageIO.read(new File("grass.jpg"));
@@ -73,29 +77,36 @@ public class FarmLand extends JPanel {
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
+        
         // The timer is an object which triggers an action periodically
         // with the given INTERVAL. One registers an ActionListener with
         // this timer, whose actionPerformed() method will be called
         // each time the timer triggers. We define a helper method
         // called tick() that actually does everything that should
         // be done in a single timestep.
+        
+        //base timer- updates screens and necessary displays ever 35 milliseconds
         Timer timer = new Timer(INTERVAL, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tick();
             }
         });
-        timer.start(); // MAKE SURE TO START THE TIMER!
-
+        timer.start(); //start the timer
+        
+        //times each second for plant growth and time tracking
         Timer secondTimer = new Timer(ONE_SECOND, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tock();
             }
         });
         secondTimer.start();
-
+        
+        //times zombie creation
         Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createNewZombie();
+                if (playing) {
+                    createNewZombie();
+                }
             }
         });
         zombieTimer.start();
@@ -111,6 +122,7 @@ public class FarmLand extends JPanel {
         // moves the square.)
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
+                //movement of farmer
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     farmer.v_x = -FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_RIGHT)
@@ -119,6 +131,7 @@ public class FarmLand extends JPanel {
                     farmer.v_y = FARMER_VELOCITY;
                 else if (e.getKeyCode() == KeyEvent.VK_UP)
                     farmer.v_y = -FARMER_VELOCITY;
+                //harvesting or clearing
                 else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
@@ -133,6 +146,7 @@ public class FarmLand extends JPanel {
                             }
                         }
                     }
+                //plant strawberries with 1
                 } else if (e.getKeyCode() == KeyEvent.VK_1) {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
@@ -147,6 +161,7 @@ public class FarmLand extends JPanel {
                             }
                         }
                     }
+                //plant pumpkins with 2
                 } else if (e.getKeyCode() == KeyEvent.VK_2) {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
@@ -161,8 +176,8 @@ public class FarmLand extends JPanel {
                             }
                         }
                     }
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_3) {
+                //plant wheat with 3
+                } else if (e.getKeyCode() == KeyEvent.VK_3) {
                     for (int i = 0; i < 5; i++) {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
@@ -178,7 +193,8 @@ public class FarmLand extends JPanel {
                     }
                 }
             }
-
+            
+            //stop the farmer if the key was released
             public void keyReleased(KeyEvent e) {
                 farmer.v_x = 0;
                 farmer.v_y = 0;
@@ -188,14 +204,16 @@ public class FarmLand extends JPanel {
         this.status = status;
         this.scoreLabel = scoreLabel;
         this.coinLabel = coinLabel;
+        this.timeLabel = timeLabel;
     }
 
     /**
      * (Re-)set the game to its initial state.
      */
     public void reset() {
-
+        //create new farmer and zombies
         farmer = new Farmer(LAND_WIDTH, LAND_HEIGHT);
+        //initiate the plots again
         instantiatePlotArray();
         zombies.clear();
         zombies.add(new Zombie(LAND_WIDTH, LAND_HEIGHT));
@@ -204,15 +222,14 @@ public class FarmLand extends JPanel {
         status.setText("Running...");
         score = 0;
         coins = 8;
+        time = 0;
         lost = false;
-
-        scoreLabel.setText("Score: " + Integer.toString(score));
-        coinLabel.setText("Coins: " + Integer.toString(coins));
 
         // Make sure that this component has the keyboard focus
         requestFocusInWindow();
     }
-
+    
+    //instantiate plots!
     public void instantiatePlotArray() {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
@@ -221,24 +238,21 @@ public class FarmLand extends JPanel {
             }
         }
     }
-
-    public void chase() {
+    
+    //control zombie chasing the farmer
+    private void chase() {
         double x = farmer.pos_x;
         double y = farmer.pos_y;
 
         for (Zombie indiv : zombies) {
             if (indiv.pos_x > x) {
                 indiv.v_x = -ZOMBIE_VELOCITY;
-                //            indiv.v_x = -indiv.changeVelX();
             } else {
                 indiv.v_x = ZOMBIE_VELOCITY;
-                //            indiv.v_x = indiv.changeVelX();
             }
             if (indiv.pos_y > y) {
                 indiv.v_y = -ZOMBIE_VELOCITY;
-                //            indiv.v_y = -indiv.changeVelY();
             } else {
-                //            indiv.v_y = indiv.changeVelY();
                 indiv.v_y = ZOMBIE_VELOCITY;
             }
             indiv.move();
@@ -252,18 +266,12 @@ public class FarmLand extends JPanel {
      * This method is called every time the timer defined in the constructor
      * triggers.
      */
-    void tick() {
+    private void tick() {
         if (playing) {
-            // advance the square and snitch in their
-            // current direction.
+            //zombies chase the farmer!
             chase();
-            //            zombie.move();
+            //move the farmer
             farmer.move();
-
-            // make the snitch bounce off walls...
-            //            zombie.bounce(zombie.hitWall());
-            // ...and the mushroom
-            //            zombie.bounce(zombie.hitObj(poison));
 
             // check for the game end conditions
             for(Zombie indiv : zombies) {
@@ -274,40 +282,18 @@ public class FarmLand extends JPanel {
                 } 
             }
 
+            //update score and coins and time
             scoreLabel.setText("Score: " + Integer.toString(score));
             coinLabel.setText("Coins: " + Integer.toString(coins));
+            timeLabel.setText("Time: " + Integer.toString(time));
 
             // update the display
             repaint();
         }
     }
 
-    void createNewZombie() {
-        if (playing) {
-            zombies.add(new Zombie(LAND_WIDTH, LAND_HEIGHT));
-
-            // update the display
-            repaint();
-        }
-    }
-
-    void pause() {
-        playing = false;
-    }
-
-    void unpause() {
-        playing = true;
-    }
-
-    int getScore() {
-        return score;
-    }
-
-    boolean lostOrNot() {
-        return lost;
-    }
-    
-    void tock() {
+    //called every second
+    private void tock() {
         if (playing) {
             //go through all plots,  decrement plant timers
             for (int i = 0; i < 5; i++) {
@@ -321,26 +307,58 @@ public class FarmLand extends JPanel {
                     }
                 }
             }
+            //update the actual time in-game
+            time++;
         }
     }
 
+  //add new zombie
+    void createNewZombie() {
+        if (playing) {
+            zombies.add(new Zombie(LAND_WIDTH, LAND_HEIGHT));
+            // update the display
+            repaint();
+        }
+    }
+
+    
+    //pause the game
+    public void pause() {
+        playing = false;
+    }
+    
+    //unpause the game
+    public void unpause() {
+        playing = true;
+    }
+    
+    //get the score
+    public int getScore() {
+        return score;
+    }
+
+
+    //override paint component to draw the game
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //draw background
+        g.drawImage(img, 0, 0, LAND_WIDTH, LAND_HEIGHT, null);
 
-        g.drawImage(img, 0, 0, null);
-
-
+        //draw plots
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++) {
                 plotArray[i][j].draw(g);
             }
         }
+        //draw farmer
         farmer.draw(g);
+        //draw all zombies
         for(Zombie indiv: zombies) {
             indiv.draw(g);
         }
-        if (lostOrNot()) {
+        
+        if (lost) {
             //draw game over image
             g.drawImage(gameOverImg, 0, 0, LAND_WIDTH, LAND_HEIGHT, null);
         }

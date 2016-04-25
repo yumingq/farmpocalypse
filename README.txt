@@ -26,7 +26,21 @@ PennKey: _yumingq______
 
 - Provide an overview of each of the classes in your code, and what their
   function is in the overall game.
-
+    Farmer
+    FarmLand (GameCourt)
+    Game
+    GameObj
+    HighScores
+    HSTest
+    Plant
+    Point
+    Pumpkin
+    Scores
+    SinglePlot
+    Square
+    Strawberry
+    Wheat
+    Zombie
 
 - Revisit your proposal document. What components of your plan did you end up
   keeping? What did you have to change? Why?

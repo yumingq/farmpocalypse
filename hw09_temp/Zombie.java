@@ -19,10 +19,10 @@ import javax.imageio.ImageIO;
  */
 public class Zombie extends GameObj {
     public static final String img_file = "zombie.png";
-    public static final int WIDTH = 42;
-    public static final int HEIGHT = 76;
-    public static int initPosX = (int) (Math.random() * 490);
-    public static int initPosY = (int) (Math.random() * 490);
+    public static final int WIDTH = 21;
+    public static final int HEIGHT = 38;
+    public static int initPosX = 270;
+    public static int initPosY = 270;
     public static final int INIT_VEL_X = 1;
     public static final int INIT_VEL_Y = 1;
     public static final boolean chase = false;
@@ -58,14 +58,15 @@ public class Zombie extends GameObj {
                 setCollPts(collPts);
                 collisionPoints = collPts;
 
+//                for (Point indiv : collPts) {
+//                    System.out.println("zomb X: " + (indiv.getX() * 2) 
+//                            + " zomb Y: " + (indiv.getY() * 2));
+//                }
                 for (Point indiv : collPts) {
-                    System.out.println("zomb X: " + indiv.getX() + " zomb Y: " + indiv.getY());
+                    System.out.println("zomb X: " + indiv.getX() 
+                            + " zomb Y: " + indiv.getY());
                 }
             } else {
-//              System.out.println("img not null, set collision points");
-//              if (collisionPoints == null) {
-//                  System.out.println("error: collision points are null");
-//              }
               setCollPts(collisionPoints);
           }
         } catch (IOException e) {
@@ -122,8 +123,6 @@ public class Zombie extends GameObj {
 
     public Collection<Point> setCollisionPts(boolean[][] edges) {
 
-        int leftMin = Integer.MAX_VALUE;
-        int rightMax = Integer.MIN_VALUE;
         int numPts = HEIGHT;
         int[] rowIntervals = new int[numPts];
         Collection<Point> totalCollisions = new ArrayList<Point>();
@@ -149,6 +148,11 @@ public class Zombie extends GameObj {
 //                if (rowIntervals[j] == i) {
                     totalCollisions.add(new Point(j, leftPointList[j]));
                     totalCollisions.add(new Point(j, rightPointList[j]));
+                    if (j == 0 || j == leftPointList.length - 1) {
+                        for (int x = leftPointList[j]; x < rightPointList[j]; x++) {
+                            totalCollisions.add(new Point(j, x));
+                        }
+                    }
                 
 //                }
 //            }
@@ -183,16 +187,13 @@ public class Zombie extends GameObj {
                 //if they are within the box, check collision points
                 for (Point indiv : collisionPoints) {
                     for(Point objIndiv : obj.collisionPts) {
-                        if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX() * 2
-                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY() * 2
+                        if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX()
+                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY()
                                 ) {
-                            System.out.println("Zombie Intersection at x = " + indiv.getX());
-//                            System.out.println();
-                            System.out.println("and y = " + indiv.getY());
-//                            System.out.println();
-                            System.out.println("with farmer at x = " + objIndiv.getX());
-//                            System.out.println();
-                            System.out.println("and y = " + objIndiv.getY());
+                            System.out.println("Zombie Intersection at x = " + indiv.getX() 
+                            + " and y = " + indiv.getY());
+                            System.out.println("with farmer at x = " + objIndiv.getX() 
+                            + " and y = " + objIndiv.getY());
 //                            System.out.println("Position x: " + (pos_x + indiv.getY()));
 //                            System.out.println("Position y: " + (pos_y + indiv.getX()));
                             return true;
