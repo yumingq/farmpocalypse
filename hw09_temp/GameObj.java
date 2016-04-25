@@ -5,6 +5,7 @@
  */
 
 import java.awt.Graphics;
+import java.util.Collection;
 
 /** An object in the game. 
  *
@@ -39,17 +40,20 @@ public class GameObj {
 	public int max_x;
 	public int max_y;
 
+	public Collection<Point> collisionPts;
+	
 	/**
 	 * Constructor
 	 */
 	public GameObj(int v_x, int v_y, int pos_x, int pos_y, 
-		int width, int height, int court_width, int court_height){
+		int width, int height, int court_width, int court_height, Collection<Point> collPts){
 		this.v_x = v_x;
 		this.v_y = v_y;
 		this.pos_x = pos_x;
 		this.pos_y = pos_y;
 		this.width = width;
 		this.height = height;
+		collisionPts = collPts;
 		
 		// take the width and height into account when setting the 
 		// bounds for the upper left corner of the object.
@@ -70,6 +74,11 @@ public class GameObj {
 		clip();
 	}
 
+	public void setCollPts(Collection<Point> collPts) {
+	    collisionPts = collPts;
+	}
+	
+	
 	/**
 	 * Prevents the object from going outside of the bounds of the area 
 	 * designated for the object. (i.e. Object cannot go outside of the 

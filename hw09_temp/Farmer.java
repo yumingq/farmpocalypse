@@ -28,7 +28,7 @@ public class Farmer extends GameObj {
 
     public Farmer(int courtWidth, int courtHeight) {
         super(INIT_VEL_X, INIT_VEL_Y, INIT_POS_X, INIT_POS_Y, SIZE, SIZE,
-                courtWidth, courtHeight);
+                courtWidth, courtHeight, null);
         try {
             if (img == null) {
                 img = ImageIO.read(new File(img_file));

@@ -21,7 +21,7 @@ public class Circle extends GameObj {
 
 	public Circle(int courtWidth, int courtHeight) {
 		super(INIT_VEL_X, INIT_VEL_Y, INIT_POS_X, INIT_POS_Y, SIZE, SIZE,
-				courtWidth, courtHeight);
+				courtWidth, courtHeight, null);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class Zombie extends GameObj {
 
     public Zombie(int courtWidth, int courtHeight) {
         super(INIT_VEL_X, INIT_VEL_Y, initPosX, initPosY, WIDTH, HEIGHT, courtWidth,
-                courtHeight);
+                courtHeight, null);
         try {
             if (img == null) {
                 img = ImageIO.read(new File(img_file));
@@ -52,6 +52,12 @@ public class Zombie extends GameObj {
                 }
                 boolean[][] edges = findEdges();
                 Collection<Point> collPts = setCollisionPts(edges);
+
+                setCollPts(collPts);
+
+                for (Point indiv : collPts) {
+                    System.out.println("X: " + indiv.getX() + " Y: " + indiv.getY());
+                }
             }
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
@@ -90,14 +96,14 @@ public class Zombie extends GameObj {
             if (leftEdge != Integer.MAX_VALUE) {
                 edges[i][leftEdge] = true;
                 leftPointList[i] = leftEdge;
-                System.out.println("left edge: " + Integer.toString(i) + ": " + 
-                        Integer.toString(leftEdge));
+                //                System.out.println("left edge: " + Integer.toString(i) + ": " + 
+                //                        Integer.toString(leftEdge));
             }
             if (rightEdge != Integer.MIN_VALUE) {
                 edges[i][rightEdge] = true;
                 rightPointList[i] = rightEdge;
-                System.out.println("right edge: " + Integer.toString(i) + ": " + 
-                        Integer.toString(rightEdge));
+                //                System.out.println("right edge: " + Integer.toString(i) + ": " + 
+                //                        Integer.toString(rightEdge));
             }
         }
         System.out.println("This picture has " + Integer.toString(counter) + " rows");
@@ -145,14 +151,33 @@ public class Zombie extends GameObj {
         return totalCollisions;
     }
 
-    //implementing complex intersection?
+    //implementing complex intersection
     @Override
     public boolean intersects(GameObj obj){
-
-        return (pos_x + width >= obj.pos_x
-                && pos_y + height >= obj.pos_y
-                && obj.pos_x + obj.width >= pos_x 
-                && obj.pos_y + obj.height >= pos_y);
+        if (obj.collisionPts == null) {
+            //            return (pos_x + width >= obj.pos_x
+            //                    && pos_y + height >= obj.pos_y
+            //                    && obj.pos_x + obj.width >= pos_x 
+            //                    && obj.pos_y + obj.height >= pos_y);
+            for (Point indiv : collisionPts) {
+                if (pos_x + indiv.getX() >= obj.pos_x
+                        && pos_y + indiv.getY() >= obj.pos_y
+                        && obj.pos_x + obj.width >= pos_x
+                        && obj.pos_y + obj.height >= pos_y) {
+                    return true;
+                }
+            }
+        } else {
+            for (Point indiv : collisionPts) {
+                for(Point objIndiv : obj.collisionPts) {
+                    if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX()
+                            && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override

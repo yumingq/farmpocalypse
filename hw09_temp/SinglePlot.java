@@ -26,7 +26,7 @@ public class SinglePlot extends GameObj {
 
     public SinglePlot(int courtWidth, int courtHeight, int pos_x, int pos_y, Plant plant) {
         super(INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, courtWidth,
-                courtHeight);
+                courtHeight, null);
         init_x = pos_x;
         init_y = pos_y;
         this.plant = plant;

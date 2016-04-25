@@ -43,7 +43,7 @@ public class Plant extends GameObj {
             int fullGrowthTime, int rottingTime, int costToBuy, 
             int harvestProfit, String img_file, String growing_img){
         super(INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, court_width,
-                court_height);
+                court_height, null);
         init_x = pos_x;
         init_y = pos_y;
         //may create problems- image assigning
