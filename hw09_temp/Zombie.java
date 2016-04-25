@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
  */
 public class Zombie extends GameObj {
     public static final String img_file = "zombie.png";
-    public static final int WIDTH = 40;
+    public static final int WIDTH = 42;
     public static final int HEIGHT = 76;
     public static int initPosX = (int) (Math.random() * 490);
     public static int initPosY = (int) (Math.random() * 490);
@@ -59,7 +59,7 @@ public class Zombie extends GameObj {
                 collisionPoints = collPts;
 
                 for (Point indiv : collPts) {
-                    System.out.println("X: " + indiv.getX() + " Y: " + indiv.getY());
+                    System.out.println("zomb X: " + indiv.getX() + " zomb Y: " + indiv.getY());
                 }
             } else {
 //              System.out.println("img not null, set collision points");
@@ -89,7 +89,6 @@ public class Zombie extends GameObj {
         boolean[][] edges = new boolean[img.getHeight()][img.getWidth()];
         int counter = 0;
 
-
         for (int i = 0; i < img.getHeight(); i++) {
             int rightEdge = Integer.MIN_VALUE;
             int leftEdge = Integer.MAX_VALUE;
@@ -107,15 +106,16 @@ public class Zombie extends GameObj {
                 leftPointList[i] = leftEdge;
                 //                System.out.println("left edge: " + Integer.toString(i) + ": " + 
                 //                        Integer.toString(leftEdge));
-            }
+            } 
             if (rightEdge != Integer.MIN_VALUE) {
                 edges[i][rightEdge] = true;
                 rightPointList[i] = rightEdge;
                 //                System.out.println("right edge: " + Integer.toString(i) + ": " + 
                 //                        Integer.toString(rightEdge));
-            }
+            } 
         }
         System.out.println("This picture has " + Integer.toString(counter) + " rows");
+        System.out.println("This picture has " + img.getWidth() + " columns");
         //        System.out.println(Integer.toString(img.getWidth()));
         return edges;
     }
@@ -165,14 +165,7 @@ public class Zombie extends GameObj {
   //implementing complex intersection
     @Override
     public boolean intersects(GameObj obj){
-        //        if (collisionPoints == null) {
-        //            System.out.println("Something is wrong w/ collision pts");
-        //        }
         if (obj.collisionPts == null) {
-            //            return (pos_x + width >= obj.pos_x
-            //                    && pos_y + height >= obj.pos_y
-            //                    && obj.pos_x + obj.width >= pos_x 
-            //                    && obj.pos_y + obj.height >= pos_y);
             for (Point indiv : collisionPoints) {
                 if (pos_x + indiv.getX() >= obj.pos_x
                         && pos_y + indiv.getY() >= obj.pos_y
@@ -188,43 +181,22 @@ public class Zombie extends GameObj {
                     && obj.pos_x + obj.width >= pos_x 
                     && obj.pos_y + obj.height >= pos_y)) {
                 //if they are within the box, check collision points
-//                for (Point indiv : collisionPoints) {
-//                    for(Point objIndiv : obj.collisionPts) {
-//                        if (pos_x + indiv.getX() >= obj.pos_x //+ objIndiv.getX()
-//                                && pos_y + indiv.getY() >= obj.pos_y //+ objIndiv.getY()
-//                                && obj.pos_x + objIndiv.getX() >= pos_x
-//                                && obj.pos_y + objIndiv.getY() >= pos_y) {
-//                            return true;
-//                        } else if (pos_x + indiv.getX() >= obj.pos_x //+ objIndiv.getX()
-//                                && pos_y + indiv.getY() >= obj.pos_y //+ objIndiv.getY()
-//                                && obj.pos_x + objIndiv.getX() >= pos_x
-//                                && obj.pos_y + objIndiv.getY() >= pos_y){
-//                            return true;
-//                        }
-//                    }
-//                }
                 for (Point indiv : collisionPoints) {
                     for(Point objIndiv : obj.collisionPts) {
-                        if (pos_x + indiv.getX() >= obj.pos_x + objIndiv.getX()
-                                && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
-                                && obj.pos_x + objIndiv.getX() >= pos_x
-                                && obj.pos_y + objIndiv.getY() >= pos_y) {
-                            System.out.println("Zombie Intersection greater than");
-                            return true;
-                        } 
-                        else if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
-                                && pos_y + indiv.getY() <= obj.pos_y + objIndiv.getY()
-                                && obj.pos_x + objIndiv.getX() <= pos_x
-                                && obj.pos_y + objIndiv.getY() <= pos_y){
-                            System.out.println("Zombie Intersection less than");
+                        if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX() * 2
+                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY() * 2
+                                ) {
+                            System.out.println("Zombie Intersection at x = " + indiv.getX());
+//                            System.out.println();
+                            System.out.println("and y = " + indiv.getY());
+//                            System.out.println();
+                            System.out.println("with farmer at x = " + objIndiv.getX());
+//                            System.out.println();
+                            System.out.println("and y = " + objIndiv.getY());
+//                            System.out.println("Position x: " + (pos_x + indiv.getY()));
+//                            System.out.println("Position y: " + (pos_y + indiv.getX()));
                             return true;
                         }
-//                        else if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
-//                        && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
-//                        && obj.pos_x + objIndiv.getX() <= pos_x
-//                        && obj.pos_y + objIndiv.getY() >= pos_y){
-//                            return true;
-//                        }
                     }
                 }
             }
