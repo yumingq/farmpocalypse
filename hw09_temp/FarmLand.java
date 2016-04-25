@@ -34,7 +34,6 @@ public class FarmLand extends JPanel {
     private SinglePlot[][] plotArray;
 
     public boolean playing = false; // whether the game is running
-    public boolean pause = false; 
     private int score = 2; 
     private JLabel status; // Current status text (i.e. Running...)
     private JLabel scoreLabel;
@@ -293,16 +292,14 @@ public class FarmLand extends JPanel {
     void tock() {
         if (playing) {
             //go through all plots,  decrement plant timers
-            if (pause == false) {
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        if (plotArray[i][j].getPlant() != null) {
-                            if (plotArray[i][j].isGrowing()) {
-                                plotArray[i][j].getPlant().decToGrowth();
-                            } else if (plotArray[i][j].isFullGrown()) {
-                                plotArray[i][j].getPlant().decToRot();
-                            } 
-                        }
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (plotArray[i][j].getPlant() != null) {
+                        if (plotArray[i][j].isGrowing()) {
+                            plotArray[i][j].getPlant().decToGrowth();
+                        } else if (plotArray[i][j].isFullGrown()) {
+                            plotArray[i][j].getPlant().decToRot();
+                        } 
                     }
                 }
             }
@@ -313,14 +310,15 @@ public class FarmLand extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(img, LAND_WIDTH, LAND_HEIGHT, null);
-        
-        farmer.draw(g);
+        g.drawImage(img, 0, 0, null);
+
+
         for (int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++) {
                 plotArray[i][j].draw(g);
             }
         }
+        farmer.draw(g);
         for(Zombie indiv: zombies) {
             indiv.draw(g);
         }

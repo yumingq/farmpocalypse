@@ -19,8 +19,8 @@ import javax.imageio.ImageIO;
  */
 public class Zombie extends GameObj {
     public static final String img_file = "zombie.png";
-    public static final int WIDTH = 31;
-    public static final int HEIGHT = 60;
+    public static final int WIDTH = 40;
+    public static final int HEIGHT = 76;
     public static int initPosX = (int) (Math.random() * 490);
     public static int initPosY = (int) (Math.random() * 490);
     public static final int INIT_VEL_X = 1;
@@ -28,6 +28,8 @@ public class Zombie extends GameObj {
     public static final boolean chase = false;
     public static int[] leftPointList;
     public static int[] rightPointList;
+
+    public static Collection<Point> collisionPoints;
 
     private static BufferedImage img;
     boolean[][] transparent;
@@ -54,11 +56,18 @@ public class Zombie extends GameObj {
                 Collection<Point> collPts = setCollisionPts(edges);
 
                 setCollPts(collPts);
+                collisionPoints = collPts;
 
                 for (Point indiv : collPts) {
                     System.out.println("X: " + indiv.getX() + " Y: " + indiv.getY());
                 }
-            }
+            } else {
+//              System.out.println("img not null, set collision points");
+//              if (collisionPoints == null) {
+//                  System.out.println("error: collision points are null");
+//              }
+              setCollPts(collisionPoints);
+          }
         } catch (IOException e) {
             System.out.println("Internal Error:" + e.getMessage());
         }
@@ -151,15 +160,18 @@ public class Zombie extends GameObj {
         return totalCollisions;
     }
 
-    //implementing complex intersection
+  //implementing complex intersection
     @Override
     public boolean intersects(GameObj obj){
+        //        if (collisionPoints == null) {
+        //            System.out.println("Something is wrong w/ collision pts");
+        //        }
         if (obj.collisionPts == null) {
             //            return (pos_x + width >= obj.pos_x
             //                    && pos_y + height >= obj.pos_y
             //                    && obj.pos_x + obj.width >= pos_x 
             //                    && obj.pos_y + obj.height >= pos_y);
-            for (Point indiv : collisionPts) {
+            for (Point indiv : collisionPoints) {
                 if (pos_x + indiv.getX() >= obj.pos_x
                         && pos_y + indiv.getY() >= obj.pos_y
                         && obj.pos_x + obj.width >= pos_x
@@ -168,11 +180,47 @@ public class Zombie extends GameObj {
                 }
             }
         } else {
-            for (Point indiv : collisionPts) {
-                for(Point objIndiv : obj.collisionPts) {
-                    if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX()
-                            && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY()) {
-                        return true;
+            //check box first
+            if ((pos_x + width >= obj.pos_x
+                    && pos_y + height >= obj.pos_y
+                    && obj.pos_x + obj.width >= pos_x 
+                    && obj.pos_y + obj.height >= pos_y)) {
+                //if they are within the box, check collision points
+//                for (Point indiv : collisionPoints) {
+//                    for(Point objIndiv : obj.collisionPts) {
+//                        if (pos_x + indiv.getX() >= obj.pos_x //+ objIndiv.getX()
+//                                && pos_y + indiv.getY() >= obj.pos_y //+ objIndiv.getY()
+//                                && obj.pos_x + objIndiv.getX() >= pos_x
+//                                && obj.pos_y + objIndiv.getY() >= pos_y) {
+//                            return true;
+//                        } else if (pos_x + indiv.getX() >= obj.pos_x //+ objIndiv.getX()
+//                                && pos_y + indiv.getY() >= obj.pos_y //+ objIndiv.getY()
+//                                && obj.pos_x + objIndiv.getX() >= pos_x
+//                                && obj.pos_y + objIndiv.getY() >= pos_y){
+//                            return true;
+//                        }
+//                    }
+//                }
+                for (Point indiv : collisionPoints) {
+                    for(Point objIndiv : obj.collisionPts) {
+                        if (pos_x + indiv.getX() >= obj.pos_x + objIndiv.getX()
+                                && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
+                                && obj.pos_x + objIndiv.getX() >= pos_x
+                                && obj.pos_y + objIndiv.getY() >= pos_y) {
+                            return true;
+                        } 
+                        else if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
+                                && pos_y + indiv.getY() <= obj.pos_y + objIndiv.getY()
+                                && obj.pos_x + objIndiv.getX() <= pos_x
+                                && obj.pos_y + objIndiv.getY() <= pos_y){
+                            return true;
+                        }
+//                        else if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
+//                        && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
+//                        && obj.pos_x + objIndiv.getX() <= pos_x
+//                        && obj.pos_y + objIndiv.getY() >= pos_y){
+//                            return true;
+//                        }
                     }
                 }
             }

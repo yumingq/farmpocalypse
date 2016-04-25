@@ -161,6 +161,7 @@ public class Game implements Runnable {
                         + "\n" + "Don't get eaten by zombies. If you're doing well,"
                         + "\n" + "new zombies will appear.");
                 farm.unpause();
+                farm.requestFocusInWindow();
             }
         });
 
