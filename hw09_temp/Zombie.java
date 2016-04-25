@@ -110,6 +110,8 @@ public class Zombie extends GameObj {
         
         int leftMin = Integer.MAX_VALUE;
         int rightMax = Integer.MIN_VALUE;
+        int rows = img.getHeight();
+        int[] rowIntervals = img.getHeight() / 8;
         for (int i = 0; i < img.getHeight(); i++) {
             if (leftPointList[i] < leftMin) {
                 leftCollisionPts[i] = new Point(i, leftPointList[i]);
@@ -121,9 +123,16 @@ public class Zombie extends GameObj {
             }
         }
         
-//        for()
+        Point[] totalCollisions = new Point[20];
+        for(int i = 0; i < 20; i++) {
+            if (i < 10) {
+                totalCollisions[i] = leftCollisionPts[i];
+            } else {
+                totalCollisions[i] = rightCollisionPts[i - 10];
+            }
+        }
         
-        return collisionPts;
+        return totalCollisions;
     }
 
     //implementing complex intersection?
