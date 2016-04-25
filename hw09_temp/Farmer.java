@@ -54,9 +54,9 @@ public class Farmer extends GameObj {
                 collisionPoints = collPts;
                 setCollPts(collPts);
 
-                for (Point indiv : collPts) {
-                    System.out.println("X: " + indiv.getX() + " Y: " + indiv.getY());
-                }
+                //                for (Point indiv : collPts) {
+                //                    System.out.println("X: " + indiv.getX() + " Y: " + indiv.getY());
+                //                }
             } else {
                 //                System.out.println("img not null, set collision points");
                 //                if (collisionPoints == null) {
@@ -119,38 +119,39 @@ public class Farmer extends GameObj {
 
         int leftMin = Integer.MAX_VALUE;
         int rightMax = Integer.MIN_VALUE;
-        int numPts = 10;
+        int numPts = SIZE;
         int[] rowIntervals = new int[numPts];
         Collection<Point> totalCollisions = new ArrayList<Point>();
 
         for (int i = 0; i < numPts; i++) {
-            rowIntervals[i] = (img.getHeight() / (numPts / 2)) * i;
+//            rowIntervals[i] = (img.getHeight() / (numPts / 2)) * i;
+            rowIntervals[i] = i;
         }
-        rowIntervals[numPts - 1] = img.getHeight() - 1; 
+//        rowIntervals[numPts - 1] = img.getHeight() - 1; 
 
-        int leftTracker = 0;
-        int rightTracker = 0;
-        for (int i = 0; i < img.getHeight(); i++) {
-            if (leftPointList[i] < leftMin) {
-                leftMin = leftPointList[i];
-                leftTracker = i;
-            }
-            if (rightPointList[i] > rightMax) {
-                rightMax = rightPointList[i];
-                rightTracker = i;
-            }
-            for (int j = 0; j < numPts; j++) {
-                if (rowIntervals[j] == i) {
-                    totalCollisions.add(new Point(i, leftPointList[i]));
-                    totalCollisions.add(new Point(i, rightPointList[i]));
-                }
-            }
+//        int leftTracker = 0;
+//        int rightTracker = 0;
+//        for (int i = 0; i < img.getHeight(); i++) {
+//            if (leftPointList[i] < leftMin) {
+//                leftMin = leftPointList[i];
+//                leftTracker = i;
+//            }
+//            if (rightPointList[i] > rightMax) {
+//                rightMax = rightPointList[i];
+//                rightTracker = i;
+//            }
+            for (int j = 0; j < leftPointList.length; j++) {
+//                if (rowIntervals[j] == i) {
+                    totalCollisions.add(new Point(j, leftPointList[j]));
+                    totalCollisions.add(new Point(j, rightPointList[j]));
+//                }
+//            }
         }
-        Point minLeftCollision = new Point(leftTracker, leftPointList[leftTracker]);
-        Point maxRightCollision = new Point(rightTracker, rightPointList[rightTracker]);
+//        Point minLeftCollision = new Point(leftTracker, leftPointList[leftTracker]);
+//        Point maxRightCollision = new Point(rightTracker, rightPointList[rightTracker]);
 
-        totalCollisions.add(minLeftCollision);
-        totalCollisions.add(maxRightCollision);
+//        totalCollisions.add(minLeftCollision);
+//        totalCollisions.add(maxRightCollision);
 
         return totalCollisions;
     }
@@ -198,24 +199,29 @@ public class Farmer extends GameObj {
                 //                }
                 for (Point indiv : collisionPoints) {
                     for(Point objIndiv : obj.collisionPts) {
-                        if (pos_x + indiv.getX() >= obj.pos_x + objIndiv.getX()
-                        && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
-                        && obj.pos_x + objIndiv.getX() >= pos_x
-                        && obj.pos_y + objIndiv.getY() >= pos_y) {
+                        //                        if (pos_x + indiv.getX() >= obj.pos_x + objIndiv.getX()
+                        //                        && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
+                        //                        && obj.pos_x + objIndiv.getX() <= pos_x
+                        //                        //                        && obj.pos_y + objIndiv.getY() >= pos_y
+                        //                                ) {
+                        //                            System.out.println("Farmer Intersection greater than");
+                        //                            return true;
+                        //                        } 
+                        //                        else 
+                        //                        if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
+                        //                        && pos_y + indiv.getY() <= obj.pos_y + objIndiv.getY()
+                        //                        && obj.pos_x + objIndiv.getX() >= pos_x
+                        //                        //                        && obj.pos_y + objIndiv.getY() <= pos_y
+                        //                                ){
+                        //                            System.out.println("Farmer Intersection less than");
+                        //                            return true;
+                        //                        }
+                        if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX()
+                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY()
+                                ) {
+                            System.out.println("Farmer Intersection");
                             return true;
                         } 
-                        else if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
-                        && pos_y + indiv.getY() <= obj.pos_y + objIndiv.getY()
-                        && obj.pos_x + objIndiv.getX() <= pos_x
-                        && obj.pos_y + objIndiv.getY() <= pos_y){
-                            return true;
-                        }
-//                        else if (pos_x + indiv.getX() <= obj.pos_x + objIndiv.getX()
-//                        && pos_y + indiv.getY() >= obj.pos_y + objIndiv.getY()
-//                        && obj.pos_x + objIndiv.getX() <= pos_x
-//                        && obj.pos_y + objIndiv.getY() >= pos_y){
-//                            return true;
-//                        }
                     }
                 }
             }

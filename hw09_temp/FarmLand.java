@@ -88,7 +88,7 @@ public class FarmLand extends JPanel {
 
         Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                boom();
+                createNewZombie();
             }
         });
         zombieTimer.start();
@@ -268,7 +268,7 @@ public class FarmLand extends JPanel {
         }
     }
 
-    void boom() {
+    void createNewZombie() {
         if (playing) {
             zombies.add(new Zombie(LAND_WIDTH, LAND_HEIGHT));
 
