@@ -33,34 +33,6 @@ public class HighScores {
         usersAndScores = new HashMap<String, String>();
     }
 
-//    private class Scores {
-//        private String name;
-//        private String score;
-//
-//        public Scores(String name, String score) {
-//            this.name = name;
-//            this.score = score;
-//        }
-//
-//        public String getScore() {
-//            return score;
-//        }
-//
-//        public String getName() {
-//            return name;
-//        }
-//
-//    }
-
-    /**
-     * Returns the next string input from the Scanner.
-     *
-     * @param sc
-     */
-    private String getNextString(Scanner sc) {
-        return sc.next();
-    }
-
     @SuppressWarnings("serial")
     public static class FormatException extends Exception {
         public FormatException(String msg) {

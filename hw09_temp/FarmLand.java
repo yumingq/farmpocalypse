@@ -194,6 +194,7 @@ public class FarmLand extends JPanel {
 
         playing = true;
         status.setText("Running...");
+        score = 2;
 
         scoreLabel.setText("Score: " + Integer.toString(score));
 
