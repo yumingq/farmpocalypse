@@ -2,9 +2,9 @@ Ben, 2
 Benny, 2
 Jenniffer, 2
 Kelly, 2
-Laka, 2
 Player1, 100
 Player2, 50
 Player3, 25
+Weeee, 738
 Yuming, 12
 Yuming, 4

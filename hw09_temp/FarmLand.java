@@ -50,8 +50,10 @@ public class FarmLand extends JPanel {
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35; //update game screen time
     public static final int ONE_SECOND = 1000; //one second timer for plant decrement
-    public static final int NEW_ZOMBIE_TIMER = 25000; //time for new zombie creation
+    public int zombieTimer = 25000; //time for new zombie creation
     public static final int ZOMBIE_VELOCITY = 1; //base zombie velocity
+    public int upgradeDifficulty = 100000;
+    public int diffScale = 1;
     private static BufferedImage img; //background image
     private static BufferedImage gameOverImg; //game over screen
 
@@ -101,15 +103,15 @@ public class FarmLand extends JPanel {
         });
         secondTimer.start();
         
-        //times zombie creation
-        Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (playing) {
-                    createNewZombie();
-                }
-            }
-        });
-        zombieTimer.start();
+//        //times zombie creation
+//        Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                if (playing) {
+//                    createNewZombie();
+//                }
+//            }
+//        });
+//        zombieTimer.start();
 
         // Enable keyboard focus on the court area.
         // When this component has the keyboard focus, key
@@ -240,20 +242,20 @@ public class FarmLand extends JPanel {
     }
     
     //control zombie chasing the farmer
-    private void chase() {
+    private void chase(int vel) {
         double x = farmer.pos_x;
         double y = farmer.pos_y;
 
         for (Zombie indiv : zombies) {
             if (indiv.pos_x > x) {
-                indiv.v_x = -ZOMBIE_VELOCITY;
+                indiv.v_x = -vel;
             } else {
-                indiv.v_x = ZOMBIE_VELOCITY;
+                indiv.v_x = vel;
             }
             if (indiv.pos_y > y) {
-                indiv.v_y = -ZOMBIE_VELOCITY;
+                indiv.v_y = -vel;
             } else {
-                indiv.v_y = ZOMBIE_VELOCITY;
+                indiv.v_y = vel;
             }
             indiv.move();
             indiv.bounce(indiv.hitWall());
@@ -268,10 +270,27 @@ public class FarmLand extends JPanel {
      */
     private void tick() {
         if (playing) {
-            //zombies chase the farmer!
-            chase();
+//            zombies chase the farmer!
+//            chase(ZOMBIE_VELOCITY);
             //move the farmer
             farmer.move();
+            
+            //create a new zombie 
+            zombieTimer = zombieTimer - INTERVAL;
+            if (zombieTimer <= 0) {
+                createNewZombie();
+                zombieTimer = 25000;
+            }
+            
+            upgradeDifficulty = upgradeDifficulty - INTERVAL;
+            //chase zombie based on difficulty
+            if (upgradeDifficulty <= 0) {
+                diffScale++;
+                chase(ZOMBIE_VELOCITY * diffScale);
+                upgradeDifficulty = 100000;
+            } else {
+                chase(ZOMBIE_VELOCITY * diffScale);
+            }
 
             // check for the game end conditions
             for(Zombie indiv : zombies) {

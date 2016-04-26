@@ -75,7 +75,9 @@ public class Game implements Runnable {
                 + "<br> profits 4 coins"
                 + "</html>");
         //set a vertical layout for control panel
-        control_panel.setLayout(new BoxLayout(control_panel, BoxLayout.PAGE_AXIS));
+        control_panel.setLayout(new BoxLayout(control_panel, BoxLayout.Y_AXIS));
+        shortInstruct.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
         
  
         // reset button
@@ -85,11 +87,13 @@ public class Game implements Runnable {
                 farm.reset();
             }
         });
+        reset.setAlignmentX(Component.CENTER_ALIGNMENT);
         control_panel.add(reset);
         
         //add high score button
         final JButton addScore = new JButton();
         addScore.setText("Add a high score!");
+        addScore.setAlignmentX(Component.CENTER_ALIGNMENT);
         control_panel.add(addScore);
         addScore.addActionListener(new ActionListener() {
             @Override
@@ -144,6 +148,7 @@ public class Game implements Runnable {
         //create button to display instructions
         final JButton instructions = new JButton();
         instructions.setText("Instructions");
+        instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
         control_panel.add(instructions);
 
         //add instructions
