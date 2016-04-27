@@ -3,8 +3,8 @@ Player1, 100
 Player2, 50
 Player3, 25
 Yuming, 12
+null, 8
 Yuming, 4
 Ben, 2
 Benny, 2
 Jenniffer, 2
-Kelly, 2

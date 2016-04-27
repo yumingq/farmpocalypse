@@ -11,11 +11,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-/** An object in the game. 
- *
- *  Game objects exist in the game court. They have a position, 
- *  velocity, size and bounds. Their velocity controls how they 
- *  move; their position should always be within their bounds.
+/** 
+ * Plant object- abstract class for plants
  */
 public class Plant extends GameObj {
     public String img_file;
@@ -42,7 +39,7 @@ public class Plant extends GameObj {
     public Plant(int court_width, int court_height, int pos_x, int pos_y, String state, 
             int fullGrowthTime, int rottingTime, int costToBuy, 
             int harvestProfit, String img_file, String growing_img){
-        super(INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, court_width,
+        super (INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, court_width,
                 court_height, null);
         init_x = pos_x;
         init_y = pos_y;
@@ -76,23 +73,18 @@ public class Plant extends GameObj {
         this.img_file = img_file;
         this.growing_img = growing_img;
     }
-
+    
+    //to be overwritten
     public int decToGrowth() {
-//        fullGrowthTime --;
-//        if (fullGrowthTime <= 0) {
-//            state = "grown";
-//        }
         return fullGrowthTime;
     }
-
+    
+    //to be overwritten
     public int decToRot() {
-//        rottingTime --;
-//        if (rottingTime <= 0) {
-//            state = "rotten";
-//        }
         return rottingTime;
     }
-
+    
+    //to be overwritten
     public String getImg() {
         return img_file;
     }
@@ -102,25 +94,5 @@ public class Plant extends GameObj {
         return state2;
     }
 
-    /**
-     * Default draw method that provides how the object should be drawn 
-     * in the GUI. This method does not draw anything. Subclass should 
-     * override this method based on how their object should appear.
-     * 
-     * @param g 
-     *  The <code>Graphics</code> context used for drawing the object.
-     *  Remember graphics contexts that we used in OCaml, it gives the 
-     *  context in which the object should be drawn (a canvas, a frame, 
-     *  etc.)
-     */
-//    public void draw(Graphics g) {
-////        if(state.equals("grown")) {
-////            g.drawImage(img, pos_x, pos_y, width, height, null);
-////        } else if (state.equals("rotten")) {
-////            g.drawImage(rot_img, pos_x, pos_y, width, height, null);
-////        } else {
-////            g.drawImage(green_img, pos_x, pos_y, width, height, null);
-////        }
-//    }
 
 }

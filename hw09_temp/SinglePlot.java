@@ -12,8 +12,6 @@ import javax.imageio.ImageIO;
 
 
 public class SinglePlot extends GameObj {
-    
-    public static final String rot_img_file = "dead_plant.jpg";
     public static final int SIZE = 40;
     public int init_x;
     public int init_y;
@@ -21,22 +19,13 @@ public class SinglePlot extends GameObj {
     public static final int INIT_VEL_Y = 0;
     private Plant plant;
 
-    private static BufferedImage rot_img;
-    private BufferedImage img;
-
     public SinglePlot(int courtWidth, int courtHeight, int pos_x, int pos_y, Plant plant) {
         super(INIT_VEL_X, INIT_VEL_Y, pos_x, pos_y, SIZE, SIZE, courtWidth,
                 courtHeight, null);
         init_x = pos_x;
         init_y = pos_y;
         this.plant = plant;
-        try {
-            if (rot_img == null) {
-                rot_img = ImageIO.read(new File(rot_img_file));
-            }
-        } catch (IOException e) {
-            System.out.println("Internal Error:" + e.getMessage());
-        }
+        
     }
 
     @Override
@@ -70,7 +59,7 @@ public class SinglePlot extends GameObj {
             return false;
         }
 
-        if (plant.getState().equals("rotting")) {
+        if (plant.getState().equals("rotten")) {
             return true;
         } else {
             return false;
@@ -101,25 +90,25 @@ public class SinglePlot extends GameObj {
         }
     }
     
-    Plant getPlant() {
+    public Plant getPlant() {
         //this may just be aliasing...I'm not very good at encapsulation
         Plant plantCopy = plant;
         return plantCopy;
     }
     
-    void deletePlant() {
+    public void deletePlant() {
         plant = null;
     }
     
-    void setPumpkin(int x,  int y, int width, int height) {
+    public void setPumpkin(int x,  int y, int width, int height) {
         plant = new Pumpkin(x, y, width, height);
     }
     
-    void setStrawberry(int x,  int y, int width, int height) {
+    public void setStrawberry(int x,  int y, int width, int height) {
         plant = new Strawberry(x, y, width, height);
     }
     
-    void setWheat(int x,  int y, int width, int height) {
+    public void setWheat(int x,  int y, int width, int height) {
         plant = new Wheat(x, y, width, height);
     }
 

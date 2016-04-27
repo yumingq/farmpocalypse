@@ -99,7 +99,8 @@ public class Game implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userName = JOptionPane.showInputDialog(frame, 
-                        "What is your username?"); 
+                        "What is your username?"
+                        + System.getProperty("line.separator") + "Only alphanumeric names."); 
                 try {
                     //try reading out the username they input
                     Reader in = new BufferedReader(new FileReader("highscorebase.txt"));
@@ -150,36 +151,38 @@ public class Game implements Runnable {
         instructions.setText("Instructions");
         instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
         control_panel.add(instructions);
+        
+        String instruct = "Instructions:" + "\n" + "\n"
+                + "You are a farmer in the apocalypse. Your calling is growing crops" 
+                + "\n" + "and you're not about to let any zombies stop you." + "\n"
+                + "It takes a few seconds for crops to grow, and if you wait too" + "\n"
+                + "long to harvest, they will rot. You must stand at a plot to plant or"
+                + "\n" + "harvest there. It also costs a few points to grow crops, so at"
+                + "\n" + "first you can probably only afford to grow wheat." + "\n" + "\n"
+                + "Move with arrow keys." + "\n"
+                + "Plant strawberries with the 1 key." + "\n"
+                + "Plant pumpkins with the 2 key." + "\n"
+                + "Plant wheat with the 3 key." + "\n"
+                + "Strawberries take 6 seconds to grow, rots in 8 seconds after it is"
+                + "\n" + "full grown, costs 10 coins and profits 20 coins."
+                + "\n" + "Pumpkins take 10 seconds to grow, rots in 6 seconds after it is"
+                + "\n" + "full grown, costs 30 coins to grow, and profits 90 coins."
+                + "\n" + "Wheat takes 3 seconds to grow, rots in 12 seconds after it is"
+                + "\n" + "full grown, costs 2 coins, and profits 4 coins."
+                + "\n" + "\n"
+                + "Harvest with enter key when next to a harvestable (full grown) plot"
+                + "\n" + "If a plant is rotten, hit enter to clear the plot."
+                + "\n" + "Don't let the plants rot!"
+                + "\n" + "Don't get eaten by zombies. If you're doing well,"
+                + "\n" + "new zombies will appear. If you're doing REALLY well,"
+                + "\n" + "the zombies get faster.";
 
         //add instructions
         instructions.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 farm.pause();
-                JOptionPane.showMessageDialog(frame, "Instructions:" + "\n" + "\n"
-                        + "You are a farmer in the apocalypse. Your calling is growing crops" 
-                        + "\n" + "and you're not about to let any zombies stop you." + "\n"
-                        + "It takes a few seconds for crops to grow, and if you wait too" + "\n"
-                        + "long to harvest, they will rot. You must stand at a plot to plant or"
-                        + "\n" + "harvest there. It also costs a few points to grow crops, so at"
-                        + "\n" + "first you can probably only afford to grow wheat." + "\n" + "\n"
-                        + "Move with arrow keys." + "\n"
-                        + "Plant strawberries with the 1 key." + "\n"
-                        + "Plant pumpkins with the 2 key." + "\n"
-                        + "Plant wheat with the 3 key." + "\n"
-                        + "Strawberries take 6 seconds to grow, rots in 8 seconds after it is"
-                        + "\n" + "full grown, costs 10 coins and profits 20 coins."
-                        + "\n" + "Pumpkins take 10 seconds to grow, rots in 6 seconds after it is"
-                        + "\n" + "full grown, costs 30 coins to grow, and profits 90 coins."
-                        + "\n" + "Wheat takes 3 seconds to grow, rots in 12 seconds after it is"
-                        + "\n" + "full grown, costs 2 coins, and profits 4 coins."
-                        + "\n" + "\n"
-                        + "Harvest with enter key when next to a harvestable (full grown) plot"
-                        + "\n" + "If a plant is rotten, hit enter to clear the plot."
-                        + "\n" + "Don't let the plants rot!"
-                        + "\n" + "Don't get eaten by zombies. If you're doing well,"
-                        + "\n" + "new zombies will appear. If you're doing REALLY well,"
-                        + "\n" + "the zombies get faster.");
+                JOptionPane.showMessageDialog(frame, instruct);
                 farm.unpause();
                 farm.requestFocusInWindow();
             }
@@ -196,6 +199,11 @@ public class Game implements Runnable {
         // Start game
         farm.reset();
         
+        //show a welcome message
+        farm.pause();
+        JOptionPane.showMessageDialog(frame, "Welcome to FarmPocalypse! Press ok to start.");
+        farm.unpause();
+        farm.requestFocusInWindow();
         
     }
 

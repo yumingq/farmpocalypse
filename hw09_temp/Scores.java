@@ -1,3 +1,7 @@
+/*
+ *This class is for high score tracking objects- mostly so I can customize the sorting. 
+ */
+
 public class Scores implements Comparable {
         private String name;
         private String score;

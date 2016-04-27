@@ -132,7 +132,6 @@ public class FarmLand extends JPanel {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
                                 if (plotArray[i][j].isRotting()) {
-                                    System.out.println("try to delete rotten");
                                     plotArray[i][j].deletePlant();
                                 } else if (plotArray[i][j].isFullGrown()){
                                     score += plotArray[i][j].getPlant().harvestProfit;

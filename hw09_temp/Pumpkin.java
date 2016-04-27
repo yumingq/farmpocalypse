@@ -64,6 +64,7 @@ public class Pumpkin extends Plant {
     @Override
     public int decToRot() {
         rottingTime --;
+        unlucky();
         if (rottingTime <= 0) {
             state = "rotten";
         }
@@ -74,6 +75,14 @@ public class Pumpkin extends Plant {
     public String getState() {
         String state2 = state;
         return state2;
+    }
+    
+    //if you're unlucky the pumpkin (being the hardest) will rot faster
+    public void unlucky() {
+        double chance = Math.random();
+        if (chance < 0.1) {
+            rottingTime--;
+        }
     }
     
     @Override

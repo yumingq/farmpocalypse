@@ -26,11 +26,9 @@ public class HighScores {
     private BufferedReader reader;
     private Set<String> containerOfLines;
     private int score;
-    private Map<String, String> usersAndScores;
 
     public HighScores(int score) {
         this.score = score;
-        usersAndScores = new HashMap<String, String>();
     }
 
     @SuppressWarnings("serial")
@@ -130,17 +128,14 @@ public class HighScores {
         if (in == null) {
             throw new IllegalArgumentException();
         }
-
+        
+        //check formatting
         Set<String> lineContainer = formatChecker(in);
-
-//        Scanner sc = new Scanner(input); 
-
+        
+        //isolate the name vs the score
         Collection<Scores> userScores;
         userScores = nameScoreIsolate(lineContainer);
 
-        //add in the new one (ask for the name, use the score input)
-        //get userInput for their name!
-//        String userInput = getNextString(sc);
         //put in the current username and score
         userScores.add(new Scores(user, Integer.toString(score)));
 
@@ -150,8 +145,6 @@ public class HighScores {
         int maxScores = 10;
         for(Scores indiv: sortedUsersScores) {
             if (maxScores > 0) {
-//            System.out.println(indiv.getName());
-//            System.out.println(indiv.getScore());
             out.write(indiv.getName() + ", " + indiv.getScore());
             out.write(System.getProperty("line.separator"));
             } 

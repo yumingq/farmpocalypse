@@ -54,7 +54,7 @@ public class Wheat extends Plant {
     
     @Override
     public int decToGrowth() {
-        fullGrowthTime --;
+        fullGrowthTime--;
         if (fullGrowthTime <= 0) {
             state = "grown";
         }
@@ -63,7 +63,8 @@ public class Wheat extends Plant {
     
     @Override
     public int decToRot() {
-        rottingTime --;
+        rottingTime--;
+        lucky();
         if (rottingTime <= 0) {
             state = "rotten";
         }
@@ -76,13 +77,16 @@ public class Wheat extends Plant {
         return state2;
     }
     
+    //if you're lucky the wheat (being the easiest) takes longer to rot
+    public void lucky() {
+        double chance = Math.random();
+        if (chance < 0.2) {
+            rottingTime++;
+        }
+    }
+    
     @Override
     public void draw(Graphics g) {
-//        System.out.println(state);
-//        if (state == null) {
-//            g.drawImage(green_img, pos_x, pos_y, width, height, null);
-//        }
-//        else
             if(state.equals("grown")) {
             g.drawImage(img, pos_x, pos_y, width, height, null);
         } else if (state.equals("rotten")) {
