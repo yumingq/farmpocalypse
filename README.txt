@@ -25,8 +25,9 @@ PennKey: _yumingq______
     time to rot, state of growing, full grown, or rotting, cost to buy, profit from harvest, and
     visual appearance. However, they each have different values for each of these properties,
     so it makes sense to have an abstract class "Plant" and then have different classes for each
-    plant. It also made sense to use something like GameObj for the moving parts of the
-    game, the farmer and zombie(s), as they are very different objects but have some 
+    plant. They also have slightly different decrementing methods and some of them have an extra
+    method based on luck. It also made sense to use something like GameObj for the moving parts of
+    the game, the farmer and zombie(s), as they are very different objects but have some 
     fundamental similarities when it comes to movement and positioning, and even the nonmoving
     ones because it was easy to set their velocities to zero and not move them.
 
