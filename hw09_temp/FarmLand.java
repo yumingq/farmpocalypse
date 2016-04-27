@@ -41,6 +41,10 @@ public class FarmLand extends JPanel {
     private JLabel timeLabel;
     private int time = 0;
     private boolean lost; //has the player lost?
+    
+    public int upgradeDifficulty = 100000; //upgrade difficulty timer
+    public int diffScale = 1; //scale difficulty
+    public int zombieTimer = 25000; //time for new zombie creation
 
     // Game constants
     public static final int LAND_WIDTH = 500;
@@ -50,10 +54,9 @@ public class FarmLand extends JPanel {
     // Update interval for timer, in milliseconds
     public static final int INTERVAL = 35; //update game screen time
     public static final int ONE_SECOND = 1000; //one second timer for plant decrement
-    public int zombieTimer = 25000; //time for new zombie creation
     public static final int ZOMBIE_VELOCITY = 1; //base zombie velocity
-    public int upgradeDifficulty = 100000;
-    public int diffScale = 1;
+   
+    //Images
     private static BufferedImage img; //background image
     private static BufferedImage gameOverImg; //game over screen
 
@@ -71,7 +74,7 @@ public class FarmLand extends JPanel {
         //try to read in the background and game over image
         try {
             if (img == null) {
-                img = ImageIO.read(new File("grass.jpg"));
+                img = ImageIO.read(new File("grass.png"));
             } 
             if (gameOverImg == null) {
                 gameOverImg = ImageIO.read(new File("gameOver.jpg"));
@@ -102,16 +105,6 @@ public class FarmLand extends JPanel {
             }
         });
         secondTimer.start();
-        
-//        //times zombie creation
-//        Timer zombieTimer = new Timer(NEW_ZOMBIE_TIMER, new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                if (playing) {
-//                    createNewZombie();
-//                }
-//            }
-//        });
-//        zombieTimer.start();
 
         // Enable keyboard focus on the court area.
         // When this component has the keyboard focus, key
@@ -139,6 +132,7 @@ public class FarmLand extends JPanel {
                         for (int j = 0; j < 5; j++) {
                             if (farmer.intersects(plotArray[i][j])) {
                                 if (plotArray[i][j].isRotting()) {
+                                    System.out.println("try to delete rotten");
                                     plotArray[i][j].deletePlant();
                                 } else if (plotArray[i][j].isFullGrown()){
                                     score += plotArray[i][j].getPlant().harvestProfit;
@@ -270,8 +264,6 @@ public class FarmLand extends JPanel {
      */
     private void tick() {
         if (playing) {
-//            zombies chase the farmer!
-//            chase(ZOMBIE_VELOCITY);
             //move the farmer
             farmer.move();
             
@@ -282,11 +274,13 @@ public class FarmLand extends JPanel {
                 zombieTimer = 25000;
             }
             
+            //see if it's time to change difficulty
             upgradeDifficulty = upgradeDifficulty - INTERVAL;
             //chase zombie based on difficulty
             if (upgradeDifficulty <= 0) {
                 diffScale++;
                 chase(ZOMBIE_VELOCITY * diffScale);
+                //reset difficulty increments
                 upgradeDifficulty = 100000;
             } else {
                 chase(ZOMBIE_VELOCITY * diffScale);

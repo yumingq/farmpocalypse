@@ -43,30 +43,28 @@ public class Zombie extends GameObj {
 
                 int image_width = img.getWidth();
                 int image_height = img.getHeight();
+                //2D array of whether or not the pixels are transparent
                 transparent = new boolean[image_width][image_height];
+                //array of left and right edge points
                 leftPointList = new int[image_height];
                 rightPointList = new int[image_height];
-
+                
+                //find the transparent pixels
                 for (int i = 0; i < image_width; i++) {
                     for (int j = 0; j < image_height; j++) {
                         transparent[i][j] = isTransparent(i, j);
                     }
                 }
-                boolean[][] edges = findEdges();
-                Collection<Point> collPts = setCollisionPts(edges);
-
+                //find the edges
+                findEdges();
+                //update collection of points with the edges
+                Collection<Point> collPts = setCollisionPts();
+                
+                //update collection of points in GameObj
                 setCollPts(collPts);
                 collisionPoints = collPts;
-
-//                for (Point indiv : collPts) {
-//                    System.out.println("zomb X: " + (indiv.getX() * 2) 
-//                            + " zomb Y: " + (indiv.getY() * 2));
-//                }
-                for (Point indiv : collPts) {
-                    System.out.println("zomb X: " + indiv.getX() 
-                            + " zomb Y: " + indiv.getY());
-                }
             } else {
+                //update collection of points in GameObj
               setCollPts(collisionPoints);
           }
         } catch (IOException e) {
@@ -74,101 +72,74 @@ public class Zombie extends GameObj {
         }
 
     }
-
+    
+    //is a pixel transparent?
     public boolean isTransparent(int x, int y) {
         int pixel = img.getRGB(x,y);
         if( (pixel>>24) == 0x00 ) {
-            //            System.out.println("found transparent pixel");
             return true;
 
         } else {
             return false;
         }
     }
-
-    public boolean[][] findEdges() {
+    
+    //find the edges of non-transparency
+    public void findEdges() {
         boolean[][] edges = new boolean[img.getHeight()][img.getWidth()];
-        int counter = 0;
-
+        
+        //go through each row
         for (int i = 0; i < img.getHeight(); i++) {
             int rightEdge = Integer.MIN_VALUE;
             int leftEdge = Integer.MAX_VALUE;
-            counter++;
+            //go through each col in each row
             for (int j = 0; j < img.getWidth(); j++) {
+                //find the rightmost edge pixel in the row
                 if(!transparent[j][i] && rightEdge < j) {
                     rightEdge = j;
                 }
+                //find the leftmost edge pixel in the row
                 if (!transparent[j][i] && leftEdge > j) {
                     leftEdge = j;
                 }
             }
+            //update them in array of left edge points
             if (leftEdge != Integer.MAX_VALUE) {
                 edges[i][leftEdge] = true;
                 leftPointList[i] = leftEdge;
-                //                System.out.println("left edge: " + Integer.toString(i) + ": " + 
-                //                        Integer.toString(leftEdge));
             } 
+            //update them in array of right edge points
             if (rightEdge != Integer.MIN_VALUE) {
                 edges[i][rightEdge] = true;
                 rightPointList[i] = rightEdge;
-                //                System.out.println("right edge: " + Integer.toString(i) + ": " + 
-                //                        Integer.toString(rightEdge));
             } 
         }
-        System.out.println("This picture has " + Integer.toString(counter) + " rows");
-        System.out.println("This picture has " + img.getWidth() + " columns");
-        //        System.out.println(Integer.toString(img.getWidth()));
-        return edges;
     }
 
-    public Collection<Point> setCollisionPts(boolean[][] edges) {
-
-        int numPts = HEIGHT;
-        int[] rowIntervals = new int[numPts];
+    //create a collection of collision points
+    public Collection<Point> setCollisionPts() {
+        
         Collection<Point> totalCollisions = new ArrayList<Point>();
-
-        for (int i = 0; i < numPts; i++) {
-//            rowIntervals[i] = (img.getHeight() / (numPts / 2)) * i;
-            rowIntervals[i] = i;
-        }
-//        rowIntervals[numPts - 1] = img.getHeight() - 1; 
-
-//        int leftTracker = 0;
-//        int rightTracker = 0;
-//        for (int i = 0; i < img.getHeight(); i++) {
-//            if (leftPointList[i] < leftMin) {
-//                leftMin = leftPointList[i];
-//                leftTracker = i;
-//            }
-//            if (rightPointList[i] > rightMax) {
-//                rightMax = rightPointList[i];
-//                rightTracker = i;
-//            }
+        
+        //go through all the edge points in the arrays and add them
+        //as points
             for (int j = 0; j < leftPointList.length; j++) {
-//                if (rowIntervals[j] == i) {
                     totalCollisions.add(new Point(j, leftPointList[j]));
                     totalCollisions.add(new Point(j, rightPointList[j]));
+                    //add top and bottom edges too
                     if (j == 0 || j == leftPointList.length - 1) {
                         for (int x = leftPointList[j]; x < rightPointList[j]; x++) {
                             totalCollisions.add(new Point(j, x));
                         }
                     }
-                
-//                }
-//            }
         }
-//        Point minLeftCollision = new Point(leftTracker, leftPointList[leftTracker]);
-//        Point maxRightCollision = new Point(rightTracker, rightPointList[rightTracker]);
-
-//        totalCollisions.add(minLeftCollision);
-//        totalCollisions.add(maxRightCollision);
-
         return totalCollisions;
     }
 
   //implementing complex intersection
     @Override
     public boolean intersects(GameObj obj){
+        //if the other object is a simple squareish object
         if (obj.collisionPts == null) {
             for (Point indiv : collisionPoints) {
                 if (pos_x + indiv.getX() >= obj.pos_x
@@ -188,14 +159,7 @@ public class Zombie extends GameObj {
                 for (Point indiv : collisionPoints) {
                     for(Point objIndiv : obj.collisionPts) {
                         if (pos_x + indiv.getX() == obj.pos_x + objIndiv.getX()
-                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY()
-                                ) {
-                            System.out.println("Zombie Intersection at x = " + indiv.getX() 
-                            + " and y = " + indiv.getY());
-                            System.out.println("with farmer at x = " + objIndiv.getX() 
-                            + " and y = " + objIndiv.getY());
-//                            System.out.println("Position x: " + (pos_x + indiv.getY()));
-//                            System.out.println("Position y: " + (pos_y + indiv.getX()));
+                        && pos_y + indiv.getY() == obj.pos_y + objIndiv.getY()) {
                             return true;
                         }
                     }

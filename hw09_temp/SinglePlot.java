@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 
 public class SinglePlot extends GameObj {
-
+    
     public static final String rot_img_file = "dead_plant.jpg";
     public static final int SIZE = 40;
     public int init_x;
@@ -44,7 +44,7 @@ public class SinglePlot extends GameObj {
         if (!(plant == null)) {
             plant.draw(g);
         } else {
-            g.setColor(new Color(171, 81, 21));
+            g.setColor(new Color(117, 63, 5));
             g.fillRect(init_x, init_y, width, height);
         }
     }
@@ -102,8 +102,7 @@ public class SinglePlot extends GameObj {
     }
     
     Plant getPlant() {
-        //TODO: how to encapsulate/make a copy without aliasing?
-//        Plant plantCopy = new Plant(0, 0, 0, 0, null, 0, 0, 0, 0, null, null);
+        //this may just be aliasing...I'm not very good at encapsulation
         Plant plantCopy = plant;
         return plantCopy;
     }

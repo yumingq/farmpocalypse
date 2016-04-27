@@ -37,15 +37,11 @@ public class HSTest {
 
 
 
-    @Test(timeout=500) public void testHighScoreGood() throws IOException, HighScores.FormatException {
+    @Test(timeout=500) public void testHighScoreGood() throws IOException, 
+    HighScores.FormatException {
         checkFiles("highscoretesting.txt", "highscorebase2.txt", 110, "TestUserName");
         compareDocs("highscorebase2.txt", "hsExpectedOut.txt");
     }
-    //test adding to more than ten scores
-    //test reading from file with incorrect format
-    //test updateDoc
-    //test nameScoreIsolate
-    //test formatChecker
 
     @Test(timeout=500) public void testSortingScores() {
         Collection<Scores> testScores = new ArrayList<Scores>();
