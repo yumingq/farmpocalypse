@@ -15,19 +15,22 @@ import javax.imageio.ImageIO;
  * Plant object- abstract class for plants
  */
 public class Plant extends GameObj {
-    public String img_file;
-    public String growing_img;
-    public static final String rot_img_file = "dead_plant.jpg";
-    public static final int SIZE = 40;
-    public int init_x;
-    public int init_y;
     public static final int INIT_VEL_X = 0;
     public static final int INIT_VEL_Y = 0;
-    private String state;
-    public int fullGrowthTime;
-    public int rottingTime;
-    public int costToBuy;
-    public int harvestProfit;
+    public static final int SIZE = 40;
+    
+    public String img_file; 
+    public String growing_img;
+    public static final String rot_img_file = "dead_plant.jpg";
+    
+    public int init_x;
+    public int init_y;
+    
+    private String state; //is the plant growing, grown, or rotten
+    public int fullGrowthTime; //how long does it take to grow
+    public int rottingTime; //how long does it take to rot
+    public int costToBuy; //how much does it cost to plant
+    public int harvestProfit; //how much is it worth harvested?
 
     private static BufferedImage img;
     private static BufferedImage green_img;
@@ -76,19 +79,20 @@ public class Plant extends GameObj {
     
     //to be overwritten
     public int decToGrowth() {
-        return fullGrowthTime;
+        return 0;
     }
     
     //to be overwritten
     public int decToRot() {
-        return rottingTime;
+        return 0;
     }
     
     //to be overwritten
     public String getImg() {
-        return img_file;
+        return null;
     }
 
+    //to be overwritten
     public String getState() {
         String state2 = state;
         return state2;

@@ -30,14 +30,16 @@ public class HighScores {
     public HighScores(int score) {
         this.score = score;
     }
-
+    
+    //exception if the formatting is wrong
     @SuppressWarnings("serial")
     public static class FormatException extends Exception {
         public FormatException(String msg) {
             super(msg);
         }
     }
-
+    
+    //check for formatting and read the actual lines into a string set
     public Set<String> formatChecker(Reader in) throws IOException, FormatException {
         //check that the reader isn't null
         if (in == null) {
@@ -83,7 +85,8 @@ public class HighScores {
         }
         return (TreeSet<String>) containerOfLines;
     }
-
+    
+    //isolate the names from the scores in a string line
     public Collection<Scores> nameScoreIsolate(Set<String> lines) {
         Collection<Scores> scoreList = new ArrayList<Scores>();
 
@@ -103,6 +106,7 @@ public class HighScores {
         return scoreList;
     }
 
+    //this method is to update the old text file with the new information
     public void updateDoc(Reader in, Writer out) throws IOException,FormatException {
         if (in == null) {
             throw new IllegalArgumentException();
@@ -114,6 +118,7 @@ public class HighScores {
         }
     }
     
+    //sort the high score objects by score
     @SuppressWarnings("unchecked")
     public static Collection<Scores> sortByScore(Collection<Scores> unsortedScores) {
         List<Scores> sortedList = (ArrayList<Scores>) unsortedScores;
@@ -121,7 +126,9 @@ public class HighScores {
         
         return sortedList;
     }
-
+    
+    //this method does most of the heavy work- calls other methods to process the information
+    //sorts them, writes them out
     public void processDocument(Reader in, Writer out, String user) throws IOException, 
     FormatException {
         //check that the reader isn't null
@@ -129,7 +136,7 @@ public class HighScores {
             throw new IllegalArgumentException();
         }
         
-        //check formatting
+        //check formatting and put the lines into a set
         Set<String> lineContainer = formatChecker(in);
         
         //isolate the name vs the score
@@ -141,7 +148,8 @@ public class HighScores {
 
         //sort the map by values (ascending)
         Collection<Scores> sortedUsersScores = sortByScore(userScores);
-
+        
+        //maximum # of high scores is 10
         int maxScores = 10;
         for(Scores indiv: sortedUsersScores) {
             if (maxScores > 0) {
