@@ -20,7 +20,7 @@ import org.junit.Test;
 
 
 public class HSTest {
-
+    //method to test I/O
     public static void checkFiles(String fdoc, String fout, int score, String user) 
                     throws IOException, HighScores.FormatException
     {
@@ -36,13 +36,14 @@ public class HSTest {
     }
 
 
-
+    //general testing of high scores
     @Test(timeout=500) public void testHighScoreGood() throws IOException, 
     HighScores.FormatException {
         checkFiles("highscoretesting.txt", "highscorebase2.txt", 110, "TestUserName");
         compareDocs("highscorebase2.txt", "hsExpectedOut.txt");
     }
-
+    
+    //make sure sorting is working (sort by score)
     @Test(timeout=500) public void testSortingScores() {
         Collection<Scores> testScores = new ArrayList<Scores>();
         testScores.add(new Scores("Player1", "100"));
@@ -92,5 +93,4 @@ public class HSTest {
         }
     }
 
-    // Do NOT put your test cases here. Add them to MyTest.java
 }

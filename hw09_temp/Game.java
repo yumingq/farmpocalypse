@@ -27,7 +27,7 @@ import javax.swing.text.StyleContext;
 public class Game implements Runnable {
     public void run() {
         final JFrame frame = new JFrame("FarmPocalypse");
-        frame.setLocation(200, 200);
+        frame.setLocation(100, 100);
 
         // Status panel
         final JPanel status_panel = new JPanel();
@@ -178,7 +178,8 @@ public class Game implements Runnable {
                         + "\n" + "If a plant is rotten, hit enter to clear the plot."
                         + "\n" + "Don't let the plants rot!"
                         + "\n" + "Don't get eaten by zombies. If you're doing well,"
-                        + "\n" + "new zombies will appear.");
+                        + "\n" + "new zombies will appear. If you're doing REALLY well,"
+                        + "\n" + "the zombies get faster.");
                 farm.unpause();
                 farm.requestFocusInWindow();
             }

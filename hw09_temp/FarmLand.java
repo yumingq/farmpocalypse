@@ -42,7 +42,7 @@ public class FarmLand extends JPanel {
     private int time = 0;
     private boolean lost; //has the player lost?
     
-    public int upgradeDifficulty = 100000; //upgrade difficulty timer
+    public int upgradeDifficulty = 50000; //upgrade difficulty timer
     public int diffScale = 1; //scale difficulty
     public int zombieTimer = 25000; //time for new zombie creation
 
@@ -281,7 +281,7 @@ public class FarmLand extends JPanel {
                 diffScale++;
                 chase(ZOMBIE_VELOCITY * diffScale);
                 //reset difficulty increments
-                upgradeDifficulty = 100000;
+                upgradeDifficulty = 50000;
             } else {
                 chase(ZOMBIE_VELOCITY * diffScale);
             }

@@ -1,3 +1,8 @@
+/* 
+ * This class was expressly created for tracking edge points in complex images
+ * 
+ * */
+
 public class Point {
     int x;
     int y;

@@ -46,7 +46,6 @@ public class Plant extends GameObj {
                 court_height, null);
         init_x = pos_x;
         init_y = pos_y;
-        //may create problems- image assigning
         try {
             if (img == null) {
                 img = ImageIO.read(new File(img_file));

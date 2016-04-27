@@ -66,27 +66,32 @@ PennKey: _yumingq______
 
 - Provide an overview of each of the classes in your code, and what their
   function is in the overall game.
-    Farmer
-    FarmLand (GameCourt)
-    Game
-    GameObj
-    HighScores
-    HSTest
-    Plant
-    Point
-    Pumpkin
-    Scores
-    SinglePlot
-    Square
-    Strawberry
-    Wheat
-    Zombie
+    Farmer- a game object that you control, checks intersection with this for most functions 
+    (implements complex intersection)
+    FarmLand (GameCourt)- the main playing area, has most of the game logic
+    Game- the first file to open, has a lot of labels/buttons/interface stuff. Runs the game.
+    GameObj- a baseline "game object." This is pretty much the same as it was in the mushroom
+    of doom, with an extra collection of points for complex collision objects.
+    HighScores - has methods for tracking high scores, reading in and writing out, sorting, etc.
+    HSTest - does basically two simple tests for my file i/o. Not a complete set of tests.
+    Plant - abstract class for plants! Has many key requirements for a plant (time to grow,
+    cost, profit, time to rot, etc)
+    Point - class created just to track x and y positions of edge points on complex images
+    Pumpkin - type of plant (pumpkin!), most profitable but rots easily and is expensive
+    Scores - a class with a name and a score for file i/o tracking of high scores. Overrides
+    compareTo for sorting.
+    SinglePlot - a single plot of land (within a 2D array grid later on) - can contain a plant.
+    Strawberry - type of plant
+    Wheat - type of plant- cheapest and takes a lont time to rot, but not much profit
+    Zombie - game object that chases you! (chase is in Farmland though, not in zombie.) also uses
+    complex intersection.
 
 - Revisit your proposal document. What components of your plan did you end up
   keeping? What did you have to change? Why?
+  
     I ended up not using JUnit testing as a core concept. This is because I mostly was able to
     debug using the GUI (outside of the File I/O tests in HSTest.java, but those are kind of 
-    limited). 
+    limited). A lot of my methods weren't "modular" enough to be tested very easily.
 
 - Were there any significant stumbling blocks while you were implementing your
   game (related to your design, or otherwise)?
